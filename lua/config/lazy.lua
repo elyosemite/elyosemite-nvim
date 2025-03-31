@@ -4,17 +4,17 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({
-            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out, "WarningMsg" },
-            { "\nPress any key to exit..." },
-        }, true, {})
-        vim.fn.getchar()
-        os.exit(1)
-    end
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -32,10 +32,6 @@ local plugins = require("plugins")
 
 require("lazy").setup(plugins.all_plugins, options)
 
--- Theme
-require("gruvbox").setup()
-vim.cmd.colorscheme("gruvbox")
-
 -- Telescope keymaps
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
@@ -43,20 +39,6 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find f
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-
--- Treesitter
-local config = require("nvim-treesitter.configs")
-config.setup({
-    ensure_installed = { "lua", "python", "javascript", "typescript", "html", "css", "haskell", "c", "cpp", "sql", "c_sharp" },
-    sync_install = false,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-    indent = {
-        enable = true,
-    }
-})
 
 -- Neotree Keymaps
 vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })

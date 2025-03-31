@@ -1,11 +1,15 @@
 local Gruvbox = {}
 
 function Gruvbox.GetGruvboxTheme()
-    return
+  return
     {
-        "ellisonleao/gruvbox.nvim",
-        priority = 1000,
-        config = true
+      "ellisonleao/gruvbox.nvim",
+      priority = 1000,
+      config = function()
+        require("gruvbox").setup()
+        vim.cmd.colorscheme("gruvbox")
+        vim.o.background = "dark"
+      end
     }
 end
 
