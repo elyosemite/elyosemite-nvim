@@ -13,7 +13,7 @@ Plugins.all_plugins = {
   "folke/neodev.nvim",
   "folke/which-key.nvim",
   { "folke/neoconf.nvim", cmd = "Neoconf" },
-  theme.Gruvbox.GetGruvboxTheme(),
+  theme.Catppuccin,
   telescope.Config.GetTelescopeConfig(),
   telescope.Config.GetTelescopeUIConfig(),
   treesitter.Treesitter.GetTreesitterConfig(),
