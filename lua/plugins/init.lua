@@ -8,14 +8,15 @@ local lualine = require("plugins.lualine")
 local lsp = require("plugins.lsp")
 local none_ls = require("plugins.none-ls")
 local alpha = require("plugins.alpha")
+local switcher = require("plugins.switcher")
 
 Plugins.all_plugins = {
   "folke/neodev.nvim",
   "folke/which-key.nvim",
   { "folke/neoconf.nvim", cmd = "Neoconf" },
-  theme.Catppuccin,
-  telescope.Config.GetTelescopeConfig(),
-  telescope.Config.GetTelescopeUIConfig(),
+  theme.NightFox,
+  telescope.Telescope,
+  telescope.TelescopeUiSelect,
   treesitter.Treesitter.GetTreesitterConfig(),
   neotree.Setup.GetNeotreeConfig(),
   lualine.Setup.GetLualineConfig(),
@@ -23,7 +24,8 @@ Plugins.all_plugins = {
   lsp.Mason.GetMasonLspConfig(),
   lsp.Mason.GetNvimLspConfig(),
   none_ls.NoneLsSetup.GetNoneLsConfig(),
-  alpha
+  alpha,
+  switcher.Themery
 }
 
 return Plugins
