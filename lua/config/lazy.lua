@@ -27,10 +27,9 @@ vim.g.maplocalleader = "\\"
 
 -- Setup lazy.nvim
 
-local options = {}
 local plugins = require("plugins")
 
-require("lazy").setup(plugins.all_plugins, options)
+require("lazy").setup(plugins.all_plugins, {})
 
 -- Telescope keymaps
 local builtin = require("telescope.builtin")

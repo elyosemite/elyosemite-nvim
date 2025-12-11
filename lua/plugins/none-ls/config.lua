@@ -4,7 +4,7 @@ function NoneLs.GetNoneLsConfig()
   return {
     "nvimtools/none-ls.nvim",
     dependencies = {
-      "nvimtools/none-ls-extras.nvim"
+      "nvimtools/none-ls-extras.nvim",
     },
     config = function()
       local null_ls = require("null-ls")
@@ -18,7 +18,7 @@ function NoneLs.GetNoneLsConfig()
           null_ls.builtins.formatting.isort,
           null_ls.builtins.diagnostics.rubocop,
           null_ls.builtins.formatting.rubocop,
-        }
+        },
       })
 
       vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
