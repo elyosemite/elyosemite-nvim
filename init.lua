@@ -3,7 +3,7 @@ require("vimcommands.vim-options")
 
 -- Mostra números absolutos e relativos ao mesmo tempo
 vim.opt.number = true         -- Ativa a numeração de linha absoluta
-vim.opt.relativenumber = true -- Ativa a numeração relativa
+vim.opt.relativenumber = false -- Ativa a numeração relativa
 
 -- Adiciona uma linha destacando a linha atual do cursor
 vim.opt.cursorline = true     -- Ativa o destaque da linha do cursor
@@ -19,11 +19,6 @@ vim.opt.scrolloff = 8         -- Mantém margem ao rolar para facilitar leitura
 vim.opt.sidescrolloff = 8     -- Margem lateral ao rolar horizontalmente
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-
--- Salvando e aplicando essas mudanças
-vim.cmd("set nu rnu") -- Ativa `number` e `relativenumber` via comando
-vim.cmd("set cursorline") -- Ativa `cursorline` via comando
-
 
 -- Indent the whole file on save
 vim.api.nvim_create_autocmd('BufWritePre', {
