@@ -10,10 +10,7 @@ function NeoTreeConfig.GetNeotreeConfig()
             "nvim-tree/nvim-web-devicons",
             "MunifTanjim/nui.nvim"
         },
-        lazy = false,
-        ---@module "neo-tree"
-        ---@type neotree.Config?
-        opts = {}
+        lazy = false
     }
 end
 
