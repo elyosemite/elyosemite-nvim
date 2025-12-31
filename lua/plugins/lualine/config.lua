@@ -4,14 +4,11 @@ function Lualine.GetLualineConfig()
   return
     {
       'nvim-lualine/lualine.nvim',
-      requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+      dependencies = { 'nvim-tree/nvim-web-devicons' },
       config = function()
-        require('lualine').setup({
-          theme = "gruvbox"
-        })
+        require('lualine').setup(require('plugins.lualine.options'))
       end
     }
 end
 
 return Lualine
-
