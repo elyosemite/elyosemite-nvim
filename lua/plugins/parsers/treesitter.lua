@@ -22,4 +22,3 @@ function Treesitter.GetTreesitterConfig()
 end
 
 return Treesitter
-
