@@ -4,10 +4,7 @@ function Lualine.GetLualineConfig()
   return
     {
       'nvim-lualine/lualine.nvim',
-      dependencies = { 'nvim-tree/nvim-web-devicons' },
-      -- config = function()
-      --   require('lualine').setup(require('plugins.lualine.options'))
-      -- end
+      dependencies = { 'nvim-tree/nvim-web-devicons' }
     }
 end
 
