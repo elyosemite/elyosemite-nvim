@@ -25,7 +25,14 @@ Plugins.all_plugins = {
   lsp.Mason.GetNvimLspConfig(),
   none_ls.NoneLsSetup.GetNoneLsConfig(),
   alpha,
-  switcher.Themery
+  switcher.Themery,
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  }
 }
 
 return Plugins
