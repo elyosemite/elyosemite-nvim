@@ -4,7 +4,7 @@ require("vimcommands.vim-options")
 -- Mostra números absolutos e relativos ao mesmo tempo
 vim.opt.number = true         -- Ativa a numeração de linha absoluta
 vim.opt.relativenumber = false -- Ativa a numeração relativa
-
+vim.opt.termguicolors = false
 -- Adiciona uma linha destacando a linha atual do cursor
 vim.opt.cursorline = true     -- Ativa o destaque da linha do cursor
 
