@@ -8,6 +8,7 @@ local lualine_config = require("plugins.lualine")
 local lsp = require("plugins.lsp")
 local none_ls = require("plugins.none-ls")
 local alpha = require("plugins.alpha")
+local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
   "folke/neodev.nvim",
@@ -26,7 +27,8 @@ Plugins.all_plugins = {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     config = true
-  }
+  },
+  markdown
 }
 
 return Plugins

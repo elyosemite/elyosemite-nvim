@@ -6,10 +6,9 @@ return {
     "neovim/nvim-lspconfig",
   },
   config = function()
-    -- Definição dos servidores de linguagem que queremos instalados
     local servers = {
       "lua_ls",
-      "ts_ls", -- Corrigido de 'tsserver' para 'ts_ls'
+      "ts_ls",
       "csharp_ls",
       "sqlls",
     }
