@@ -1,65 +1,64 @@
-local Mason = {}
-
-function Mason.GetMasonConfig()
-  return
-    {
-      "williamboman/mason.nvim",
-      config = function()
-        require("mason").setup()
-      end
+return {
+  -- Mason para instalar LSPs, formatadores, etc.
+  "williamboman/mason.nvim",
+  dependencies = {
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  },
+  config = function()
+    -- Definição dos servidores de linguagem que queremos instalados
+    local servers = {
+      "lua_ls",
+      "ts_ls", -- Corrigido de 'tsserver' para 'ts_ls'
+      "csharp_ls",
+      "sqlls",
     }
-end
 
-function Mason.GetMasonLspConfig()
-  return
-    {
-      "williamboman/mason-lspconfig.nvim",
-      config = function()
-        require("mason-lspconfig").setup(
-          {
-            ensure_installed = { "lua_ls", "ts_ls", "omnisharp" }
+    -- Configuração do Mason
+    require("mason").setup()
+
+    -- Função on_attach: será executada sempre que um LSP for anexado a um buffer
+    local on_attach = function(client, bufnr)
+      local opts = { buffer = bufnr, noremap = true, silent = true }
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+      vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+      vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+      vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, opts)
+    end
+    
+    -- Configuração do Mason-LSPConfig para instalar e configurar os servidores
+    require("mason-lspconfig").setup({
+      ensure_installed = servers,
+      handlers = {
+        -- Handler padrão: será usado para todos os servidores que não têm um handler customizado abaixo
+        function(server_name)
+          require("lspconfig")[server_name].setup({
+            on_attach = on_attach,
+            capabilities = vim.lsp.protocol.make_client_capabilities(),
           })
-      end
-    }
-end
+        end,
 
-function Mason.GetNvimLspConfig()
-  return
-    {
-      "neovim/nvim-lspconfig",
-      config = function()
-        -- Nova API do Neovim 0.11+
-        local omnisharpConfiguration = require("plugins.lsp.omnisharp")
-
-        -- Configurar servidores com a nova API
-        vim.lsp.config("lua_ls", {
-          root_markers = { ".luarc.json", ".luarc.jsonc", ".stylua.toml", "stylua.toml", "selene.yml", ".git" },
-        })
-
-        vim.lsp.config("ts_ls", {
-          root_markers = { "tsconfig.json", "package.json", ".git" },
-        })
-
-        -- OmniSharp com configurações customizadas
-        vim.lsp.config("omnisharp", omnisharpConfiguration.GetBaseConfig())
-
-        -- Ativar automaticamente os servidores configurados
-        vim.lsp.enable({ "lua_ls", "ts_ls", "omnisharp" })
-
-        -- Keymaps globais para LSP
-        local function setup_keymaps()
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = true, desc = "Hover" })
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = true, desc = "Goto definition" })
-          vim.keymap.set({'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, { buffer = true, desc = "Code action" })
-        end
-
-        -- Aplicar keymaps quando um servidor LSP inicia
-        vim.api.nvim_create_autocmd("LspAttach", {
-          callback = setup_keymaps,
-          group = vim.api.nvim_create_augroup("lsp_attach", { clear = true }),
-        })
-      end
-    }
-end
-
-return Mason
+        -- Handler customizado para lua_ls, com configurações específicas
+        ["lua_ls"] = function()
+          require("lspconfig").lua_ls.setup({
+            on_attach = on_attach,
+            capabilities = vim.lsp.protocol.make_client_capabilities(),
+            settings = {
+              Lua = {
+                runtime = { version = "LuaJIT" },
+                diagnostics = { globals = { "vim" } },
+                workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+                telemetry = { enable = false },
+              },
+            },
+          })
+        end,
+      },
+    })
+  end,
+}

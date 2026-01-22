@@ -8,7 +8,6 @@ local lualine_config = require("plugins.lualine")
 local lsp = require("plugins.lsp")
 local none_ls = require("plugins.none-ls")
 local alpha = require("plugins.alpha")
-local switcher = require("plugins.switcher")
 
 Plugins.all_plugins = {
   "folke/neodev.nvim",
@@ -20,12 +19,9 @@ Plugins.all_plugins = {
   treesitter.Treesitter.GetTreesitterConfig(),
   neotree.Setup.GetNeotreeConfig(),
   lualine_config.Setup.GetLualineConfig(),
-  lsp.Mason.GetMasonConfig(),
-  lsp.Mason.GetMasonLspConfig(),
-  lsp.Mason.GetNvimLspConfig(),
+  lsp,
   none_ls.NoneLsSetup.GetNoneLsConfig(),
   alpha,
-  switcher.Themery,
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
