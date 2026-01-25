@@ -9,6 +9,7 @@ local lsp = require("plugins.lsp")
 local none_ls = require("plugins.none-ls")
 local alpha = require("plugins.alpha")
 local markdown = require("plugins.markdown")
+local formatter = require("plugins.formatter")
 
 Plugins.all_plugins = {
   "folke/neodev.nvim",
@@ -28,7 +29,8 @@ Plugins.all_plugins = {
     event = "InsertEnter",
     config = true
   },
-  markdown
+  markdown,
+  formatter
 }
 
 return Plugins
