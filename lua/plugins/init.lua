@@ -2,7 +2,7 @@ local Plugins = {}
 
 local theme = require("plugins.themes")
 local telescope = require("plugins.telescope")
-local treesitter = require("plugins.parsers")
+local parser = require("plugins.parsers")
 local neotree = require("plugins.neotree")
 local lualine_config = require("plugins.lualine")
 local lsp = require("plugins.lsp")
@@ -19,7 +19,7 @@ Plugins.all_plugins = {
   theme.Gruvbox,
   telescope.Telescope,
   telescope.TelescopeUiSelect,
-  treesitter.Treesitter.GetTreesitterConfig(),
+  parser.Treesitter,
   neotree.Setup.GetNeotreeConfig(),
   lualine_config.Setup.GetLualineConfig(),
   lsp,
