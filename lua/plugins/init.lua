@@ -10,12 +10,13 @@ local none_ls = require("plugins.none-ls")
 local alpha = require("plugins.alpha")
 local markdown = require("plugins.markdown")
 local formatter = require("plugins.formatter")
+local bufferline = require("plugins.bufferline")
 
 Plugins.all_plugins = {
   "folke/neodev.nvim",
   "folke/which-key.nvim",
   { "folke/neoconf.nvim", cmd = "Neoconf" },
-  theme.Catppuccin,
+  theme.Gruvbox,
   telescope.Telescope,
   telescope.TelescopeUiSelect,
   treesitter.Treesitter.GetTreesitterConfig(),
@@ -30,7 +31,8 @@ Plugins.all_plugins = {
     config = true
   },
   markdown,
-  formatter
+  formatter,
+  bufferline
 }
 
 return Plugins
