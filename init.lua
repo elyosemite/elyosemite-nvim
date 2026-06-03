@@ -1,33 +1,23 @@
 require("config.lazy")
 require("vimcommands.vim-options")
-require("bufferline").setup{}
+require("core.keymaps")
+require("core.diagnostics")
 
--- Mostra números absolutos e relativos ao mesmo tempo
-vim.opt.number = true         -- Ativa a numeração de linha absoluta
-vim.opt.relativenumber = true -- Ativa a numeração relativa
+vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.termguicolors = true
--- Adiciona uma linha destacando a linha atual do cursor
-vim.opt.cursorline = true     -- Ativa o destaque da linha do cursor
+vim.opt.cursorline = true
+vim.opt.signcolumn = "yes"
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
 
--- Ajusta a cor da linha do cursor (caso queira personalizar)
 vim.cmd([[highlight CursorLine cterm=NONE ctermbg=236 guibg=#2C2C2C]])
 
--- Configura a largura da linha de número
-vim.opt.signcolumn = "yes"    -- Mantém a coluna de sinais ativa para evitar "pulos" ao abrir diagnósticos
-
--- Melhorias na visibilidade e navegação
-vim.opt.scrolloff = 8         -- Mantém margem ao rolar para facilitar leitura
-vim.opt.sidescrolloff = 8     -- Margem lateral ao rolar horizontalmente
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-
--- Indent the whole file on save
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*',
   callback = function()
     if vim.bo.modifiable then
-      vim.cmd('normal! gg=G')  -- Reindenta todo o arquivo
+      vim.cmd('normal! gg=G')
     end
   end,
 })
-
