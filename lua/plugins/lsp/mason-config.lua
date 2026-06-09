@@ -14,19 +14,15 @@ return {
       "sqlls",
     }
 
-    -- Configuração do Mason
     require("mason").setup()
 
-    local on_attach = keymaps.lsp_on_attach
-    
-    -- Configuração do Mason-LSPConfig para instalar e configurar os servidores
     require("mason-lspconfig").setup({
       ensure_installed = servers,
       handlers = {
         -- Handler padrão: será usado para todos os servidores que não têm um handler customizado abaixo
         function(server_name)
           require("lspconfig")[server_name].setup({
-            on_attach = on_attach,
+            on_attach = keymaps.lsp_on_attach,
             capabilities = vim.lsp.protocol.make_client_capabilities(),
           })
         end,
@@ -34,7 +30,7 @@ return {
         -- Handler customizado para lua_ls, com configurações específicas
         ["lua_ls"] = function()
           require("lspconfig").lua_ls.setup({
-            on_attach = on_attach,
+            on_attach = keymaps.lsp_on_attach,
             capabilities = vim.lsp.protocol.make_client_capabilities(),
             settings = {
               Lua = {
