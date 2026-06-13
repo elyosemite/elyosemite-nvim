@@ -1,7 +1,6 @@
-local Themes = {}
+local M = {}
 
-Themes.Gruvbox = require("plugins.themes.gruvbox")
-Themes.Catppuccin = require("plugins.themes.catppuccin")
-Themes.NightFox = require("plugins.themes.nightfox")
+-- Para trocar de tema: altere apenas esta linha
+M.active = require("plugins.themes.everforest")
 
-return Themes
+return M
