@@ -13,6 +13,7 @@ local git = require("plugins.git")
 local lazygit = require("plugins.git.lazygit")
 local cmp = require("plugins.autocomplete.cmp")
 local neotest = require("plugins.neotest")
+local rust = require("plugins.rust")
 
 Plugins.all_plugins = {
   "folke/neodev.nvim",
@@ -37,6 +38,7 @@ Plugins.all_plugins = {
   lazygit,
   cmp,
   neotest,
+  rust,
 }
 
 return Plugins

@@ -7,6 +7,7 @@ return {
     "nvim-neotest/neotest-plenary",
     "nvim-neotest/neotest-go",
     "marilari88/neotest-vitest",
+    "rouge8/neotest-rust",
   },
   keys = {
     { "<leader>tt", function() require("neotest").run.run() end,                      desc = "Run nearest test" },
@@ -21,6 +22,7 @@ return {
         require("neotest-plenary"),
         require("neotest-go"),
         require("neotest-vitest"),
+        require("neotest-rust"),
       },
     })
   end,
