@@ -41,3 +41,4 @@ vim.keymap.set('n', '<C-op>', builtin.buffers, { desc = 'Telescopeshows me the o
 
 -- Neotree Keymaps
 vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })
+
