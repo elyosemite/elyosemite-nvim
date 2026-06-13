@@ -1,12 +1,11 @@
 local Plugins = {}
 
 local telescope = require("plugins.telescope")
-local parser = require("plugins.parsers")
 local neotree = require("plugins.neotree")
-local lualine_config = require("plugins.lualine")
-local lsp = require("plugins.lsp")
+local lsp = require("plugins.lsp.mason-config")
+local lualine = require("plugins.lualine")
+local treesitter = require("plugins.treesitter")
 local alpha = require("plugins.alpha")
---local markdown = require("plugins.markdown")
 local formatter = require("plugins.formatter")
 local bufferline = require("plugins.bufferline")
 local themes = require("plugins.themes")
@@ -21,15 +20,15 @@ Plugins.all_plugins = {
   themes.active,
   telescope.Telescope,
   telescope.TelescopeUiSelect,
-  parser.Treesitter,
-  neotree.Setup.GetNeotreeConfig(),
-  lualine_config.Setup.GetLualineConfig(),
+  treesitter,
+  neotree,
+  lualine,
   lsp,
   alpha,
   {
-    'windwp/nvim-autopairs',
+    "windwp/nvim-autopairs",
     event = "InsertEnter",
-    config = true
+    config = true,
   },
   formatter,
   bufferline,
