@@ -7,6 +7,15 @@ vim.keymap.set("n", "<A-k>", ":m .-2<CR>==",      { noremap = true, desc = "Move
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selection down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move selection up" })
 
+-- Buffer navigation
+vim.keymap.set("n", "<S-h>",      "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
+vim.keymap.set("n", "<S-l>",      "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>x",  "<cmd>bdelete<CR>",             { desc = "Close buffer" })
+
+for i = 1, 9 do
+  vim.keymap.set("n", "<leader>" .. i, "<cmd>BufferLineGoToBuffer " .. i .. "<CR>", { desc = "Buffer " .. i })
+end
+
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Split left" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Split right" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Split down" })
