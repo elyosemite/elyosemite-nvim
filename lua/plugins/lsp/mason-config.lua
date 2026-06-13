@@ -1,5 +1,4 @@
 return {
-  -- Mason para instalar LSPs, formatadores, etc.
   "williamboman/mason.nvim",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
@@ -7,6 +6,8 @@ return {
   },
   config = function()
     local keymaps = require("core.keymaps")
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
     local servers = {
       "lua_ls",
       "ts_ls",
@@ -14,35 +15,35 @@ return {
       "sqlls",
     }
 
-    require("mason").setup()
+    -- Configs customizadas por linguagem (carregadas de servers/)
+    local custom_servers = {
+      require("plugins.lsp.servers.lua"),
+      require("plugins.lsp.servers.typescript"),
+    }
 
+    -- Monta tabela de handlers customizados a partir dos arquivos em servers/
+    local handlers = {
+      -- Handler padrão para servidores sem config específica
+      function(server_name)
+        require("lspconfig")[server_name].setup({
+          on_attach = keymaps.lsp_on_attach,
+          capabilities = capabilities,
+        })
+      end,
+    }
+
+    for _, server in ipairs(custom_servers) do
+      handlers[server.name] = function()
+        require("lspconfig")[server.name].setup(
+          server.config(keymaps.lsp_on_attach, capabilities)
+        )
+      end
+    end
+
+    require("mason").setup()
     require("mason-lspconfig").setup({
       ensure_installed = servers,
-      handlers = {
-        -- Handler padrão: será usado para todos os servidores que não têm um handler customizado abaixo
-        function(server_name)
-          require("lspconfig")[server_name].setup({
-            on_attach = keymaps.lsp_on_attach,
-            capabilities = vim.lsp.protocol.make_client_capabilities(),
-          })
-        end,
-
-        -- Handler customizado para lua_ls, com configurações específicas
-        ["lua_ls"] = function()
-          require("lspconfig").lua_ls.setup({
-            on_attach = keymaps.lsp_on_attach,
-            capabilities = vim.lsp.protocol.make_client_capabilities(),
-            settings = {
-              Lua = {
-                runtime = { version = "LuaJIT" },
-                diagnostics = { globals = { "vim" } },
-                workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-                telemetry = { enable = false },
-              },
-            },
-          })
-        end,
-      },
+      handlers = handlers,
     })
   end,
 }
