@@ -25,6 +25,7 @@ return {
       require("plugins.lsp.servers.sql"),
       require("plugins.lsp.servers.go"),
       require("plugins.lsp.servers.clojure"),
+      require("plugins.lsp.servers.csharp"),
     }
 
     -- Monta tabela de handlers customizados a partir dos arquivos em servers/
