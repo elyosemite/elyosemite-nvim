@@ -3,6 +3,7 @@ return {
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
+    "hrsh7th/cmp-nvim-lsp",
   },
   config = function()
     local keymaps = require("core.keymaps")
@@ -19,6 +20,7 @@ return {
     local custom_servers = {
       require("plugins.lsp.servers.lua"),
       require("plugins.lsp.servers.typescript"),
+      require("plugins.lsp.servers.sql"),
     }
 
     -- Monta tabela de handlers customizados a partir dos arquivos em servers/
