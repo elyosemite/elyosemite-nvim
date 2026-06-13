@@ -7,7 +7,6 @@ return {
     "nvim-neotest/neotest-plenary",
     "nvim-neotest/neotest-go",
     "marilari88/neotest-vitest",
-    "Issafalcon/neotest-dotnet",
   },
   keys = {
     { "<leader>tt", function() require("neotest").run.run() end,                      desc = "Run nearest test" },
@@ -22,7 +21,6 @@ return {
         require("neotest-plenary"),
         require("neotest-go"),
         require("neotest-vitest"),
-        require("neotest-dotnet")({ discovery = { enabled = true } }),
       },
     })
   end,
