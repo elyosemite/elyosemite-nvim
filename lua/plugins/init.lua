@@ -11,6 +11,7 @@ local formatter = require("plugins.formatter")
 local bufferline = require("plugins.bufferline")
 local themes = require("plugins.themes")
 local git = require("plugins.git")
+local lazygit = require("plugins.git.lazygit")
 local cmp = require("plugins.autocomplete.cmp")
 
 Plugins.all_plugins = {
@@ -33,6 +34,7 @@ Plugins.all_plugins = {
   formatter,
   bufferline,
   git,
+  lazygit,
   cmp,
 }
 
