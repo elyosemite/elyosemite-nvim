@@ -10,7 +10,10 @@ function NeoTreeConfig.GetNeotreeConfig()
             "nvim-tree/nvim-web-devicons",
             "MunifTanjim/nui.nvim"
         },
-        lazy = false
+        lazy = false,
+        keys = {
+            { "<C-n>", "<cmd>Neotree toggle<cr>", desc = "Toggle Neotree" },
+        },
     }
 end
 
