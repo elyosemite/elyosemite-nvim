@@ -1,7 +1,8 @@
 require("config.lazy")
-require("vimcommands.vim-options")
+require("core.options")
 require("core.keymaps")
 require("core.diagnostics")
+require("core.autocmds")
 
 vim.opt.number = true
 vim.opt.relativenumber = true
