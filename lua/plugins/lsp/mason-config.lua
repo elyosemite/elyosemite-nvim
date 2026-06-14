@@ -16,6 +16,7 @@ return {
       "sqlls",
       "gopls",
       "clojure_lsp",
+      "basedpyright",
     }
 
     -- Configs customizadas por linguagem (carregadas de servers/)
@@ -26,6 +27,7 @@ return {
       require("plugins.lsp.servers.go"),
       require("plugins.lsp.servers.clojure"),
       require("plugins.lsp.servers.csharp"),
+      require("plugins.lsp.servers.python"),
     }
 
     -- Monta tabela de handlers customizados a partir dos arquivos em servers/
