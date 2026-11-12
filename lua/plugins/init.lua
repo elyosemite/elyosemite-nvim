@@ -19,6 +19,7 @@ local noice = require("plugins.noice")
 local dropbar = require("plugins.dropbar")
 local diagnostics = require("plugins.diagnostics")
 local modes = require("plugins.modes")
+local learn = require("plugins.learn")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -58,6 +59,7 @@ Plugins.all_plugins = {
   dropbar,
   diagnostics,
   modes,
+  learn,
   markdown,
 }
 
