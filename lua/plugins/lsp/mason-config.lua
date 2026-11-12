@@ -2,6 +2,7 @@ return {
   "williamboman/mason.nvim",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
   },
@@ -43,6 +44,11 @@ return {
       ensure_installed = servers,
       -- Instalados no mason mas substituídos por basedpyright / csharp_ls
       automatic_enable = { exclude = { "pyright", "omnisharp" } },
+    })
+
+    -- Formatadores usados em plugins/formatter.lua, instalados no primeiro start
+    require("mason-tool-installer").setup({
+      ensure_installed = { "stylua", "prettier", "black", "isort", "csharpier", "clang-format" },
     })
   end,
 }
