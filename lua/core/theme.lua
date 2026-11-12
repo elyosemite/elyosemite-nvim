@@ -42,19 +42,60 @@ M.themes = {
 
 local state_file = vim.fn.stdpath("state") .. "/nvyosemite-theme"
 
+-- Variante clara de cada tema escuro, usada por <leader>ub.
+-- Temas sem variante própria (everforest, gruvbox) trocam vim.o.background.
+M.light_of = {
+  ["catppuccin-mocha"] = "catppuccin-latte",
+  ["catppuccin-macchiato"] = "catppuccin-latte",
+  ["catppuccin-frappe"] = "catppuccin-latte",
+  nightfox = "dawnfox",
+  nordfox = "dawnfox",
+  carbonfox = "dawnfox",
+  duskfox = "dawnfox",
+  terafox = "dawnfox",
+  ["tokyonight-night"] = "tokyonight-day",
+  ["tokyonight-storm"] = "tokyonight-day",
+  ["tokyonight-moon"] = "tokyonight-day",
+  ["kanagawa-wave"] = "kanagawa-lotus",
+  ["kanagawa-dragon"] = "kanagawa-lotus",
+  ["rose-pine-main"] = "rose-pine-dawn",
+  ["rose-pine-moon"] = "rose-pine-dawn",
+  onedark = "onelight",
+  onedark_vivid = "onelight",
+  github_dark = "github_light",
+  github_dark_dimmed = "github_light",
+}
+
+-- Variante escura padrão de cada tema claro (quando não há uma anterior para voltar)
+M.dark_of = {
+  ["catppuccin-latte"] = "catppuccin-mocha",
+  dawnfox = "nightfox",
+  ["tokyonight-day"] = "tokyonight-night",
+  ["kanagawa-lotus"] = "kanagawa-wave",
+  ["rose-pine-dawn"] = "rose-pine-main",
+  onelight = "onedark",
+  github_light = "github_dark",
+}
+
 local function read_saved()
   local ok, lines = pcall(vim.fn.readfile, state_file)
   if ok and lines[1] and lines[1] ~= "" then
-    return lines[1]
+    return lines[1], lines[2]
   end
 end
 
 local function save(name)
-  pcall(vim.fn.writefile, { name }, state_file)
+  pcall(vim.fn.writefile, { name, vim.o.background }, state_file)
 end
 
 --- Aplica um colorscheme. Com persist = true, ele vira o padrão das próximas sessões.
 function M.apply(name, persist)
+  -- nem todo tema ajusta o background sozinho (ex.: kanagawa-lotus)
+  if M.dark_of[name] then
+    vim.o.background = "light"
+  elseif M.light_of[name] then
+    vim.o.background = "dark"
+  end
   local ok, err = pcall(vim.cmd.colorscheme, name)
   if not ok then
     vim.notify(("Theme '%s' not found: %s"):format(name, err), vim.log.levels.ERROR)
@@ -102,7 +143,9 @@ function M.pick()
         return {
           value = name,
           ordinal = name,
-          display = name == original and (name .. "  (current)") or name,
+          display = name
+            .. (M.dark_of[name] and "  (light)" or "")
+            .. (name == original and "  (current)" or ""),
         }
       end,
     }),
@@ -130,8 +173,32 @@ function M.pick()
   }):find()
 end
 
+local last_dark = {}
+
+--- Troca entre a variante clara e a escura do tema atual.
+function M.toggle_background()
+  local name = M.current
+  local target
+  if M.light_of[name] then
+    target = M.light_of[name]
+    last_dark[target] = name
+  elseif M.dark_of[name] then
+    target = last_dark[name] or M.dark_of[name]
+  else
+    vim.o.background = vim.o.background == "dark" and "light" or "dark"
+    target = name
+  end
+  if M.apply(target, true) then
+    vim.notify(("Theme: %s (%s)"):format(target, vim.o.background))
+  end
+end
+
 function M.setup()
-  if not M.apply(read_saved() or M.default, false) then
+  local saved, background = read_saved()
+  if background == "light" or background == "dark" then
+    vim.o.background = background
+  end
+  if not M.apply(saved or M.default, false) then
     M.apply(M.default, false)
   end
 
@@ -152,6 +219,7 @@ function M.setup()
   })
 
   vim.keymap.set("n", "<leader>th", M.pick, { desc = "Pick theme" })
+  vim.keymap.set("n", "<leader>ub", M.toggle_background, { desc = "Toggle light/dark theme" })
 end
 
 return M

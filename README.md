@@ -152,6 +152,7 @@ The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/doc
 |------|-----------------|------------------------------------------|
 | n    | `<leader>th`    | Pick a theme: previews as you move, `Enter` keeps it, `Esc` undoes |
 | n    | `:Theme <name>` | Apply directly, `Tab` completes          |
+| n    | `<leader>ub`    | Switch between the light and dark variant |
 
 Themes (28): everforest, gruvbox, [catppuccin](https://github.com/catppuccin/nvim), [nightfox](https://github.com/EdenEast/nightfox.nvim), [tokyonight](https://github.com/folke/tokyonight.nvim), [kanagawa](https://github.com/rebelot/kanagawa.nvim), [rose-pine](https://github.com/rose-pine/neovim), [onedarkpro](https://github.com/olimorris/onedarkpro.nvim) and [github](https://github.com/projekt0n/github-nvim-theme), each with dark and light variants. To add one, see the comments in [`lua/core/theme.lua`](lua/core/theme.lua).
 
