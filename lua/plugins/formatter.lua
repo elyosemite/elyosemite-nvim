@@ -8,14 +8,14 @@ return {
       typescript = { "prettier" },
       c          = { "clang_format" },
       cpp        = { "clang_format" },
-      csharp     = { "csharpier" },
+      cs         = { "csharpier" },
     },
   },
   keys = {
     {
       "<leader>gf",
       function()
-        require("conform").format({ async = true, lsp_fallback = true })
+        require("conform").format({ async = true, lsp_format = "fallback" })
       end,
       desc = "Format file",
     },
