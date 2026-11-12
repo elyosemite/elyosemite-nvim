@@ -15,6 +15,7 @@ local cmp = require("plugins.autocomplete.cmp")
 local neotest = require("plugins.neotest")
 local rust = require("plugins.rust")
 local menu = require("plugins.menu")
+local noice = require("plugins.noice")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -50,6 +51,7 @@ Plugins.all_plugins = {
   neotest,
   rust,
   menu,
+  noice,
   markdown,
 }
 

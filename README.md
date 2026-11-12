@@ -88,7 +88,7 @@ Inside the tree, press `?` for all keys.
 
 ### Screen
 
-The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md)) has one-key shortcuts: `f` find, `r` recent, `t` theme, `?` all keys.
+The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md)) has one-key shortcuts: `f` find, `r` recent, `t` theme, `?` all keys. Typing `:` opens the command line as a popup with suggestions ([noice](https://github.com/folke/noice.nvim)).
 
 | Mode | Keys        | Action                              | Docs |
 |------|-------------|-------------------------------------|------|
