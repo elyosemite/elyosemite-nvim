@@ -34,10 +34,10 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 7  | Cheatsheet `<leader>?`                       | 2    | `feat(ui): add generated keymap cheatsheet`               | [x]    |
 | 8  | Paleta de comandos `<leader><leader>`        | 2    | `feat(ui): add command palette`                           | [x]    |
 | 9  | Menu de clique direito                       | 2    | `feat(ui): add right-click context menu`                  | [x]    |
-| 10 | snacks.nvim (dashboard, notificações, etc.)  | 3    | `feat(ui): add snacks.nvim and replace alpha`             | [ ]    |
-| 11 | noice.nvim                                   | 3    | `feat(ui): add noice for cmdline and messages`            | [ ]    |
-| 12 | Breadcrumbs (dropbar)                        | 3    | `feat(ui): add dropbar breadcrumbs`                       | [ ]    |
-| 13 | Diagnósticos legíveis                        | 3    | `feat(ui): add tiny-inline-diagnostic`                    | [ ]    |
+| 10 | snacks.nvim (dashboard, notificações, etc.)  | 3    | `feat(ui): add snacks.nvim and replace alpha`             | [x]    |
+| 11 | noice.nvim                                   | 3    | `feat(ui): add noice for cmdline and messages`            | [x]    |
+| 12 | Breadcrumbs (dropbar)                        | 3    | `feat(ui): add dropbar breadcrumbs`                       | [x]    |
+| 13 | Diagnósticos legíveis                        | 3    | `feat(ui): add tiny-inline-diagnostic`                    | [x]    |
 | 14 | Seletor de tema com preview ao vivo          | 4    | `feat(theme): live preview in theme picker`               | [ ]    |
 | 15 | Mais temas, incluindo claros                 | 4    | `feat(theme): add tokyonight, kanagawa, rose-pine, ...`   | [ ]    |
 | 16 | Alternar claro/escuro                        | 4    | `feat(theme): toggle light and dark variant`              | [ ]    |
