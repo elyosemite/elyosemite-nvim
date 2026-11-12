@@ -3,6 +3,12 @@ local M = {}
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<CR><Esc>", { desc = "Save file" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { desc = "Clear search highlight" })
 
+-- Árvore de desfazer nativa do Neovim 0.12: volte a qualquer versão do arquivo
+vim.keymap.set("n", "<leader>uu", function()
+  vim.cmd.packadd("nvim.undotree")
+  require("undotree").open()
+end, { desc = "Undo tree" })
+
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==",      { noremap = true, desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==",      { noremap = true, desc = "Move line up" })
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selection down" })
@@ -40,7 +46,7 @@ M.lsp_on_attach = function(bufnr)
   vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev diagnostic"))
   vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end,  opts("Next diagnostic"))
   vim.keymap.set("n", "<leader>e",   vim.diagnostic.open_float,   opts("Show diagnostic"))
-  vim.keymap.set("n", "<leader>q",   vim.diagnostic.setloclist,   opts("Diagnostic list"))
+  vim.keymap.set("n", "<leader>cd",  vim.diagnostic.setloclist,   opts("Diagnostic list"))
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {

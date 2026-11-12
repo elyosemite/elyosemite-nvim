@@ -81,6 +81,7 @@ Inside the tree, press `?` for all keys.
 | n, i, v | `<C-s>`        | Save file                   | [:write](https://neovim.io/doc/user/editing.html#%3Awrite) |
 | n    | `<Esc>`           | Clear search highlight      | [:nohlsearch](https://neovim.io/doc/user/pattern.html#%3Anohlsearch) |
 | n    | `u` / `<C-r>`     | Undo / redo (kept after closing the file) | [undo](https://neovim.io/doc/user/undo.html#undo-commands) |
+| n    | `<leader>uu`      | Undo tree: go back to any earlier version | [undotree](https://neovim.io/doc/user/plugins.html#undotree-plugin) |
 | n, v | `<A-j>` / `<A-k>` | Move line(s) down / up      | [:move](https://neovim.io/doc/user/change.html#%3Amove) |
 | n, v | `s` + letters | Jump anywhere on screen (type the label shown) | [flash](https://github.com/folke/flash.nvim#-usage) |
 | n, v | `S`               | Select a code block         | [flash](https://github.com/folke/flash.nvim#-usage) |
@@ -90,7 +91,7 @@ Inside the tree, press `?` for all keys.
 
 ### Screen
 
-The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md)) has one-key shortcuts: `f` find, `r` recent, `t` theme, `?` all keys. Typing `:` opens the command line as a popup with suggestions ([noice](https://github.com/folke/noice.nvim)).
+The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md)) has one-key shortcuts: `f` find, `r` recent, `s` restore session, `t` theme, `?` all keys. Typing `:` opens the command line as a popup with suggestions ([noice](https://github.com/folke/noice.nvim)).
 
 | Mode | Keys        | Action                              | Docs |
 |------|-------------|-------------------------------------|------|
@@ -98,6 +99,14 @@ The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/doc
 | n    | `<leader>n` | Notification history                | [notifier](https://github.com/folke/snacks.nvim/blob/main/docs/notifier.md) |
 | n    | `<leader>;` | Jump via the breadcrumbs bar (also clickable) | [dropbar](https://github.com/Bekaboo/dropbar.nvim) |
 | n    | `]]` / `[[` | Next / previous use of the word under cursor | [words](https://github.com/folke/snacks.nvim/blob/main/docs/words.md) |
+
+### Sessions
+
+| Mode | Keys         | Action                           | Docs |
+|------|--------------|----------------------------------|------|
+| n    | `<leader>qs` | Reopen files from last time (this folder) | [persistence](https://github.com/folke/persistence.nvim#-usage) |
+| n    | `<leader>ql` | Reopen the last session anywhere | [persistence](https://github.com/folke/persistence.nvim#-usage) |
+| n    | `<leader>qd` | Don't save this session          | [persistence](https://github.com/folke/persistence.nvim#-usage) |
 
 ### Toggles
 
@@ -141,7 +150,7 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | n    | `[d` / `]d` | Previous / next problem    | [jump](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.jump()) |
 | -    | (automatic) | Problems shown next to the code | [tiny-inline-diagnostic](https://github.com/rachartier/tiny-inline-diagnostic.nvim) |
 | n    | `<leader>e` | Show problem under cursor  | [open_float](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.open_float()) |
-| n    | `<leader>q` | List problems in file      | [setloclist](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.setloclist()) |
+| n    | `<leader>cd` | List problems in file     | [setloclist](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.setloclist()) |
 
 ### Git
 

@@ -21,6 +21,7 @@ local diagnostics = require("plugins.diagnostics")
 local modes = require("plugins.modes")
 local learn = require("plugins.learn")
 local flash = require("plugins.flash")
+local safety = require("plugins.safety")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -62,6 +63,7 @@ Plugins.all_plugins = {
   modes,
   learn,
   flash,
+  safety,
   markdown,
 }
 

@@ -23,6 +23,7 @@ return {
           { icon = " ", key = "r", desc = "Recent files", action = ":Telescope oldfiles" },
           { icon = " ", key = "g", desc = "Search text", action = ":Telescope live_grep" },
           { icon = " ", key = "n", desc = "New file", action = ":ene | startinsert" },
+          { icon = " ", key = "s", desc = "Restore session", action = function() require("persistence").load() end },
           { icon = " ", key = "t", desc = "Pick theme", action = function() require("core.theme").pick() end },
           { icon = " ", key = "?", desc = "All keys", action = function() require("core.cheatsheet").open() end },
           { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },

@@ -5,6 +5,7 @@ return {
   d = "Debug",
   f = "Find",
   g = "Git / Format",
+  q = "Session",
   r = "Rename",
   s = "Search",
   t = "Test / Theme",
