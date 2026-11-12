@@ -30,6 +30,16 @@ git clone https://github.com/elyosemite/elyosemite-nvim.git $env:LOCALAPPDATA\nv
 
 Run `nvim` and wait: plugins, language servers, formatters and parsers install by themselves. Then run `:checkhealth nvyosemite` to check the external tools.
 
+## First 10 minutes
+
+1. **Check your setup**: `:checkhealth nvyosemite` lists anything missing, with install links.
+2. **Pick a theme**: `Space t h`, move with the arrows to preview, `Enter` to keep.
+3. **See every key**: `Space ?`. Or press `Space` and wait for the menu.
+4. **Open a project**: `nvim .` in a folder, then `Ctrl+p` to find a file, `Ctrl+n` for the file tree.
+5. **Do something by name**: `Space Space`, type what you want ("format", "rename"), `Enter`.
+6. **Made a mess?** `u` undoes, `Space u u` shows every earlier version of the file.
+7. **New to Vim?** Run `:Tutor` (30 min, [docs](https://neovim.io/doc/user/usr_01.html#vimtutor)). The faint letters on the current line show where `w`, `b`, `e` jump; hide them with `Space u p`.
+
 ## How to read the keys
 
 | Notation     | Press                                  |
