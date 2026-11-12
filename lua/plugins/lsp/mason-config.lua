@@ -48,9 +48,12 @@ return {
       automatic_enable = { exclude = { "pyright", "omnisharp" } },
     })
 
-    -- Formatadores usados em plugins/formatter.lua, instalados no primeiro start
+    -- Ferramentas instaladas no primeiro start
     require("mason-tool-installer").setup({
-      ensure_installed = { "stylua", "prettier", "black", "isort", "csharpier", "clang-format" },
+      ensure_installed = {
+        "stylua", "prettier", "black", "isort", "csharpier", "clang-format", -- formatadores
+        "delve", "debugpy", -- debuggers (plugins/dap.lua)
+      },
     })
   end,
 }

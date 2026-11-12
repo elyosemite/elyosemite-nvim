@@ -11,6 +11,9 @@ return {
   dependencies = {
     { "rcarriga/nvim-dap-ui", dependencies = { "nvim-neotest/nvim-nio" } },
     { "theHamsta/nvim-dap-virtual-text", opts = {} }, -- valores das variáveis ao lado do código
+    -- Adapters por linguagem; os debuggers são instalados pelo Mason (plugins/lsp/mason-config.lua)
+    "leoluz/nvim-dap-go",            -- Go (delve)
+    "mfussenegger/nvim-dap-python",  -- Python (debugpy)
   },
   keys = {
     { "<F5>", dap("continue"), desc = "Debug: start / continue" },
@@ -32,6 +35,11 @@ return {
   config = function()
     local dap, dapui = require("dap"), require("dapui")
     dapui.setup()
+
+    require("dap-go").setup()
+    local mason = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/"
+    local python = mason .. (vim.fn.has("win32") == 1 and "Scripts/python.exe" or "bin/python")
+    require("dap-python").setup(vim.fn.executable(python) == 1 and python or "python")
 
     dap.listeners.after.event_initialized.dapui = function() dapui.open() end
     dap.listeners.before.event_terminated.dapui = function() dapui.close() end
