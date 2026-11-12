@@ -89,7 +89,7 @@ Inside the tree, press `?` for all keys.
 | n, v | `S`               | Select a code block         | [flash](https://github.com/folke/flash.nvim#-usage) |
 | v, o | `af` `if` / `ac` `ic` / `aa` `ia` | Function / class / argument (e.g. `vaf`, `dif`, `cia`) | [textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main) |
 | n    | `]f` / `[f`       | Next / previous function    | [textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main) |
-| n    | `<leader>gf`      | Format file                 | [conform](https://github.com/stevearc/conform.nvim) |
+| n    | `<leader>gf`      | Format file (also runs on save, `<leader>uf` turns that off) | [conform](https://github.com/stevearc/conform.nvim) |
 | n, v | `gcc` / `gc`      | Comment line / selection    | [commenting](https://neovim.io/doc/user/various.html#commenting) |
 | i    | `( [ { " '`       | Close pairs automatically   | [autopairs](https://github.com/windwp/nvim-autopairs) |
 
@@ -122,6 +122,7 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | `<leader>ul` | Line numbers     | `<leader>uh` | Inlay hints       |
 | `<leader>ur` | Relative numbers | `<leader>ui` | Indent guides     |
 | `<leader>us` | Spell check      | `<leader>ub` | Light / dark theme |
+| `<leader>uf` | Format on save   | `<leader>uu` | Undo tree         |
 | `<leader>up` | [Motion hints](https://github.com/tris203/precognition.nvim): where `w` `b` `e` `$` `^` go | `<leader>uH` | [Training mode](https://github.com/m4xshen/hardtime.nvim): nudges you off `jjjj` |
 
 ### Completion (Insert mode)
