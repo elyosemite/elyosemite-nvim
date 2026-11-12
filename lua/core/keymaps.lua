@@ -21,7 +21,7 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Split right" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Split down" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Split up" })
 
-M.lsp_on_attach = function(_, bufnr)
+M.lsp_on_attach = function(bufnr)
   local opts = function(desc)
     return { buffer = bufnr, noremap = true, silent = true, desc = desc }
   end
@@ -34,12 +34,19 @@ M.lsp_on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>rn",  vim.lsp.buf.rename,                                   opts("Rename"))
   vim.keymap.set("n", "gr",          vim.lsp.buf.references,                               opts("References"))
   vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,                     opts("Code action"))
-  vim.keymap.set("n", "<leader>f",   function() vim.lsp.buf.format({ async = true }) end,  opts("Format"))
+  -- Formatação: <leader>gf (conform, com fallback para o LSP)
 
-  vim.keymap.set("n", "[d",          vim.diagnostic.goto_prev,    opts("Prev diagnostic"))
-  vim.keymap.set("n", "]d",          vim.diagnostic.goto_next,    opts("Next diagnostic"))
+  vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev diagnostic"))
+  vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end,  opts("Next diagnostic"))
   vim.keymap.set("n", "<leader>e",   vim.diagnostic.open_float,   opts("Show diagnostic"))
   vim.keymap.set("n", "<leader>q",   vim.diagnostic.setloclist,   opts("Diagnostic list"))
 end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true }),
+  callback = function(ev)
+    M.lsp_on_attach(ev.buf)
+  end,
+})
 
 return M
