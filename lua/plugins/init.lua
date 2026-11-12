@@ -28,7 +28,7 @@ Plugins.all_plugins = {
   },
   "folke/which-key.nvim",
   { "folke/neoconf.nvim", cmd = "Neoconf" },
-  themes.active,
+  themes.specs,
   telescope.Telescope,
   telescope.TelescopeUiSelect,
   treesitter,

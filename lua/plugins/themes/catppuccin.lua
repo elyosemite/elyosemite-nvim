@@ -2,6 +2,7 @@ return
   {
     "catppuccin/nvim",
     name = "catppuccin",
+    lazy = true, -- carregado pelo lazy.nvim ao aplicar :colorscheme (ver core/theme.lua)
     priority = 1000,
     config = function()
       require("catppuccin").setup({
@@ -52,6 +53,5 @@ return
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })
-      vim.cmd.colorscheme "catppuccin"
     end
   }

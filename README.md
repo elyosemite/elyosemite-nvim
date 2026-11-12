@@ -157,20 +157,23 @@ The author and date of the last change appear at the end of the current line (gi
 
 ## Changing the theme
 
-Available themes: **everforest** (default), **catppuccin**, **gruvbox** and **nightfox**.
+| Mode | Keys / command  | Action                                                  |
+|------|-----------------|---------------------------------------------------------|
+| n    | `<leader>th`    | Open the theme picker                                   |
+| n    | `:Theme`        | Open the theme picker                                   |
+| n    | `:Theme <name>` | Apply a theme directly (`Tab` completes the name)       |
 
-1. Open `lua/plugins/themes/init.lua`.
-2. Change the line to the theme you want:
+The choice is **saved and restored** on the next start. No restart is needed to switch.
 
-   ```lua
-   M.active = require("plugins.themes.catppuccin")  -- everforest | catppuccin | gruvbox | nightfox
-   ```
+Available themes: `everforest` (default), `catppuccin-latte`, `catppuccin-frappe`, `catppuccin-macchiato`, `catppuccin-mocha`, `gruvbox`, `nightfox`, `nordfox`, `carbonfox`, `duskfox`, `dawnfox` and `terafox`.
 
-3. Restart Neovim. The new theme installs on startup.
+`:colorscheme <name>` also works, but it only lasts for the current session.
 
-Variants are set in each theme's file. For example, `flavour` in `catppuccin.lua` (`latte`, `frappe`, `macchiato`, `mocha`) or the colorscheme in `nightfox.lua` (`nightfox`, `nordfox`, `carbonfox`…).
+**Add a theme:**
 
-To try a theme for the current session only: `:colorscheme <name>` (press `Tab` after typing part of the name to see the options of loaded themes).
+1. Create `lua/plugins/themes/<theme>.lua` with the plugin spec (`lazy = true`, and don't call `:colorscheme` in it).
+2. Register it in `lua/plugins/themes/init.lua`.
+3. Add its colorscheme name(s) to `M.themes` in `lua/core/theme.lua`. Change `M.default` there to pick the theme for new installs.
 
 ## Useful commands
 
@@ -195,13 +198,13 @@ nvim/
 ├── lazy-lock.json           # Pinned plugin versions
 └── lua/
     ├── config/lazy.lua      # lazy.nvim bootstrap
-    ├── core/                # Options, keymaps, diagnostics, autocmds
+    ├── core/                # Options, keymaps, diagnostics, autocmds, theme switcher
     └── plugins/
         ├── init.lua         # List of all plugins
         ├── lsp/
         │   ├── mason-config.lua   # LSP setup (vim.lsp.config + Mason)
         │   └── servers/           # Per-language LSP settings
-        ├── themes/          # Color schemes (active one in init.lua)
+        ├── themes/          # Color scheme plugins (switch with :Theme)
         └── *.lua            # One file per plugin
 ```
 

@@ -6,6 +6,7 @@ require("core.options")
 require("core.keymaps")
 require("core.diagnostics")
 require("core.autocmds")
+require("core.theme").setup()
 
 vim.opt.number = true
 vim.opt.relativenumber = true

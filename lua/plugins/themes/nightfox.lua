@@ -1,9 +1,8 @@
-return
-  {
-    "EdenEast/nightfox.nvim",
-    config = function()
-      require("nightfox").setup()
-      vim.cmd.colorscheme("nordfox")
-    end
-  }
-
+return {
+  "EdenEast/nightfox.nvim",
+  lazy = true, -- carregado pelo lazy.nvim ao aplicar :colorscheme (ver core/theme.lua)
+  priority = 1000,
+  config = function()
+    require("nightfox").setup()
+  end,
+}
