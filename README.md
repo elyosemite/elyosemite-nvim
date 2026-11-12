@@ -82,6 +82,8 @@ Inside the tree, press `?` for all keys.
 | n    | `<Esc>`           | Clear search highlight      | [:nohlsearch](https://neovim.io/doc/user/pattern.html#%3Anohlsearch) |
 | n    | `u` / `<C-r>`     | Undo / redo (kept after closing the file) | [undo](https://neovim.io/doc/user/undo.html#undo-commands) |
 | n, v | `<A-j>` / `<A-k>` | Move line(s) down / up      | [:move](https://neovim.io/doc/user/change.html#%3Amove) |
+| n, v | `s` + letters | Jump anywhere on screen (type the label shown) | [flash](https://github.com/folke/flash.nvim#-usage) |
+| n, v | `S`               | Select a code block         | [flash](https://github.com/folke/flash.nvim#-usage) |
 | n    | `<leader>gf`      | Format file                 | [conform](https://github.com/stevearc/conform.nvim) |
 | n, v | `gcc` / `gc`      | Comment line / selection    | [commenting](https://neovim.io/doc/user/various.html#commenting) |
 | i    | `( [ { " '`       | Close pairs automatically   | [autopairs](https://github.com/windwp/nvim-autopairs) |
