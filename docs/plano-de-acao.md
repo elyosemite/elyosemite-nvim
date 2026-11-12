@@ -58,9 +58,9 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 31 | Debugger: núcleo                             | 7    | `feat(dap): add nvim-dap core and UI`                     | [x]    |
 | 32 | Debugger: Go e Python                        | 7    | `feat(dap): add Go and Python adapters`                   | [x]    |
 | 33 | Debugger: C# e Rust                          | 7    | `feat(dap): add C# and Rust adapters`                     | [x]    |
-| 34 | CI: smoke test no GitHub Actions             | 8    | `ci: add headless startup smoke test`                     | [ ]    |
-| 35 | README: primeiros passos                     | 8    | `docs(readme): add getting started guide`                 | [ ]    |
-| 36 | Release v1.0                                 | 8    | `chore(release): v1.0.0`                                  | [ ]    |
+| 34 | CI: smoke test no GitHub Actions             | 8    | `ci: add headless startup smoke test`                     | [x]    |
+| 35 | README: primeiros passos                     | 8    | `docs(readme): add getting started guide`                 | [x]    |
+| 36 | Release v1.0                                 | 8    | `chore(release): v1.0.0`                                  | [~]    |
 
 Feito antes deste plano: switch de tema `:Theme` / `<leader>th` (`6d7b1a8`).
 
@@ -201,3 +201,4 @@ Feito antes deste plano: switch de tema `:Theme` / `<leader>th` (`6d7b1a8`).
 
 ### Step 36: Release v1.0
 - **O que fazer:** `CHANGELOG.md`, a tag `v1.0.0` e uma GitHub Release.
+- **Status:** `CHANGELOG.md` pronto. Faltam a tag e a Release, que saem da `main` depois do merge de `feat/usability`.
