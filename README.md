@@ -4,27 +4,15 @@
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat&logo=lua&logoColor=white)](https://www.lua.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](LICENSE)
 
-A production-ready Neovim configuration that works out of the box while remaining fully hackable. Built with Lua and designed for developers who want functionality without the configuration fatigue.
-
-## Features
-
-- **Modular architecture**: one Lua module per plugin, easy to customize
-- **LSP** with automatic server installation (Mason), for Lua, TypeScript/JavaScript, C#, Go, Python, SQL, Clojure and Rust
-- **Autocompletion** with snippets (nvim-cmp + LuaSnip)
-- **Fuzzy finder** (Telescope) and **file explorer** (Neo-tree)
-- **Git**: inline blame and change signs (gitsigns) + LazyGit
-- **Testing** from the editor (neotest: Go, Vitest, Rust, Lua)
-- **Formatting** per language (conform.nvim)
-- **Syntax highlighting** with Treesitter
-- Multiple pre-installed color schemes
+A Neovim configuration you can use on day one, even if you only know a few Vim commands. Opinionated defaults, a friendly UI, and every key documented. Each row below links to the official docs, so this page stays short.
 
 ## Requirements
 
 - **Neovim 0.12+**
-- `git`, and a C compiler (MSVC, gcc, clang or zig) for Treesitter parsers
-- [`tree-sitter` CLI](https://github.com/tree-sitter/tree-sitter) **0.25+** on your `PATH`. On Windows, use the real `tree-sitter.exe` (`cargo install tree-sitter-cli`) rather than the npm shim, which Neovim cannot run
-- A [Nerd Font](https://www.nerdfonts.com/) in your terminal, for icons
-- Optional: [`lazygit`](https://github.com/jesseduffield/lazygit), `ripgrep` (needed by live grep), `make` (Telescope fzf)
+- `git` and a C compiler (MSVC, gcc, clang or zig)
+- [`tree-sitter` CLI](https://github.com/tree-sitter/tree-sitter/blob/master/crates/cli/README.md) **0.25+**. On Windows use the real `tree-sitter.exe` (`cargo install tree-sitter-cli`), not the npm shim
+- A [Nerd Font](https://www.nerdfonts.com/) in your terminal
+- Optional: [`lazygit`](https://github.com/jesseduffield/lazygit), [`ripgrep`](https://github.com/BurntSushi/ripgrep) (project search), `make`
 
 ## Installation
 
@@ -39,220 +27,142 @@ git clone https://github.com/elyosemite/elyosemite-nvim.git ~/.config/nvim
 git clone https://github.com/elyosemite/elyosemite-nvim.git $env:LOCALAPPDATA\nvim
 ```
 
-Launch `nvim` and wait: plugins, LSP servers and Treesitter parsers install automatically. Plugin versions are pinned in `lazy-lock.json`.
+Run `nvim` and wait: plugins, language servers, formatters and parsers install by themselves.
 
-## How to read the key mappings
+## How to read the keys
 
-Key mappings below use Neovim notation:
+| Notation     | Press                                  |
+|--------------|----------------------------------------|
+| `<leader>`   | **Space**                              |
+| `<C-n>`      | **Ctrl + n**, together                 |
+| `<S-h>`      | **Shift + h**                          |
+| `<A-j>`      | **Alt + j**                            |
+| `<CR>`       | **Enter**                              |
+| `<leader>ff` | **Space**, then **f**, then **f**, one after another |
 
-| Notation      | What to press                                                       |
-|---------------|---------------------------------------------------------------------|
-| `<leader>`    | **Space**                                                           |
-| `<C-n>`       | **Ctrl + n** (held together)                                        |
-| `<S-h>`       | **Shift + h** (the same as typing a capital `H`)                    |
-| `<A-j>`       | **Alt + j**                                                         |
-| `<CR>`        | **Enter**                                                           |
-| `<Tab>`       | **Tab**                                                             |
-| `<leader>ff`  | **Space**, then **f**, then **f**: *one after another*, not together |
-| `gd`          | **g**, then **d**, one after another                                |
-| `[d` / `]d`   | **[** then **d** / **]** then **d**                                  |
+Mode: **n** Normal, **i** Insert, **v** Visual. Docs: [key notation](https://neovim.io/doc/user/intro.html#key-notation) · [modes](https://neovim.io/doc/user/intro.html#vim-modes).
 
-Mode column: **n** = Normal (default mode, press `Esc` to return), **i** = Insert (typing text), **v** = Visual (selection, enter with `v` or `V`).
+> **Lost?** Press **Space** and wait: [which-key](https://github.com/folke/which-key.nvim) lists every key.
 
-> **Tip:** press **Space** and wait a moment. [which-key](https://github.com/folke/which-key.nvim) shows a popup with every available `<leader>` mapping.
+## Keys
 
-## Key mappings
+### Find (Telescope)
 
-### Files and search (Telescope)
+| Mode | Keys         | Action                 | Docs |
+|------|--------------|------------------------|------|
+| n    | `<C-p>` / `<leader>ff` | Find files   | [find_files](https://github.com/nvim-telescope/telescope.nvim#file-pickers) |
+| n    | `<leader>fg` | Search text in project | [live_grep](https://github.com/nvim-telescope/telescope.nvim#file-pickers) |
+| n    | `<leader>fb` | Open buffers           | [buffers](https://github.com/nvim-telescope/telescope.nvim#vim-pickers) |
+| n    | `<leader>fh` | Search help            | [help_tags](https://github.com/nvim-telescope/telescope.nvim#vim-pickers) |
 
-| Mode | Keys         | Action                       |
-|------|--------------|------------------------------|
-| n    | `<C-p>`      | Find files                   |
-| n    | `<leader>ff` | Find files                   |
-| n    | `<leader>fg` | Search text in project (grep) |
-| n    | `<leader>fb` | List open buffers            |
-| n    | `<leader>fh` | Search help                  |
+Inside the picker: [default mappings](https://github.com/nvim-telescope/telescope.nvim#default-mappings).
 
-Inside Telescope: type to filter, `<C-n>` / `<C-p>` or arrows to move, `<CR>` to open, `<C-x>` / `<C-v>` to open in a horizontal / vertical split, `Esc` to close.
+### Files (Neo-tree)
 
-### File explorer (Neo-tree)
+| Mode | Keys    | Action              | Docs |
+|------|---------|---------------------|------|
+| n    | `<C-n>` | Toggle file explorer | [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim#quickstart) |
 
-| Mode | Keys    | Action                  |
-|------|---------|-------------------------|
-| n    | `<C-n>` | Toggle the file explorer |
+Inside the tree, press `?` for all keys.
 
-Inside Neo-tree: `<CR>` open, `a` new file (end the name with `/` for a folder), `d` delete, `r` rename, `c` copy, `m` move, `H` toggle hidden files, `?` show all keys.
+### Buffers and windows
 
-### Buffers (open files) and windows
-
-| Mode | Keys                       | Action                        |
-|------|----------------------------|-------------------------------|
-| n    | `<S-h>` / `<S-l>`          | Previous / next buffer        |
-| n    | `<leader>1` … `<leader>9`  | Go to buffer by its number    |
-| n    | `<leader>x`                | Close current buffer          |
-| n    | `<C-h>` `<C-j>` `<C-k>` `<C-l>` | Move to the split left / down / up / right |
+| Mode | Keys                            | Action                     | Docs |
+|------|---------------------------------|----------------------------|------|
+| n    | `<S-h>` / `<S-l>`               | Previous / next buffer     | [bufferline](https://github.com/akinsho/bufferline.nvim#usage) |
+| n    | `<leader>1` … `<leader>9`       | Go to buffer N             | [bufferline](https://github.com/akinsho/bufferline.nvim#usage) |
+| n    | `<leader>x`                     | Close buffer               | [:bdelete](https://neovim.io/doc/user/windows.html#%3Abdelete) |
+| n    | `<C-h>` `<C-j>` `<C-k>` `<C-l>` | Move between splits        | [CTRL-W](https://neovim.io/doc/user/windows.html#CTRL-W_h) |
 
 ### Editing
 
-| Mode | Keys              | Action                       |
-|------|-------------------|------------------------------|
-| n    | `<A-j>` / `<A-k>` | Move current line down / up  |
-| v    | `<A-j>` / `<A-k>` | Move selected lines down / up |
-| n    | `<leader>gf`      | Format file (falls back to LSP) |
+| Mode | Keys              | Action                      | Docs |
+|------|-------------------|-----------------------------|------|
+| n, v | `<A-j>` / `<A-k>` | Move line(s) down / up      | [:move](https://neovim.io/doc/user/change.html#%3Amove) |
+| n    | `<leader>gf`      | Format file                 | [conform](https://github.com/stevearc/conform.nvim) |
+| n, v | `gcc` / `gc`      | Comment line / selection    | [commenting](https://neovim.io/doc/user/various.html#commenting) |
+| i    | `( [ { " '`       | Close pairs automatically   | [autopairs](https://github.com/windwp/nvim-autopairs) |
 
-Brackets and quotes close automatically (nvim-autopairs).
+### Completion (Insert mode)
 
-### Autocompletion (Insert mode)
+| Keys                | Action                                   | Docs |
+|---------------------|------------------------------------------|------|
+| `<C-Space>`         | Open the menu                            | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) |
+| `<C-j>` / `<C-k>`   | Next / previous item                     | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) |
+| `<Tab>` / `<S-Tab>` | Next / previous item, or snippet field   | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) |
+| `<CR>`              | Confirm                                  | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) |
+| `<C-e>`             | Close the menu                           | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) |
 
-| Keys                      | Action                                  |
-|---------------------------|-----------------------------------------|
-| `<C-Space>`               | Open the completion menu                |
-| `<C-j>` / `<C-k>`         | Next / previous suggestion              |
-| `<Tab>` / `<S-Tab>`       | Next / previous suggestion, or jump between snippet fields |
-| `<CR>`                    | Confirm the selected suggestion         |
-| `<C-e>`                   | Close the menu                          |
-| `<C-d>` / `<C-u>`         | Scroll the documentation window         |
+### Code (LSP)
 
-### Code navigation (LSP)
+| Mode | Keys         | Action                    | Docs |
+|------|--------------|---------------------------|------|
+| n    | `gd` / `gD`  | Definition / declaration  | [definition](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.definition()) |
+| n    | `gi`         | Implementation            | [implementation](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.implementation()) |
+| n    | `gr`         | References                | [references](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.references()) |
+| n    | `K`          | Documentation popup       | [hover](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.hover()) |
+| n    | `<leader>rn` | Rename symbol             | [rename](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.rename()) |
+| n, v | `<leader>ca` | Code actions / quick fix  | [code_action](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.code_action()) |
+| n    | `<C-o>`      | Jump back                 | [jumplist](https://neovim.io/doc/user/motion.html#CTRL-O) |
 
-Active in any file with a language server attached.
+### Diagnostics
 
-| Mode | Keys         | Action                         |
-|------|--------------|--------------------------------|
-| n    | `gd`         | Go to definition               |
-| n    | `gD`         | Go to declaration              |
-| n    | `gi`         | Go to implementation           |
-| n    | `gr`         | List references                |
-| n    | `K`          | Hover documentation            |
-| n    | `<C-s>`      | Signature help                 |
-| n    | `<leader>rn` | Rename symbol                  |
-| n, v | `<leader>ca` | Code actions (quick fixes)     |
-| n    | `<C-o>`      | Jump back (after `gd`, etc.)   |
-
-### Diagnostics (errors and warnings)
-
-| Mode | Keys        | Action                              |
-|------|-------------|-------------------------------------|
-| n    | `[d` / `]d` | Previous / next diagnostic          |
-| n    | `<leader>e` | Show the diagnostic under the cursor |
-| n    | `<leader>q` | List all diagnostics of the file    |
+| Mode | Keys        | Action                     | Docs |
+|------|-------------|----------------------------|------|
+| n    | `[d` / `]d` | Previous / next problem    | [jump](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.jump()) |
+| n    | `<leader>e` | Show problem under cursor  | [open_float](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.open_float()) |
+| n    | `<leader>q` | List problems in file      | [setloclist](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.setloclist()) |
 
 ### Git
 
-| Mode | Keys         | Action        |
-|------|--------------|---------------|
-| n    | `<leader>gg` | Open LazyGit  |
+| Mode | Keys         | Action                                 | Docs |
+|------|--------------|----------------------------------------|------|
+| n    | `<leader>gg` | Open LazyGit                           | [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) |
+| -    | (automatic)  | Line blame and change signs            | [gitsigns](https://github.com/lewis6991/gitsigns.nvim) |
 
-The author and date of the last change appear at the end of the current line (git blame), and changed lines are marked in the left column.
+### Tests
 
-### Tests (neotest)
+| Mode | Keys         | Action             | Docs |
+|------|--------------|--------------------|------|
+| n    | `<leader>tt` | Run nearest test   | [neotest](https://github.com/nvim-neotest/neotest) |
+| n    | `<leader>tf` | Run file           | [neotest](https://github.com/nvim-neotest/neotest) |
+| n    | `<leader>ts` | Summary panel      | [neotest](https://github.com/nvim-neotest/neotest) |
+| n    | `<leader>to` | Output panel       | [neotest](https://github.com/nvim-neotest/neotest) |
+| n    | `<leader>tS` | Stop               | [neotest](https://github.com/nvim-neotest/neotest) |
 
-| Mode | Keys         | Action                  |
-|------|--------------|-------------------------|
-| n    | `<leader>tt` | Run nearest test        |
-| n    | `<leader>tf` | Run all tests in file   |
-| n    | `<leader>ts` | Toggle test summary     |
-| n    | `<leader>to` | Toggle test output      |
-| n    | `<leader>tS` | Stop running tests      |
+## Themes
 
-## Changing the theme
+| Mode | Keys / command  | Action                                   |
+|------|-----------------|------------------------------------------|
+| n    | `<leader>th`    | Pick a theme (saved for next start)      |
+| n    | `:Theme <name>` | Apply directly, `Tab` completes          |
 
-| Mode | Keys / command  | Action                                                  |
-|------|-----------------|---------------------------------------------------------|
-| n    | `<leader>th`    | Open the theme picker                                   |
-| n    | `:Theme`        | Open the theme picker                                   |
-| n    | `:Theme <name>` | Apply a theme directly (`Tab` completes the name)       |
+Themes: everforest, catppuccin (latte · frappe · macchiato · mocha), gruvbox, nightfox (nightfox · nordfox · carbonfox · duskfox · dawnfox · terafox). To add one, see the comments in [`lua/core/theme.lua`](lua/core/theme.lua).
 
-The choice is **saved and restored** on the next start. No restart is needed to switch.
+## Commands
 
-Available themes: `everforest` (default), `catppuccin-latte`, `catppuccin-frappe`, `catppuccin-macchiato`, `catppuccin-mocha`, `gruvbox`, `nightfox`, `nordfox`, `carbonfox`, `duskfox`, `dawnfox` and `terafox`.
-
-`:colorscheme <name>` also works, but it only lasts for the current session.
-
-**Add a theme:**
-
-1. Create `lua/plugins/themes/<theme>.lua` with the plugin spec (`lazy = true`, and don't call `:colorscheme` in it).
-2. Register it in `lua/plugins/themes/init.lua`.
-3. Add its colorscheme name(s) to `M.themes` in `lua/core/theme.lua`. Change `M.default` there to pick the theme for new installs.
-
-## Useful commands
-
-Type them in Normal mode, starting with `:`, then press `Enter`.
-
-| Command                | What it does                                       |
-|------------------------|----------------------------------------------------|
-| `:Lazy`                | Plugin manager (`U` update, `S` sync, `X` clean)   |
-| `:Mason`               | Install / update LSP servers, formatters, linters  |
-| `:TSUpdate`            | Update Treesitter parsers                          |
-| `:TSInstall <lang>`    | Install a parser for a new language                |
-| `:LspInfo`             | Show language servers attached to the buffer       |
-| `:checkhealth`         | Diagnose problems in the setup                     |
-| `:RustLsp runnables`   | Pick and run a Rust target (rustaceanvim)          |
-| `:Neotree reveal`      | Show the current file in the explorer              |
-
-## Project structure
-
-```
-nvim/
-├── init.lua                 # Entry point
-├── lazy-lock.json           # Pinned plugin versions
-└── lua/
-    ├── config/lazy.lua      # lazy.nvim bootstrap
-    ├── core/                # Options, keymaps, diagnostics, autocmds, theme switcher
-    └── plugins/
-        ├── init.lua         # List of all plugins
-        ├── lsp/
-        │   ├── mason-config.lua   # LSP setup (vim.lsp.config + Mason)
-        │   └── servers/           # Per-language LSP settings
-        ├── themes/          # Color scheme plugins (switch with :Theme)
-        └── *.lua            # One file per plugin
-```
+| Command              | What it does                         | Docs |
+|----------------------|--------------------------------------|------|
+| `:Lazy`              | Manage plugins                       | [lazy.nvim](https://lazy.folke.io/usage) |
+| `:Mason`             | Manage language servers and tools    | [mason.nvim](https://github.com/mason-org/mason.nvim#commands) |
+| `:TSUpdate`          | Update Treesitter parsers            | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#commands) |
+| `:LspInfo`           | Language servers on this buffer      | [lsp](https://neovim.io/doc/user/lsp.html#lsp-quickstart) |
+| `:checkhealth`       | Diagnose the setup                   | [health](https://neovim.io/doc/user/health.html) |
+| `:RustLsp runnables` | Run a Rust target                    | [rustaceanvim](https://github.com/mrcjkb/rustaceanvim#books-usage--features) |
 
 ## Customizing
 
-### Add a plugin
+- **Plugins**: one file per plugin in `lua/plugins/`, registered in [`lua/plugins/init.lua`](lua/plugins/init.lua). Format: [lazy.nvim spec](https://lazy.folke.io/spec).
+- **Language servers**: list in [`lua/plugins/lsp/mason-config.lua`](lua/plugins/lsp/mason-config.lua), settings in `lua/plugins/lsp/servers/`. Names: [server configs](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md).
+- **Formatters**: [`lua/plugins/formatter.lua`](lua/plugins/formatter.lua). Names: [conform formatters](https://github.com/stevearc/conform.nvim#formatters).
 
-1. Create `lua/plugins/my-plugin.lua` returning a [lazy.nvim spec](https://lazy.folke.io/spec):
-
-   ```lua
-   return {
-     "author/plugin",
-     opts = {},
-   }
-   ```
-
-2. Register it in `lua/plugins/init.lua`:
-
-   ```lua
-   local my_plugin = require("plugins.my-plugin")
-   -- ...
-   Plugins.all_plugins = {
-     -- ...
-     my_plugin,
-   }
-   ```
-
-### Add a language server
-
-1. Add the server name (as listed by nvim-lspconfig) to `servers` in `lua/plugins/lsp/mason-config.lua`.
-2. Optional: for custom settings, create `lua/plugins/lsp/servers/<lang>.lua`:
-
-   ```lua
-   return {
-     name = "server_name",
-     config = { settings = { --[[ ... ]] } },
-   }
-   ```
-
-   and add it to `custom_servers` in the same file.
-
-### Add a formatter
-
-Add the filetype in `lua/plugins/formatter.lua` and install the tool with `:Mason`.
+Roadmap: [`docs/plano-de-acao.md`](docs/plano-de-acao.md).
 
 ## Troubleshooting
 
-- Run `:checkhealth` to diagnose issues.
-- **Treesitter parsers fail to compile:** check that `tree-sitter --version` works and reports 0.25+, and that a C compiler is available.
-- **LSP not starting:** open `:Mason` to confirm the server is installed, then `:LspInfo`.
-- **Icons show as squares:** set a Nerd Font in your terminal.
+| Problem                          | Try |
+|----------------------------------|-----|
+| Anything odd                     | `:checkhealth` |
+| Treesitter fails to compile      | `tree-sitter --version` must work and be 0.25+ |
+| Language server not starting     | `:Mason`, then `:LspInfo` |
+| Icons are squares                | Use a Nerd Font in the terminal |
