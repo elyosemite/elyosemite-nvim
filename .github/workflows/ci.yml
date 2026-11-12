@@ -1,0 +1,54 @@
+# Abre a config num Neovim sem interface, no Linux e no Windows, e falha se algo der erro.
+# O teste em si está em tests/smoke.lua.
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Smoke test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: nvim
+
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: v0.12.3
+
+      # Binário oficial da release (o tree-sitter/setup-action@v1 falha com a CLI 0.27)
+      - name: Install tree-sitter CLI
+        shell: bash
+        env:
+          TS_VERSION: v0.27.2
+        run: |
+          os=$(tr '[:upper:]' '[:lower:]' <<< "$RUNNER_OS")
+          [[ "$RUNNER_OS" == Windows ]] && exe=tree-sitter.exe || exe=tree-sitter
+          mkdir -p "$RUNNER_TEMP/tree-sitter"
+          curl -fLSs "https://github.com/tree-sitter/tree-sitter/releases/download/$TS_VERSION/tree-sitter-$os-x64.gz"             | gunzip > "$RUNNER_TEMP/tree-sitter/$exe"
+          chmod +x "$RUNNER_TEMP/tree-sitter/$exe"
+          echo "$RUNNER_TEMP/tree-sitter" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/tree-sitter/$exe" --version
+
+      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema
+      - name: Install plugins (versions from lazy-lock.json)
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}
+        run: nvim --headless "+Lazy! restore" +qa
+
+      - name: Smoke test
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}
+          # O parser sql não compila com o MSVC do runner Windows ("Failed to compile parser").
+          # Compila localmente; pendência no step 34 de docs/plano-de-acao.md.
+          SMOKE_SKIP_PARSERS: ${{ runner.os == 'Windows' && 'sql' || '' }}
+        run: nvim --headless -c "luafile nvim/tests/smoke.lua"

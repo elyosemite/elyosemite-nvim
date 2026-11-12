@@ -1,6 +1,13 @@
 local M = {}
 
-vim.g.mapleader = " "
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<CR><Esc>", { desc = "Save file" })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { desc = "Clear search highlight" })
+
+-- Árvore de desfazer nativa do Neovim 0.12: volte a qualquer versão do arquivo
+vim.keymap.set("n", "<leader>uu", function()
+  vim.cmd.packadd("nvim.undotree")
+  require("undotree").open()
+end, { desc = "Undo tree" })
 
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==",      { noremap = true, desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==",      { noremap = true, desc = "Move line up" })
@@ -10,7 +17,7 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move 
 -- Buffer navigation
 vim.keymap.set("n", "<S-h>",      "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
 vim.keymap.set("n", "<S-l>",      "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>x",  "<cmd>bdelete<CR>",             { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>",             { desc = "Close buffer" })
 
 for i = 1, 9 do
   vim.keymap.set("n", "<leader>" .. i, "<cmd>BufferLineGoToBuffer " .. i .. "<CR>", { desc = "Buffer " .. i })
@@ -29,9 +36,11 @@ M.lsp_on_attach = function(bufnr)
   vim.keymap.set("n", "gD",          vim.lsp.buf.declaration,                              opts("Go to declaration"))
   vim.keymap.set("n", "gd",          vim.lsp.buf.definition,                               opts("Go to definition"))
   vim.keymap.set("n", "K",           vim.lsp.buf.hover,                                    opts("Hover docs"))
+  vim.keymap.set("i", "<C-k>",       vim.lsp.buf.signature_help,                           opts("Signature help"))
   vim.keymap.set("n", "gi",          vim.lsp.buf.implementation,                           opts("Go to implementation"))
-  vim.keymap.set("n", "<C-s>",       vim.lsp.buf.signature_help,                           opts("Signature help"))
-  vim.keymap.set("n", "<leader>rn",  vim.lsp.buf.rename,                                   opts("Rename"))
+  vim.keymap.set("n", "<leader>rn", function()
+    return ":IncRename " .. vim.fn.expand("<cword>")
+  end, vim.tbl_extend("force", opts("Rename (live preview)"), { expr = true }))
   vim.keymap.set("n", "gr",          vim.lsp.buf.references,                               opts("References"))
   vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,                     opts("Code action"))
   -- Formatação: <leader>gf (conform, com fallback para o LSP)
@@ -39,13 +48,18 @@ M.lsp_on_attach = function(bufnr)
   vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev diagnostic"))
   vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end,  opts("Next diagnostic"))
   vim.keymap.set("n", "<leader>e",   vim.diagnostic.open_float,   opts("Show diagnostic"))
-  vim.keymap.set("n", "<leader>q",   vim.diagnostic.setloclist,   opts("Diagnostic list"))
+  vim.keymap.set("n", "<leader>cd",  vim.diagnostic.setloclist,   opts("Diagnostic list"))
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true }),
   callback = function(ev)
     M.lsp_on_attach(ev.buf)
+
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client:supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+    end
   end,
 })
 

@@ -2,6 +2,7 @@ return {
   "williamboman/mason.nvim",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
   },
@@ -14,6 +15,8 @@ return {
       "gopls",
       "clojure_lsp",
       "basedpyright",
+      "ruff",   -- lint de Python, com quick fixes
+      "eslint", -- lint de JS/TS; só sobe em projetos com config do ESLint
     }
 
     -- Configs customizadas por linguagem (carregadas de servers/)
@@ -43,6 +46,14 @@ return {
       ensure_installed = servers,
       -- Instalados no mason mas substituídos por basedpyright / csharp_ls
       automatic_enable = { exclude = { "pyright", "omnisharp" } },
+    })
+
+    -- Ferramentas instaladas no primeiro start
+    require("mason-tool-installer").setup({
+      ensure_installed = {
+        "stylua", "prettier", "black", "isort", "csharpier", "clang-format", -- formatadores
+        "delve", "debugpy", "netcoredbg", "codelldb", -- debuggers (plugins/dap.lua)
+      },
     })
   end,
 }

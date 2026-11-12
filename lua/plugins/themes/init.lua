@@ -6,5 +6,10 @@ return {
     require("plugins.themes.catppuccin"),
     require("plugins.themes.gruvbox"),
     require("plugins.themes.nightfox"),
+    require("plugins.themes.tokyonight"),
+    require("plugins.themes.kanagawa"),
+    require("plugins.themes.rosepine"),
+    require("plugins.themes.onedarkpro"),
+    require("plugins.themes.github"),
   },
 }

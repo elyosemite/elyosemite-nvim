@@ -1,16 +1,20 @@
 # NvYosemite: plano de ação
 
-Objetivo: um Neovim que qualquer pessoa clona e usa no primeiro dia. Ele vem com padrões opinativos, mas tudo pode ser customizado sem fazer fork. São **20 steps em 4 fases**. Cada step é **um commit**: pequeno, testável e sem depender dos steps seguintes.
+Objetivo: **alguém que acabou de aprender o básico de Vim consegue usar a config sem dificuldade**. A interface é boa, os atalhos aparecem sozinhos, o modo atual fica sempre visível e todo erro pode ser desfeito.
+
+Referências: [LazyVim](https://www.lazyvim.org), [NvChad](https://nvchad.com) e [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim).
+
+Branch de trabalho: `feat/usability`.
 
 ## Regras para cada step
 
-1. **Um step = um commit** com [Conventional Commits](https://www.conventionalcommits.org/). A mensagem sugerida está em cada step.
-2. **O README é atualizado no mesmo commit** sempre que o step muda atalhos, comandos ou formas de configurar.
-3. **Verificação antes do commit**: rodar o smoke test abaixo e fazer o teste específico do step (campo *Pronto quando*).
-4. **Comportamento novo vem desligado ou é fácil de desligar** quando puder incomodar, como formatar ao salvar ou lint.
-5. Plugin novo entra com uma versão fixa no `lazy-lock.json`, que já é versionado.
+1. **Um step = um commit** com [Conventional Commits](https://www.conventionalcommits.org/). A mensagem sugerida está na tabela.
+2. **O README fica curto**: cada atalho ou comando novo ganha **uma linha** na tabela e um **link para a documentação** do plugin. Explicação longa fica na doc oficial, não no README.
+3. **Verificação antes do commit**: rodar o smoke test abaixo e fazer o teste do campo *Pronto quando*.
+4. **Recurso que pode incomodar vem fácil de desligar**, de preferência pelo grupo de toggles `<leader>u`.
+5. Plugin novo fica com versão fixa no `lazy-lock.json`.
 
-Smoke test (abre o Neovim sem interface e falha se houver erro):
+Smoke test:
 
 ```bash
 nvim --headless "+Lazy! sync" +qa
@@ -19,170 +23,183 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 
 ## Visão geral
 
-| #  | Step                                   | Fase | Commit                                                  | Status |
-|----|----------------------------------------|------|---------------------------------------------------------|--------|
-| 1  | Remover CursorLine fixo                | 1    | `fix(ui): let the theme define CursorLine`              | [ ]    |
-| 2  | Adicionar LICENSE                      | 1    | `docs: add MIT license`                                 | [ ]    |
-| 3  | Opções essenciais                      | 1    | `feat(options): add sensible defaults`                  | [ ]    |
-| 4  | Carregar `user.lua` opcional           | 2    | `feat(core): load optional user config`                 | [ ]    |
-| 5  | Tema e opções via `user.lua`           | 2    | `feat(core): let user config set theme and options`     | [ ]    |
-| 6  | Plugins extras via `user.lua`          | 2    | `feat(plugins): import user plugin specs`               | [ ]    |
-| 7  | Centralizar ferramentas por linguagem  | 2    | `refactor(lang): centralize per-language tooling`       | [ ]    |
-| 8  | Ligar/desligar linguagens              | 2    | `feat(lang): enable languages from user config`         | [ ]    |
-| 9  | `:checkhealth nvyosemite`              | 2    | `feat(health): add nvyosemite health check`             | [ ]    |
-| 10 | Formatar ao salvar + `:FormatToggle`   | 3    | `feat(format): format on save with toggle`              | [ ]    |
-| 11 | Lint com nvim-lint                     | 3    | `feat(lint): add nvim-lint`                             | [ ]    |
-| 12 | Terminal integrado                     | 3    | `feat(terminal): add toggleable terminal`               | [ ]    |
-| 13 | trouble.nvim + todo-comments           | 3    | `feat(ui): add trouble and todo-comments`               | [ ]    |
-| 14 | Treesitter textobjects                 | 3    | `feat(treesitter): add textobjects`                     | [ ]    |
-| 15 | Debugger: núcleo (nvim-dap + dap-ui)   | 3    | `feat(dap): add nvim-dap core and UI`                   | [ ]    |
-| 16 | Debugger: Go e Python                  | 3    | `feat(dap): add Go and Python adapters`                 | [ ]    |
-| 17 | Debugger: C# e Rust                    | 3    | `feat(dap): add C# and Rust adapters`                   | [ ]    |
-| 18 | CI: smoke test no GitHub Actions       | 4    | `ci: add headless startup smoke test`                   | [ ]    |
-| 19 | README: guia de primeiros passos       | 4    | `docs(readme): add getting started guide`               | [ ]    |
-| 20 | Release v1.0                           | 4    | `chore(release): v1.0.0`                                | [ ]    |
+| #  | Step                                         | Fase | Commit                                                    | Status |
+|----|----------------------------------------------|------|-----------------------------------------------------------|--------|
+| 1  | Ligar inlay hints                            | 1    | `fix(lsp): enable inlay hints`                            | [x]    |
+| 2  | Instalar formatadores automaticamente        | 1    | `feat(mason): auto-install formatters`                    | [x]    |
+| 3  | Remover CursorLine fixo                      | 1    | `fix(ui): let the theme define CursorLine`                | [x]    |
+| 4  | Adicionar LICENSE                            | 1    | `docs: add MIT license`                                   | [x]    |
+| 5  | Opções e atalhos essenciais                  | 1    | `feat(options): add sensible defaults`                    | [x]    |
+| 6  | which-key com grupos nomeados                | 2    | `feat(ui): name which-key groups`                         | [x]    |
+| 7  | Cheatsheet `<leader>?`                       | 2    | `feat(ui): add generated keymap cheatsheet`               | [x]    |
+| 8  | Paleta de comandos `<leader><leader>`        | 2    | `feat(ui): add command palette`                           | [x]    |
+| 9  | Menu de clique direito                       | 2    | `feat(ui): add right-click context menu`                  | [x]    |
+| 10 | snacks.nvim (dashboard, notificações, etc.)  | 3    | `feat(ui): add snacks.nvim and replace alpha`             | [x]    |
+| 11 | noice.nvim                                   | 3    | `feat(ui): add noice for cmdline and messages`            | [x]    |
+| 12 | Breadcrumbs (dropbar)                        | 3    | `feat(ui): add dropbar breadcrumbs`                       | [x]    |
+| 13 | Diagnósticos legíveis                        | 3    | `feat(ui): add tiny-inline-diagnostic`                    | [x]    |
+| 14 | Seletor de tema com preview ao vivo          | 4    | `feat(theme): live preview in theme picker`               | [x]    |
+| 15 | Mais temas, incluindo claros                 | 4    | `feat(theme): add tokyonight, kanagawa, rose-pine, ...`   | [x]    |
+| 16 | Alternar claro/escuro                        | 4    | `feat(theme): toggle light and dark variant`              | [x]    |
+| 17 | Grupo de toggles `<leader>u`                 | 5    | `feat(ui): add toggles group`                             | [x]    |
+| 18 | Mostrar o modo atual (modes.nvim)            | 5    | `feat(ui): color cursorline by mode`                      | [x]    |
+| 19 | Dicas de movimento (precognition)            | 5    | `feat(learn): add precognition hints`                     | [x]    |
+| 20 | Modo treino (hardtime, desligado)            | 5    | `feat(learn): add opt-in hardtime`                        | [x]    |
+| 21 | Pular para qualquer lugar (flash)            | 5    | `feat(motion): add flash.nvim`                            | [x]    |
+| 22 | Undotree + restaurar sessão                  | 6    | `feat(safety): add undotree and session restore`          | [x]    |
+| 23 | Buscar e substituir no projeto (grug-far)    | 6    | `feat(search): add grug-far`                              | [x]    |
+| 24 | Git: atalhos de hunk + diffview              | 6    | `feat(git): add hunk keymaps and diffview`                | [x]    |
+| 25 | Renomear com preview (inc-rename)            | 6    | `feat(lsp): add inc-rename`                               | [x]    |
+| 26 | trouble.nvim + todo-comments                 | 6    | `feat(ui): add trouble and todo-comments`                 | [x]    |
+| 27 | Treesitter textobjects                       | 6    | `feat(treesitter): add textobjects`                       | [x]    |
+| 28 | Formatar ao salvar                           | 6    | `feat(format): format on save with toggle`                | [x]    |
+| 29 | Lint via LSP (ruff, ESLint)                  | 6    | `feat(lint): lint Python and JS via LSP`                  | [x]    |
+| 30 | `:checkhealth nvyosemite`                    | 7    | `feat(health): add nvyosemite health check`               | [x]    |
+| 31 | Debugger: núcleo                             | 7    | `feat(dap): add nvim-dap core and UI`                     | [x]    |
+| 32 | Debugger: Go e Python                        | 7    | `feat(dap): add Go and Python adapters`                   | [x]    |
+| 33 | Debugger: C# e Rust                          | 7    | `feat(dap): add C# and Rust adapters`                     | [x]    |
+| 34 | CI: smoke test no GitHub Actions             | 8    | `ci: add headless startup smoke test`                     | [x]    |
+| 35 | README: primeiros passos                     | 8    | `docs(readme): add getting started guide`                 | [x]    |
+| 36 | Release v1.0                                 | 8    | `chore(release): v1.0.0`                                  | [~]    |
 
-Feito antes deste plano: switch de tema com `:Theme` / `<leader>th` (`6d7b1a8`).
-
----
-
-## Fase 1: Correções rápidas
-
-### Step 1: Remover CursorLine fixo
-
-- **Por quê:** `init.lua` força `CursorLine guibg=#2C2C2C`. Com tema claro (`catppuccin-latte`, `dawnfox`) aparece uma faixa escura, e ao trocar de tema essa cor some.
-- **O que fazer:** remover a linha `vim.cmd([[highlight CursorLine ...]])` de `init.lua` e mover as opções `vim.opt.*` que estão em `init.lua` para `lua/core/options.lua`.
-- **Pronto quando:** `:Theme dawnfox` e `:Theme carbonfox` mostram a linha do cursor com a cor do próprio tema.
-
-### Step 2: Adicionar LICENSE
-
-- **Por quê:** o selo MIT do README aponta para um arquivo `LICENSE` que não existe.
-- **O que fazer:** criar `LICENSE` (MIT) com o ano e o autor.
-- **Pronto quando:** o link do selo abre o arquivo no GitHub.
-
-### Step 3: Opções essenciais
-
-- **Por quê:** quem vem de outro editor espera esses comportamentos e hoje não os tem.
-- **O que fazer:** em `lua/core/options.lua`:
-  - `clipboard = "unnamedplus"` (copiar e colar com o sistema)
-  - `ignorecase` + `smartcase` (busca ignora maiúsculas, a menos que você digite uma)
-  - `undofile = true` (desfazer continua funcionando depois de fechar o arquivo)
-  - `splitright` + `splitbelow`
-  - `mouse = "a"`, `updatetime = 250`, `confirm = true`
-  - remover o `vim.g.mapleader` duplicado em `lua/core/keymaps.lua`
-- **Pronto quando:** `yy` no Neovim cola no navegador, e o desfazer funciona depois de reabrir o arquivo.
+Feito antes deste plano: switch de tema `:Theme` / `<leader>th` (`6d7b1a8`).
 
 ---
 
-## Fase 2: Base customizável
+## Fase 1: Correções
 
-O objetivo é que a pessoa customize tudo num único arquivo fora do git e continue recebendo atualizações com `git pull`, sem conflito.
+### Step 1: Ligar inlay hints
+- **Por quê:** gopls e ts_ls já estão configurados para mandar hints, mas `vim.lsp.inlay_hint.enable()` nunca é chamado.
+- **O que fazer:** ligar no `LspAttach` quando o servidor suportar.
+- **Pronto quando:** num `.go`, os nomes dos parâmetros aparecem nas chamadas de função.
 
-### Step 4: Carregar `user.lua` opcional
+### Step 2: Instalar formatadores automaticamente
+- **Por quê:** o `csharpier` não está instalado, então `<leader>gf` em C# falha sem explicação.
+- **O que fazer:** [mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) com stylua, prettier, black, isort, csharpier e clang-format.
+- **Pronto quando:** num ambiente limpo, o `:Mason` mostra todos instalados.
 
+### Step 3: Remover CursorLine fixo
+- **Por quê:** `guibg=#2C2C2C` fica escuro em tema claro e some ao trocar de tema.
+- **O que fazer:** remover a linha e mover os `vim.opt` de `init.lua` para `core/options.lua`.
+- **Pronto quando:** `:Theme dawnfox` mostra a linha do cursor na cor do tema.
+
+### Step 4: Adicionar LICENSE
+- **O que fazer:** criar `LICENSE` (MIT), já que o selo do README aponta para ele.
+
+### Step 5: Opções e atalhos essenciais
 - **O que fazer:**
-  - `lua/core/user.lua`: lê `lua/user.lua` com `pcall`. Se o arquivo não existir, retorna `{}`.
-  - Criar `lua/user.example.lua` documentado, como modelo.
-  - Adicionar `lua/user.lua` ao `.gitignore`.
-- **Pronto quando:** o Neovim abre normal sem o arquivo. Com um `user.lua` contendo um erro de sintaxe, aparece um aviso claro e o editor abre mesmo assim.
+  - opções: `clipboard=unnamedplus`, `ignorecase`+`smartcase`, `undofile`, `splitright`/`splitbelow`, `mouse=a`, `confirm`;
+  - `<C-s>` salva em qualquer modo, já que o Neovim oferece a ajuda de assinatura com `<C-s>` no modo Insert;
+  - `Esc` no modo Normal limpa o destaque da busca;
+  - remover o `mapleader` duplicado em `core/keymaps.lua`.
+- **Pronto quando:** `yy` cola no navegador, `<C-s>` salva, e o desfazer funciona depois de reabrir o arquivo.
 
-### Step 5: Tema e opções via `user.lua`
+## Fase 2: Descobrir sozinho
 
-- **O que fazer:**
-  - `theme = "gruvbox"` vira o padrão quando não há tema salvo pelo `:Theme`.
-  - `options = { relativenumber = false, ... }` é aplicado depois de `core/options.lua`.
-  - `leader` configurável.
-- **Pronto quando:** num ambiente limpo (sem o tema salvo), o tema do `user.lua` é aplicado.
+### Step 6: which-key com grupos nomeados
+- **O que fazer:** nomear os grupos (`f` Buscar, `g` Git, `t` Testes, `c` Código, `u` Toggles, `b` Buffers, `d` Debug).
+- **Pronto quando:** ao apertar Espaço e esperar, os grupos aparecem com nomes.
 
-### Step 6: Plugins extras via `user.lua`
+### Step 7: Cheatsheet `<leader>?`
+- **O que fazer:** uma janela flutuante gerada a partir dos `desc` dos atalhos e agrupada por prefixo. Ela nunca fica desatualizada.
+- **Pronto quando:** um atalho novo com `desc` aparece na cheatsheet sem editar mais nada.
 
-- **O que fazer:**
-  - `plugins = { { "autor/plugin", opts = {} } }` é anexado a `Plugins.all_plugins`.
-  - `disabled = { "neo-tree.nvim" }` vira `enabled = false` no spec correspondente.
-- **Pronto quando:** um plugin adicionado no `user.lua` aparece no `:Lazy`, e um desabilitado some.
+### Step 8: Paleta de comandos
+- **O que fazer:** `<leader><leader>` abre uma busca por ação ("formatar", "tema") que executa o atalho correspondente.
 
-### Step 7: Centralizar ferramentas por linguagem
+### Step 9: Menu de clique direito
+- **O que fazer:** [nvzone/menu](https://github.com/nvzone/menu) com LSP, formatar, git e tema.
 
-- **Por quê:** hoje a configuração de cada linguagem está espalhada em 5 lugares (LSP, formatter, parser, adapter de teste, rustaceanvim). É um pré-requisito do step 8.
-- **O que fazer:** criar `lua/core/languages.lua`, uma tabela declarativa com o que cada linguagem usa: `lsp`, `formatters`, `parsers`, `neotest` e `mason`. `mason-config.lua`, `formatter.lua`, `treesitter.lua` e `neotest.lua` passam a ler dessa tabela.
-- **Pronto quando:** o comportamento continua **idêntico**: os mesmos LSPs sobem em Lua, Rust, Python e Go, e os mesmos parsers e formatadores são usados. É só uma refatoração.
+## Fase 3: Interface
 
-### Step 8: Ligar/desligar linguagens
+### Step 10: snacks.nvim
+- **O que fazer:** [snacks.nvim](https://github.com/folke/snacks.nvim) com:
+  - dashboard (substitui o alpha), com teclas: `f` arquivos, `r` recentes, `g` grep, `t` tema, `s` sessão, `l` Lazy, `q` sair;
+  - notificações, guias de indentação e destaque das referências da palavra sob o cursor;
+  - terminal com `<C-\>`.
 
-- **O que fazer:** `languages = { go = true, rust = true, csharp = false }` no `user.lua`, com todas ligadas por padrão. Uma linguagem desligada não instala LSP, parser nem formatador.
-- **Pronto quando:** com `csharp = false`, um ambiente limpo não instala o `csharp-language-server`.
+### Step 11: noice.nvim
+- **O que fazer:** [noice.nvim](https://github.com/folke/noice.nvim) para a linha de comando em popup e as mensagens como notificação. Acaba o "Press ENTER".
 
-### Step 9: `:checkhealth nvyosemite`
+### Step 12: Breadcrumbs
+- **O que fazer:** [dropbar.nvim](https://github.com/Bekaboo/dropbar.nvim), com o caminho e o símbolo atual clicáveis no topo.
 
-- **Por quê:** a quebra do treesitter no Windows aconteceu por falta de dependências externas. Um diagnóstico mostra isso logo de cara.
-- **O que fazer:** criar `lua/nvyosemite/health.lua`, que verifica: Neovim 0.12+, `tree-sitter` 0.25+ executável (alertando sobre o shim do npm no Windows), compilador C, `git`, `rg`, `lazygit`, `make` e se o `user.lua` carregou.
-- **Pronto quando:** `:checkhealth nvyosemite` mostra OK e WARN corretos, e removendo o `rg` do PATH aparece um WARN.
+### Step 13: Diagnósticos legíveis
+- **O que fazer:** [tiny-inline-diagnostic.nvim](https://github.com/rachartier/tiny-inline-diagnostic.nvim) no lugar de `virtual_text`.
 
----
+## Fase 4: Temas
 
-## Fase 3: Funcionalidades
+### Step 14: Preview ao vivo
+- **O que fazer:** o seletor do `:Theme` aplica o tema enquanto você navega e volta ao original com `Esc`.
 
-### Step 10: Formatar ao salvar + `:FormatToggle`
+### Step 15: Mais temas
+- **O que fazer:** tokyonight, kanagawa, rose-pine, onedark e github, incluindo variantes claras.
 
-- **O que fazer:** usar `format_on_save` do conform, ligado por padrão e desligável em `user.lua` (`format_on_save = false`). `:FormatToggle` liga e desliga na sessão, e `:FormatToggle!` só no buffer atual.
-- **Pronto quando:** salvar um `.lua` desalinhado formata o arquivo, e depois de `:FormatToggle` não formata mais.
+### Step 16: Alternar claro/escuro
+- **O que fazer:** `<leader>ub` troca para a variante clara ou escura do tema atual (ex.: `catppuccin-mocha` ↔ `catppuccin-latte`).
 
-### Step 11: Lint com nvim-lint
+## Fase 5: Aprender Vim usando
 
-- **O que fazer:** `mfussenegger/nvim-lint` com `eslint_d` (JS/TS) e `ruff` (Python), declarados em `core/languages.lua`. Roda em `BufWritePost` e `InsertLeave`.
-- **Pronto quando:** um `import` sem uso num `.py` aparece como diagnóstico do ruff.
+### Step 17: Grupo de toggles `<leader>u`
+- **O que fazer:** quebra de linha, números relativos, ortografia, inlay hints e diagnósticos. Os steps seguintes adicionam mais toggles.
 
-### Step 12: Terminal integrado
+### Step 18: Mostrar o modo atual
+- **O que fazer:** [modes.nvim](https://github.com/mvllow/modes.nvim) colore a linha do cursor por modo.
 
-- **O que fazer:** `akinsho/toggleterm.nvim`, com `<C-\>` abrindo um terminal flutuante, `<leader>oh` num split horizontal e `<leader>ov` num vertical. O prefixo `o` ("open") evita colisão com `<leader>t*` do neotest e `<leader>th` do tema.
-- **Pronto quando:** `<C-\>` abre e fecha o terminal, mantendo o processo vivo.
+### Step 19: Dicas de movimento
+- **O que fazer:** [precognition.nvim](https://github.com/tris203/precognition.nvim), ligado por padrão e desligável em `<leader>up`.
 
-### Step 13: trouble.nvim + todo-comments
+### Step 20: Modo treino
+- **O que fazer:** [hardtime.nvim](https://github.com/m4xshen/hardtime.nvim), desligado por padrão e ligado em `<leader>uH`.
 
-- **O que fazer:**
-  - `folke/trouble.nvim`: `<leader>xx` para diagnósticos do projeto e `<leader>xq` para quickfix. Mover "fechar buffer" de `<leader>x` para `<leader>bd`, para não colidir.
-  - `folke/todo-comments.nvim`: destaca `TODO`, `FIXME` e `HACK`. `<leader>ft` lista todos no Telescope.
-- **Pronto quando:** `<leader>xx` lista os erros do projeto, e `<leader>ft` acha um `TODO` de teste.
+### Step 21: flash.nvim
+- **O que fazer:** [flash.nvim](https://github.com/folke/flash.nvim): `s` + 2 letras pula para qualquer lugar da tela.
 
-### Step 14: Treesitter textobjects
+## Fase 6: Segurança e tarefas comuns
 
-- **O que fazer:** `nvim-treesitter/nvim-treesitter-textobjects` (branch `main`) com `af`/`if` (função), `ac`/`ic` (classe), `aa`/`ia` (argumento) e `]f`/`[f` para pular entre funções.
-- **Pronto quando:** `vaf` seleciona a função inteira em Lua, Go e Rust.
+### Step 22: Undotree + sessão
+- **O que fazer:** `:Undotree`, nativo do Neovim 0.12 (`packadd nvim.undotree`), em `<leader>uu`, e [persistence.nvim](https://github.com/folke/persistence.nvim) para restaurar a sessão.
 
-### Step 15: Debugger, núcleo
+### Step 23: grug-far
+- **O que fazer:** [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim) em `<leader>sr`.
 
-- **O que fazer:** `mfussenegger/nvim-dap` + `rcarriga/nvim-dap-ui` + `theHamsta/nvim-dap-virtual-text`. Atalhos: `<F5>` continuar, `<F10>` próxima linha, `<F11>` entrar, `<S-F11>` sair, `<leader>db` breakpoint, `<leader>du` UI.
-- **Pronto quando:** o plugin carrega sem erros e `<leader>db` marca um breakpoint. Ainda não há adapters nesse step.
+### Step 24: Git
+- **O que fazer:** atalhos de hunk do gitsigns (preview, reset, stage) e [diffview.nvim](https://github.com/sindrets/diffview.nvim).
 
-### Step 16: Debugger, Go e Python
+### Step 25: inc-rename
+- **O que fazer:** [inc-rename.nvim](https://github.com/smjonas/inc-rename.nvim) em `<leader>rn`.
 
-- **O que fazer:** `leoluz/nvim-dap-go` (delve) e `mfussenegger/nvim-dap-python` (debugpy via Mason), ligados pela tabela de linguagens.
-- **Pronto quando:** parar num breakpoint de um `main.go` e de um `.py` simples.
+### Step 26: trouble + todo-comments
+- **O que fazer:** [trouble.nvim](https://github.com/folke/trouble.nvim) em `<leader>xx` e [todo-comments](https://github.com/folke/todo-comments.nvim). Mover "fechar buffer" de `<leader>x` para `<leader>bd`.
 
-### Step 17: Debugger, C# e Rust
+### Step 27: Textobjects
+- **O que fazer:** [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) (branch `main`) com `af`/`if`, `ac`/`ic` e `]f`/`[f`.
 
-- **O que fazer:** `netcoredbg` (C#) e `codelldb` (Rust, que o rustaceanvim detecta sozinho), via Mason.
-- **Pronto quando:** parar num breakpoint de um console app .NET e de um `cargo new`.
+### Step 28: Formatar ao salvar
+- **O que fazer:** `format_on_save` do conform, com toggle em `<leader>uf`.
 
----
+### Step 29: Lint
+- **O que fazer:** lint como servidores LSP: `ruff` (Python) e `eslint` (JS/TS, só em projetos com config do ESLint). Eles trazem quick fixes.
+- **Mudança em relação ao plano original:** o nvim-lint com eslint_d foi descartado, porque o daemon do eslint_d não sobe no Windows ("Timed out waiting for config") e rodar o ruff também pelo nvim-lint duplicaria os avisos do ruff LSP.
 
-## Fase 4: Qualidade e release
+## Fase 7: Diagnóstico e debugger
 
-### Step 18: CI com smoke test
+### Step 30: `:checkhealth nvyosemite`
+- **O que fazer:** verificar Neovim 0.12+, `tree-sitter` 0.25+ (alertando sobre o shim do npm no Windows), compilador C, `git`, `rg`, `lazygit` e Nerd Font.
 
-- **O que fazer:** `.github/workflows/ci.yml` com uma matriz `ubuntu-latest` + `windows-latest` que:
-  1. instala o Neovim 0.12 e o `tree-sitter` CLI;
-  2. roda `nvim --headless "+Lazy! restore" +qa`, usando as versões do lockfile;
-  3. abre arquivos de amostra (Lua, Go, Rust, Python) e falha se `v:errmsg` não estiver vazio;
-  4. roda `:checkhealth nvyosemite` e falha se houver ERROR.
-- **Pronto quando:** o PR mostra o check verde. Para validar, quebrar um spec de propósito numa branch e confirmar que o CI fica vermelho.
+### Steps 31–33: Debugger
+- **O que fazer:** [nvim-dap](https://github.com/mfussenegger/nvim-dap) + [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) com `<F5>`, `<F10>`, `<F11>` e `<leader>db`. Depois os adapters: delve e debugpy, e em seguida netcoredbg e codelldb.
 
-### Step 19: README, primeiros passos
+## Fase 8: Qualidade e release
 
-- **O que fazer:** adicionar uma seção "Primeiros 10 minutos" no topo: instalar, rodar `:checkhealth nvyosemite`, escolher o tema, criar o `user.lua` e uma lista dos 10 atalhos mais usados. Documentar `gcc`/`gc` (comentários nativos do Neovim).
-- **Pronto quando:** uma pessoa que nunca usou a config consegue instalar e editar seguindo só o README.
+### Step 34: CI
+- **O que fazer:** `.github/workflows/ci.yml` com matriz Ubuntu + Windows que roda `Lazy! restore`, abre arquivos de amostra e falha se houver erro.
+- **Pronto quando:** quebrar um spec numa branch deixa o CI vermelho.
+- **Pendência:** o parser `sql` não compila com o MSVC do runner Windows do GitHub ("Failed to compile parser"), mas compila localmente. O CI pula só esse parser no Windows (`SMOKE_SKIP_PARSERS`). Investigar: verbose do `tree-sitter build` no runner, ou usar zig/clang no CI.
 
-### Step 20: Release v1.0
+### Step 35: README, primeiros passos
+- **O que fazer:** uma seção "Primeiros 10 minutos": instalar, `:checkhealth nvyosemite`, `<leader>th`, `<leader>?`.
 
-- **O que fazer:** criar `CHANGELOG.md` a partir do histórico, a tag `v1.0.0` e uma GitHub Release com as notas.
-- **Pronto quando:** a release está publicada e o README aponta para ela.
+### Step 36: Release v1.0
+- **O que fazer:** `CHANGELOG.md`, a tag `v1.0.0` e uma GitHub Release.
+- **Status:** `CHANGELOG.md` pronto. Faltam a tag e a Release, que saem da `main` depois do merge de `feat/usability`.

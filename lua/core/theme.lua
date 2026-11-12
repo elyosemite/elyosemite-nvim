@@ -22,50 +22,183 @@ M.themes = {
   "duskfox",
   "dawnfox",
   "terafox",
+  "tokyonight-night",
+  "tokyonight-storm",
+  "tokyonight-moon",
+  "tokyonight-day",
+  "kanagawa-wave",
+  "kanagawa-dragon",
+  "kanagawa-lotus",
+  "rose-pine-main",
+  "rose-pine-moon",
+  "rose-pine-dawn",
+  "onedark",
+  "onedark_vivid",
+  "onelight",
+  "github_dark",
+  "github_dark_dimmed",
+  "github_light",
 }
 
 local state_file = vim.fn.stdpath("state") .. "/nvyosemite-theme"
 
+-- Variante clara de cada tema escuro, usada por <leader>ub.
+-- Temas sem variante própria (everforest, gruvbox) trocam vim.o.background.
+M.light_of = {
+  ["catppuccin-mocha"] = "catppuccin-latte",
+  ["catppuccin-macchiato"] = "catppuccin-latte",
+  ["catppuccin-frappe"] = "catppuccin-latte",
+  nightfox = "dawnfox",
+  nordfox = "dawnfox",
+  carbonfox = "dawnfox",
+  duskfox = "dawnfox",
+  terafox = "dawnfox",
+  ["tokyonight-night"] = "tokyonight-day",
+  ["tokyonight-storm"] = "tokyonight-day",
+  ["tokyonight-moon"] = "tokyonight-day",
+  ["kanagawa-wave"] = "kanagawa-lotus",
+  ["kanagawa-dragon"] = "kanagawa-lotus",
+  ["rose-pine-main"] = "rose-pine-dawn",
+  ["rose-pine-moon"] = "rose-pine-dawn",
+  onedark = "onelight",
+  onedark_vivid = "onelight",
+  github_dark = "github_light",
+  github_dark_dimmed = "github_light",
+}
+
+-- Variante escura padrão de cada tema claro (quando não há uma anterior para voltar)
+M.dark_of = {
+  ["catppuccin-latte"] = "catppuccin-mocha",
+  dawnfox = "nightfox",
+  ["tokyonight-day"] = "tokyonight-night",
+  ["kanagawa-lotus"] = "kanagawa-wave",
+  ["rose-pine-dawn"] = "rose-pine-main",
+  onelight = "onedark",
+  github_light = "github_dark",
+}
+
 local function read_saved()
   local ok, lines = pcall(vim.fn.readfile, state_file)
   if ok and lines[1] and lines[1] ~= "" then
-    return lines[1]
+    return lines[1], lines[2]
   end
 end
 
 local function save(name)
-  pcall(vim.fn.writefile, { name }, state_file)
+  pcall(vim.fn.writefile, { name, vim.o.background }, state_file)
 end
 
 --- Aplica um colorscheme. Com persist = true, ele vira o padrão das próximas sessões.
 function M.apply(name, persist)
+  -- nem todo tema ajusta o background sozinho (ex.: kanagawa-lotus)
+  if M.dark_of[name] then
+    vim.o.background = "light"
+  elseif M.light_of[name] then
+    vim.o.background = "dark"
+  end
   local ok, err = pcall(vim.cmd.colorscheme, name)
   if not ok then
-    vim.notify(("Tema '%s' não encontrado: %s"):format(name, err), vim.log.levels.ERROR)
+    vim.notify(("Theme '%s' not found: %s"):format(name, err), vim.log.levels.ERROR)
     return false
   end
+  -- alguns temas (kanagawa, rose-pine) gravam colors_name sem a variante
+  M.current = name
   if persist then
     save(name)
   end
   return true
 end
 
+--- Seletor com preview ao vivo: o tema muda enquanto você navega.
+--- Enter confirma e salva; Esc volta ao tema anterior.
 function M.pick()
-  local current = vim.g.colors_name
-  vim.ui.select(M.themes, {
-    prompt = "Tema",
-    format_item = function(name)
-      return name == current and (name .. "  (atual)") or name
-    end,
-  }, function(choice)
-    if choice and M.apply(choice, true) then
-      vim.notify("Tema: " .. choice)
+  local original = M.current
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+
+  local function preview()
+    local entry = action_state.get_selected_entry()
+    if entry then
+      M.apply(entry.value, false)
     end
-  end)
+  end
+
+  local function move(step)
+    return function(bufnr)
+      step(bufnr)
+      preview()
+    end
+  end
+
+  local function cancel(bufnr)
+    actions.close(bufnr)
+    M.apply(original, false)
+  end
+
+  require("telescope.pickers").new(require("telescope.themes").get_dropdown({ previewer = false }), {
+    prompt_title = "Theme (Enter to keep, Esc to undo)",
+    finder = require("telescope.finders").new_table({
+      results = M.themes,
+      entry_maker = function(name)
+        return {
+          value = name,
+          ordinal = name,
+          display = name
+            .. (M.dark_of[name] and "  (light)" or "")
+            .. (name == original and "  (current)" or ""),
+        }
+      end,
+    }),
+    sorter = require("telescope.config").values.generic_sorter({}),
+    attach_mappings = function(_, map)
+      actions.select_default:replace(function(bufnr)
+        local entry = action_state.get_selected_entry()
+        actions.close(bufnr)
+        if entry and M.apply(entry.value, true) then
+          vim.notify("Theme: " .. entry.value)
+        end
+      end)
+      for _, key in ipairs({ "<C-n>", "<Down>", "<Tab>" }) do
+        map({ "i", "n" }, key, move(actions.move_selection_next))
+      end
+      for _, key in ipairs({ "<C-p>", "<Up>", "<S-Tab>" }) do
+        map({ "i", "n" }, key, move(actions.move_selection_previous))
+      end
+      map("n", "j", move(actions.move_selection_next))
+      map("n", "k", move(actions.move_selection_previous))
+      map({ "i", "n" }, "<Esc>", cancel)
+      map({ "i", "n" }, "<C-c>", cancel)
+      return true
+    end,
+  }):find()
+end
+
+local last_dark = {}
+
+--- Troca entre a variante clara e a escura do tema atual.
+function M.toggle_background()
+  local name = M.current
+  local target
+  if M.light_of[name] then
+    target = M.light_of[name]
+    last_dark[target] = name
+  elseif M.dark_of[name] then
+    target = last_dark[name] or M.dark_of[name]
+  else
+    vim.o.background = vim.o.background == "dark" and "light" or "dark"
+    target = name
+  end
+  if M.apply(target, true) then
+    vim.notify(("Theme: %s (%s)"):format(target, vim.o.background))
+  end
 end
 
 function M.setup()
-  if not M.apply(read_saved() or M.default, false) then
+  local saved, background = read_saved()
+  if background == "light" or background == "dark" then
+    vim.o.background = background
+  end
+  if not M.apply(saved or M.default, false) then
     M.apply(M.default, false)
   end
 
@@ -73,11 +206,11 @@ function M.setup()
     if opts.args == "" then
       M.pick()
     elseif M.apply(opts.args, true) then
-      vim.notify("Tema: " .. opts.args)
+      vim.notify("Theme: " .. opts.args)
     end
   end, {
     nargs = "?",
-    desc = "Trocar de tema",
+    desc = "Switch theme",
     complete = function(lead)
       return vim.tbl_filter(function(name)
         return name:find(lead, 1, true) == 1
@@ -85,7 +218,8 @@ function M.setup()
     end,
   })
 
-  vim.keymap.set("n", "<leader>th", M.pick, { desc = "Trocar de tema" })
+  vim.keymap.set("n", "<leader>th", M.pick, { desc = "Pick theme" })
+  vim.keymap.set("n", "<leader>ub", M.toggle_background, { desc = "Toggle light/dark theme" })
 end
 
 return M
