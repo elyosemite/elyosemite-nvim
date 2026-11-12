@@ -26,6 +26,7 @@ local safety = require("plugins.safety")
 local search = require("plugins.search")
 local rename = require("plugins.rename")
 local trouble = require("plugins.trouble")
+local textobjects = require("plugins.textobjects")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -72,6 +73,7 @@ Plugins.all_plugins = {
   search,
   rename,
   trouble,
+  textobjects,
   markdown,
 }
 
