@@ -42,7 +42,7 @@ Run `nvim` and wait: plugins, language servers, formatters and parsers install b
 
 Mode: **n** Normal, **i** Insert, **v** Visual. Docs: [key notation](https://neovim.io/doc/user/intro.html#key-notation) · [modes](https://neovim.io/doc/user/intro.html#vim-modes).
 
-> **Lost?** Press **Space** and wait: [which-key](https://github.com/folke/which-key.nvim) shows the next keys. Press **Space ?** (`<leader>?` or `:Cheatsheet`) to see every key on one screen, or **Space Space** to search actions by name and run them.
+> **Lost?** Press **Space** and wait: [which-key](https://github.com/folke/which-key.nvim) shows the next keys. Press **Space ?** (`<leader>?` or `:Cheatsheet`) to see every key on one screen, or **Space Space** to search actions by name and run them. **Right-click** (or `<C-t>`) opens a [context menu](https://github.com/nvzone/menu).
 
 ## Keys
 

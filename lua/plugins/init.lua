@@ -14,6 +14,7 @@ local lazygit = require("plugins.git.lazygit")
 local cmp = require("plugins.autocomplete.cmp")
 local neotest = require("plugins.neotest")
 local rust = require("plugins.rust")
+local menu = require("plugins.menu")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -48,6 +49,7 @@ Plugins.all_plugins = {
   cmp,
   neotest,
   rust,
+  menu,
   markdown,
 }
 
