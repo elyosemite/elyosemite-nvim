@@ -46,14 +46,14 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 19 | Dicas de movimento (precognition)            | 5    | `feat(learn): add precognition hints`                     | [x]    |
 | 20 | Modo treino (hardtime, desligado)            | 5    | `feat(learn): add opt-in hardtime`                        | [x]    |
 | 21 | Pular para qualquer lugar (flash)            | 5    | `feat(motion): add flash.nvim`                            | [x]    |
-| 22 | Undotree + restaurar sessão                  | 6    | `feat(safety): add undotree and session restore`          | [ ]    |
-| 23 | Buscar e substituir no projeto (grug-far)    | 6    | `feat(search): add grug-far`                              | [ ]    |
-| 24 | Git: atalhos de hunk + diffview              | 6    | `feat(git): add hunk keymaps and diffview`                | [ ]    |
-| 25 | Renomear com preview (inc-rename)            | 6    | `feat(lsp): add inc-rename`                               | [ ]    |
-| 26 | trouble.nvim + todo-comments                 | 6    | `feat(ui): add trouble and todo-comments`                 | [ ]    |
-| 27 | Treesitter textobjects                       | 6    | `feat(treesitter): add textobjects`                       | [ ]    |
-| 28 | Formatar ao salvar                           | 6    | `feat(format): format on save with toggle`                | [ ]    |
-| 29 | Lint via LSP (ruff, ESLint)                  | 6    | `feat(lint): lint Python and JS via LSP`                  | [ ]    |
+| 22 | Undotree + restaurar sessão                  | 6    | `feat(safety): add undotree and session restore`          | [x]    |
+| 23 | Buscar e substituir no projeto (grug-far)    | 6    | `feat(search): add grug-far`                              | [x]    |
+| 24 | Git: atalhos de hunk + diffview              | 6    | `feat(git): add hunk keymaps and diffview`                | [x]    |
+| 25 | Renomear com preview (inc-rename)            | 6    | `feat(lsp): add inc-rename`                               | [x]    |
+| 26 | trouble.nvim + todo-comments                 | 6    | `feat(ui): add trouble and todo-comments`                 | [x]    |
+| 27 | Treesitter textobjects                       | 6    | `feat(treesitter): add textobjects`                       | [x]    |
+| 28 | Formatar ao salvar                           | 6    | `feat(format): format on save with toggle`                | [x]    |
+| 29 | Lint via LSP (ruff, ESLint)                  | 6    | `feat(lint): lint Python and JS via LSP`                  | [x]    |
 | 30 | `:checkhealth nvyosemite`                    | 7    | `feat(health): add nvyosemite health check`               | [ ]    |
 | 31 | Debugger: núcleo                             | 7    | `feat(dap): add nvim-dap core and UI`                     | [ ]    |
 | 32 | Debugger: Go e Python                        | 7    | `feat(dap): add Go and Python adapters`                   | [ ]    |
