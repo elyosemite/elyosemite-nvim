@@ -88,7 +88,17 @@ local transparent_groups = {
   "FoldColumn", "EndOfBuffer", "NonText", "WinBar", "WinBarNC", "StatusLine", "StatusLineNC",
 }
 
-local function clear_backgrounds()
+-- O menu de contexto (nvzone/menu, via volt) calcula as cores a partir do fundo do tema
+-- uma única vez, ao carregar. Recalcula a cada troca de tema, antes de limpar o fundo.
+local function refresh_menu_colors()
+  if package.loaded["volt.highlights"] then
+    package.loaded["volt.highlights"] = nil
+    pcall(require, "volt.highlights")
+  end
+end
+
+local function on_colorscheme()
+  refresh_menu_colors()
   if not M.transparent or vim.o.background ~= "dark" then
     return
   end
@@ -240,7 +250,7 @@ function M.setup()
   -- Reaplica a transparência sempre que um tema é carregado (também pelo :colorscheme)
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup("nvyosemite_transparent", { clear = true }),
-    callback = clear_backgrounds,
+    callback = on_colorscheme,
   })
   if not M.apply(saved or M.default, false) then
     M.apply(M.default, false)
