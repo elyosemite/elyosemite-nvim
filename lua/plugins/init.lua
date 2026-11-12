@@ -5,7 +5,7 @@ local neotree = require("plugins.neotree")
 local lsp = require("plugins.lsp.mason-config")
 local lualine = require("plugins.lualine")
 local treesitter = require("plugins.treesitter")
-local alpha = require("plugins.alpha")
+local snacks = require("plugins.snacks")
 local formatter = require("plugins.formatter")
 local bufferline = require("plugins.bufferline")
 local themes = require("plugins.themes")
@@ -36,7 +36,7 @@ Plugins.all_plugins = {
   neotree,
   lualine,
   lsp,
-  alpha,
+  snacks,
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",

@@ -86,6 +86,16 @@ Inside the tree, press `?` for all keys.
 | n, v | `gcc` / `gc`      | Comment line / selection    | [commenting](https://neovim.io/doc/user/various.html#commenting) |
 | i    | `( [ { " '`       | Close pairs automatically   | [autopairs](https://github.com/windwp/nvim-autopairs) |
 
+### Screen
+
+The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md)) has one-key shortcuts: `f` find, `r` recent, `t` theme, `?` all keys.
+
+| Mode | Keys        | Action                              | Docs |
+|------|-------------|-------------------------------------|------|
+| n, t | `<C-\>`     | Toggle terminal                     | [terminal](https://github.com/folke/snacks.nvim/blob/main/docs/terminal.md) |
+| n    | `<leader>n` | Notification history                | [notifier](https://github.com/folke/snacks.nvim/blob/main/docs/notifier.md) |
+| n    | `]]` / `[[` | Next / previous use of the word under cursor | [words](https://github.com/folke/snacks.nvim/blob/main/docs/words.md) |
+
 ### Completion (Insert mode)
 
 | Keys                | Action                                   | Docs |
