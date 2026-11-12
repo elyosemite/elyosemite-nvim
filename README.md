@@ -27,7 +27,7 @@ git clone https://github.com/elyosemite/elyosemite-nvim.git ~/.config/nvim
 git clone https://github.com/elyosemite/elyosemite-nvim.git $env:LOCALAPPDATA\nvim
 ```
 
-Run `nvim` and wait: plugins, language servers, formatters and parsers install by themselves.
+Run `nvim` and wait: plugins, language servers, formatters and parsers install by themselves. Then run `:checkhealth nvyosemite` to check the external tools.
 
 ## How to read the keys
 
@@ -204,7 +204,8 @@ Themes (28): everforest, gruvbox, [catppuccin](https://github.com/catppuccin/nvi
 | `:Mason`             | Manage language servers and tools    | [mason.nvim](https://github.com/mason-org/mason.nvim#commands) |
 | `:TSUpdate`          | Update Treesitter parsers            | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#commands) |
 | `:LspInfo`           | Language servers on this buffer      | [lsp](https://neovim.io/doc/user/lsp.html#lsp-quickstart) |
-| `:checkhealth`       | Diagnose the setup                   | [health](https://neovim.io/doc/user/health.html) |
+| `:checkhealth nvyosemite` | Check the tools this config needs | [health](https://neovim.io/doc/user/health.html) |
+| `:checkhealth`       | Diagnose everything                  | [health](https://neovim.io/doc/user/health.html) |
 | `:RustLsp runnables` | Run a Rust target                    | [rustaceanvim](https://github.com/mrcjkb/rustaceanvim#books-usage--features) |
 
 ## Customizing
@@ -219,7 +220,7 @@ Roadmap: [`docs/plano-de-acao.md`](docs/plano-de-acao.md).
 
 | Problem                          | Try |
 |----------------------------------|-----|
-| Anything odd                     | `:checkhealth` |
+| Anything odd                     | `:checkhealth nvyosemite`, then `:checkhealth` |
 | Treesitter fails to compile      | `tree-sitter --version` must work and be 0.25+ |
 | Language server not starting     | `:Mason`, then `:LspInfo` |
 | Icons are squares                | Use a Nerd Font in the terminal |

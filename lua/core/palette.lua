@@ -8,6 +8,7 @@ local M = {}
 M.commands = {
   { desc = "Manage plugins", cmd = "Lazy" },
   { desc = "Manage language servers and tools", cmd = "Mason" },
+  { desc = "Check the tools this config needs", cmd = "checkhealth nvyosemite" },
   { desc = "Diagnose the setup", cmd = "checkhealth" },
   { desc = "Language servers on this buffer", cmd = "LspInfo" },
   { desc = "Update Treesitter parsers", cmd = "TSUpdate" },
