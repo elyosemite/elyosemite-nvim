@@ -22,6 +22,22 @@ M.themes = {
   "duskfox",
   "dawnfox",
   "terafox",
+  "tokyonight-night",
+  "tokyonight-storm",
+  "tokyonight-moon",
+  "tokyonight-day",
+  "kanagawa-wave",
+  "kanagawa-dragon",
+  "kanagawa-lotus",
+  "rose-pine-main",
+  "rose-pine-moon",
+  "rose-pine-dawn",
+  "onedark",
+  "onedark_vivid",
+  "onelight",
+  "github_dark",
+  "github_dark_dimmed",
+  "github_light",
 }
 
 local state_file = vim.fn.stdpath("state") .. "/nvyosemite-theme"
@@ -44,6 +60,8 @@ function M.apply(name, persist)
     vim.notify(("Theme '%s' not found: %s"):format(name, err), vim.log.levels.ERROR)
     return false
   end
+  -- alguns temas (kanagawa, rose-pine) gravam colors_name sem a variante
+  M.current = name
   if persist then
     save(name)
   end
@@ -53,7 +71,7 @@ end
 --- Seletor com preview ao vivo: o tema muda enquanto você navega.
 --- Enter confirma e salva; Esc volta ao tema anterior.
 function M.pick()
-  local original = vim.g.colors_name
+  local original = M.current
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
 
