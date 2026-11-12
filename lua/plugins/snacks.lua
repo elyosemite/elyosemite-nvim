@@ -44,6 +44,21 @@ return {
     quickfile = { enabled = true },
     terminal = { enabled = true },
   },
+  init = function()
+    -- Grupo <leader>u: liga/desliga recursos. O which-key mostra o estado atual.
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VeryLazy",
+      callback = function()
+        Snacks.toggle.option("wrap", { name = "Line wrap" }):map("<leader>uw")
+        Snacks.toggle.option("relativenumber", { name = "Relative numbers" }):map("<leader>ur")
+        Snacks.toggle.option("spell", { name = "Spell check" }):map("<leader>us")
+        Snacks.toggle.line_number():map("<leader>ul")
+        Snacks.toggle.diagnostics():map("<leader>ud")
+        Snacks.toggle.inlay_hints():map("<leader>uh")
+        Snacks.toggle.indent():map("<leader>ui")
+      end,
+    })
+  end,
   keys = {
     { "<C-\\>", function() Snacks.terminal() end, mode = { "n", "t" }, desc = "Toggle terminal" },
     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification history" },

@@ -97,6 +97,17 @@ The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/doc
 | n    | `<leader>;` | Jump via the breadcrumbs bar (also clickable) | [dropbar](https://github.com/Bekaboo/dropbar.nvim) |
 | n    | `]]` / `[[` | Next / previous use of the word under cursor | [words](https://github.com/folke/snacks.nvim/blob/main/docs/words.md) |
 
+### Toggles
+
+Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim) shows each toggle and whether it is on ([snacks toggle](https://github.com/folke/snacks.nvim/blob/main/docs/toggle.md)).
+
+| Keys         | Toggle           | Keys         | Toggle            |
+|--------------|------------------|--------------|-------------------|
+| `<leader>uw` | Line wrap        | `<leader>ud` | Diagnostics       |
+| `<leader>ul` | Line numbers     | `<leader>uh` | Inlay hints       |
+| `<leader>ur` | Relative numbers | `<leader>ui` | Indent guides     |
+| `<leader>us` | Spell check      | `<leader>ub` | Light / dark theme |
+
 ### Completion (Insert mode)
 
 | Keys                | Action                                   | Docs |
