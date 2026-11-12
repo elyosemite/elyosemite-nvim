@@ -186,6 +186,17 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | n    | `<leader>to` | Output panel       | [neotest](https://github.com/nvim-neotest/neotest) |
 | n    | `<leader>tS` | Stop               | [neotest](https://github.com/nvim-neotest/neotest) |
 
+### Debug
+
+| Mode | Keys              | Action                          | Docs |
+|------|-------------------|---------------------------------|------|
+| n    | `<leader>db`      | Toggle breakpoint               | [nvim-dap](https://github.com/mfussenegger/nvim-dap) |
+| n    | `<F5>`            | Start / continue                | [nvim-dap](https://github.com/mfussenegger/nvim-dap) |
+| n    | `<F10>` / `<F11>` / `<S-F11>` | Step over / into / out | [nvim-dap](https://github.com/mfussenegger/nvim-dap) |
+| n    | `<leader>dt`      | Stop                            | [nvim-dap](https://github.com/mfussenegger/nvim-dap) |
+| n    | `<leader>du`      | Toggle debug panels (opens by itself) | [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) |
+| n, v | `<leader>de`      | Evaluate expression             | [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) |
+
 ## Themes
 
 | Mode | Keys / command  | Action                                   |
