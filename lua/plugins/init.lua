@@ -26,7 +26,7 @@ Plugins.all_plugins = {
       },
     },
   },
-  "folke/which-key.nvim",
+  require("plugins.whichkey"),
   { "folke/neoconf.nvim", cmd = "Neoconf" },
   themes.specs,
   telescope.Telescope,
