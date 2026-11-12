@@ -18,7 +18,9 @@ end
 
 -- 1. Parsers (síncrono, para o CI esperar a compilação)
 check("install treesitter parsers", function()
-  local wanted = require("core.parsers")
+  -- SMOKE_SKIP_PARSERS="sql,..." pula parsers sabidamente quebrados num ambiente (ver ci.yml)
+  local skip = vim.split(vim.env.SMOKE_SKIP_PARSERS or "", ",", { trimempty = true })
+  local wanted = vim.tbl_filter(function(lang) return not vim.tbl_contains(skip, lang) end, require("core.parsers"))
   local ok = require("nvim-treesitter").install(wanted):wait(900000)
   assert(ok ~= false, "parser installation failed")
   -- a config já começou a instalar no startup; o install() acima pula esses, então espera todos
@@ -26,7 +28,7 @@ check("install treesitter parsers", function()
     local installed = require("nvim-treesitter.config").get_installed()
     return vim.tbl_filter(function(lang) return not vim.tbl_contains(installed, lang) end, wanted)
   end
-  vim.wait(900000, function() return #missing() == 0 end, 500)
+  vim.wait(300000, function() return #missing() == 0 end, 500)
   assert(#missing() == 0, "parsers not installed: " .. table.concat(missing(), ", "))
 end)
 

@@ -195,6 +195,7 @@ Feito antes deste plano: switch de tema `:Theme` / `<leader>th` (`6d7b1a8`).
 ### Step 34: CI
 - **O que fazer:** `.github/workflows/ci.yml` com matriz Ubuntu + Windows que roda `Lazy! restore`, abre arquivos de amostra e falha se houver erro.
 - **Pronto quando:** quebrar um spec numa branch deixa o CI vermelho.
+- **Pendência:** o parser `sql` não compila com o MSVC do runner Windows do GitHub ("Failed to compile parser"), mas compila localmente. O CI pula só esse parser no Windows (`SMOKE_SKIP_PARSERS`). Investigar: verbose do `tree-sitter build` no runner, ou usar zig/clang no CI.
 
 ### Step 35: README, primeiros passos
 - **O que fazer:** uma seção "Primeiros 10 minutos": instalar, `:checkhealth nvyosemite`, `<leader>th`, `<leader>?`.
