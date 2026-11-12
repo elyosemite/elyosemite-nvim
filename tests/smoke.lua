@@ -18,8 +18,16 @@ end
 
 -- 1. Parsers (síncrono, para o CI esperar a compilação)
 check("install treesitter parsers", function()
-  local ok = require("nvim-treesitter").install(require("core.parsers")):wait(900000)
+  local wanted = require("core.parsers")
+  local ok = require("nvim-treesitter").install(wanted):wait(900000)
   assert(ok ~= false, "parser installation failed")
+  -- a config já começou a instalar no startup; o install() acima pula esses, então espera todos
+  local function missing()
+    local installed = require("nvim-treesitter.config").get_installed()
+    return vim.tbl_filter(function(lang) return not vim.tbl_contains(installed, lang) end, wanted)
+  end
+  vim.wait(900000, function() return #missing() == 0 end, 500)
+  assert(#missing() == 0, "parsers not installed: " .. table.concat(missing(), ", "))
 end)
 
 -- 2. Plugins carregados sob demanda (no CI não há UI, então o VeryLazy não dispara sozinho)
