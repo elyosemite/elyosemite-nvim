@@ -17,7 +17,7 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move 
 -- Buffer navigation
 vim.keymap.set("n", "<S-h>",      "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
 vim.keymap.set("n", "<S-l>",      "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>x",  "<cmd>bdelete<CR>",             { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>",             { desc = "Close buffer" })
 
 for i = 1, 9 do
   vim.keymap.set("n", "<leader>" .. i, "<cmd>BufferLineGoToBuffer " .. i .. "<CR>", { desc = "Buffer " .. i })

@@ -54,6 +54,7 @@ Mode: **n** Normal, **i** Insert, **v** Visual. The cursor line changes color wi
 | n    | `<leader>fg` | Search text in project | [live_grep](https://github.com/nvim-telescope/telescope.nvim#file-pickers) |
 | n    | `<leader>fb` | Open buffers           | [buffers](https://github.com/nvim-telescope/telescope.nvim#vim-pickers) |
 | n    | `<leader>fh` | Search help            | [help_tags](https://github.com/nvim-telescope/telescope.nvim#vim-pickers) |
+| n    | `<leader>ft` | Find TODOs             | [todo-comments](https://github.com/folke/todo-comments.nvim#-usage) |
 | n, v | `<leader>sr` | Search and replace in project | [grug-far](https://github.com/MagicDuck/grug-far.nvim#-usage) |
 
 Inside the picker: [default mappings](https://github.com/nvim-telescope/telescope.nvim#default-mappings).
@@ -72,7 +73,7 @@ Inside the tree, press `?` for all keys.
 |------|---------------------------------|----------------------------|------|
 | n    | `<S-h>` / `<S-l>`               | Previous / next buffer     | [bufferline](https://github.com/akinsho/bufferline.nvim#usage) |
 | n    | `<leader>1` … `<leader>9`       | Go to buffer N             | [bufferline](https://github.com/akinsho/bufferline.nvim#usage) |
-| n    | `<leader>x`                     | Close buffer               | [:bdelete](https://neovim.io/doc/user/windows.html#%3Abdelete) |
+| n    | `<leader>bd`                    | Close buffer               | [:bdelete](https://neovim.io/doc/user/windows.html#%3Abdelete) |
 | n    | `<C-h>` `<C-j>` `<C-k>` `<C-l>` | Move between splits        | [CTRL-W](https://neovim.io/doc/user/windows.html#CTRL-W_h) |
 
 ### Editing
@@ -151,6 +152,10 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | n    | `[d` / `]d` | Previous / next problem    | [jump](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.jump()) |
 | -    | (automatic) | Problems shown next to the code | [tiny-inline-diagnostic](https://github.com/rachartier/tiny-inline-diagnostic.nvim) |
 | n    | `<leader>e` | Show problem under cursor  | [open_float](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.open_float()) |
+| n    | `<leader>xx` | Problems panel (project)   | [trouble](https://github.com/folke/trouble.nvim#-usage) |
+| n    | `<leader>xb` | Problems panel (this file) | [trouble](https://github.com/folke/trouble.nvim#-usage) |
+| n    | `<leader>xt` | TODO / FIXME list          | [todo-comments](https://github.com/folke/todo-comments.nvim#-usage) |
+| n    | `]t` / `[t`  | Next / previous TODO       | [todo-comments](https://github.com/folke/todo-comments.nvim#-usage) |
 | n    | `<leader>cd` | List problems in file     | [setloclist](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.setloclist()) |
 
 ### Git

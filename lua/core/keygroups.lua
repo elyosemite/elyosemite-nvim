@@ -10,4 +10,5 @@ return {
   s = "Search",
   t = "Test / Theme",
   u = "Toggles",
+  x = "Problems",
 }
