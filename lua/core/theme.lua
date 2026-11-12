@@ -85,7 +85,7 @@ function M.setup()
     end,
   })
 
-  vim.keymap.set("n", "<leader>th", M.pick, { desc = "Trocar de tema" })
+  vim.keymap.set("n", "<leader>th", M.pick, { desc = "Pick theme" })
 end
 
 return M
