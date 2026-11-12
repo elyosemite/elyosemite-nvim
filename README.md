@@ -159,6 +159,13 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 |------|--------------|----------------------------------------|------|
 | n    | `<leader>gg` | Open LazyGit                           | [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) |
 | -    | (automatic)  | Line blame and change signs            | [gitsigns](https://github.com/lewis6991/gitsigns.nvim) |
+| n    | `]h` / `[h`  | Next / previous change (hunk)          | [gitsigns](https://github.com/lewis6991/gitsigns.nvim#-keymaps) |
+| n    | `<leader>gp` | Preview change                         | [gitsigns](https://github.com/lewis6991/gitsigns.nvim#-keymaps) |
+| n    | `<leader>gr` | Undo change                            | [gitsigns](https://github.com/lewis6991/gitsigns.nvim#-keymaps) |
+| n    | `<leader>gs` | Stage change                           | [gitsigns](https://github.com/lewis6991/gitsigns.nvim#-keymaps) |
+| n    | `<leader>gb` | Who changed this line                  | [gitsigns](https://github.com/lewis6991/gitsigns.nvim#-keymaps) |
+| n    | `<leader>gd` | Diff view: all changes, merge conflicts | [diffview](https://github.com/sindrets/diffview.nvim#usage) |
+| n    | `<leader>gh` | File history                           | [diffview](https://github.com/sindrets/diffview.nvim#usage) |
 
 ### Tests
 

@@ -11,6 +11,7 @@ local bufferline = require("plugins.bufferline")
 local themes = require("plugins.themes")
 local git = require("plugins.git")
 local lazygit = require("plugins.git.lazygit")
+local diffview = require("plugins.git.diffview")
 local cmp = require("plugins.autocomplete.cmp")
 local neotest = require("plugins.neotest")
 local rust = require("plugins.rust")
@@ -54,6 +55,7 @@ Plugins.all_plugins = {
   bufferline,
   git,
   lazygit,
+  diffview,
   cmp,
   neotest,
   rust,
