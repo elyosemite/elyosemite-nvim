@@ -54,10 +54,10 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 27 | Treesitter textobjects                       | 6    | `feat(treesitter): add textobjects`                       | [x]    |
 | 28 | Formatar ao salvar                           | 6    | `feat(format): format on save with toggle`                | [x]    |
 | 29 | Lint via LSP (ruff, ESLint)                  | 6    | `feat(lint): lint Python and JS via LSP`                  | [x]    |
-| 30 | `:checkhealth nvyosemite`                    | 7    | `feat(health): add nvyosemite health check`               | [ ]    |
-| 31 | Debugger: núcleo                             | 7    | `feat(dap): add nvim-dap core and UI`                     | [ ]    |
-| 32 | Debugger: Go e Python                        | 7    | `feat(dap): add Go and Python adapters`                   | [ ]    |
-| 33 | Debugger: C# e Rust                          | 7    | `feat(dap): add C# and Rust adapters`                     | [ ]    |
+| 30 | `:checkhealth nvyosemite`                    | 7    | `feat(health): add nvyosemite health check`               | [x]    |
+| 31 | Debugger: núcleo                             | 7    | `feat(dap): add nvim-dap core and UI`                     | [x]    |
+| 32 | Debugger: Go e Python                        | 7    | `feat(dap): add Go and Python adapters`                   | [x]    |
+| 33 | Debugger: C# e Rust                          | 7    | `feat(dap): add C# and Rust adapters`                     | [x]    |
 | 34 | CI: smoke test no GitHub Actions             | 8    | `ci: add headless startup smoke test`                     | [ ]    |
 | 35 | README: primeiros passos                     | 8    | `docs(readme): add getting started guide`                 | [ ]    |
 | 36 | Release v1.0                                 | 8    | `chore(release): v1.0.0`                                  | [ ]    |
