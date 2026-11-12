@@ -1,8 +1,5 @@
 vim.diagnostic.config({
-  virtual_text = {
-    prefix = "●",
-    spacing = 4,
-  },
+  virtual_text = false, -- substituído pelo tiny-inline-diagnostic (plugins/diagnostics.lua)
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = " ",

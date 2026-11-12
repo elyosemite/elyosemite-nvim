@@ -125,6 +125,7 @@ The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/doc
 | Mode | Keys        | Action                     | Docs |
 |------|-------------|----------------------------|------|
 | n    | `[d` / `]d` | Previous / next problem    | [jump](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.jump()) |
+| -    | (automatic) | Problems shown next to the code | [tiny-inline-diagnostic](https://github.com/rachartier/tiny-inline-diagnostic.nvim) |
 | n    | `<leader>e` | Show problem under cursor  | [open_float](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.open_float()) |
 | n    | `<leader>q` | List problems in file      | [setloclist](https://neovim.io/doc/user/diagnostic.html#vim.diagnostic.setloclist()) |
 
