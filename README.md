@@ -131,10 +131,11 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 |--------------|------------------|--------------|-------------------|
 | `<leader>uw` | Line wrap        | `<leader>ud` | Diagnostics       |
 | `<leader>ul` | Line numbers     | `<leader>uh` | Inlay hints       |
-| `<leader>ur` | Relative numbers | `<leader>ui` | Indent guides     |
+| `<leader>ur` | Relative numbers | `<leader>ui` | Indent guides (off by default) |
 | `<leader>us` | Spell check      | `<leader>ub` | Light / dark theme |
 | `<leader>uf` | Format on save   | `<leader>uu` | Undo tree         |
-| `<leader>up` | [Motion hints](https://github.com/tris203/precognition.nvim): where `w` `b` `e` `$` `^` go | `<leader>uH` | [Training mode](https://github.com/m4xshen/hardtime.nvim): nudges you off `jjjj` |
+| `<leader>uT` | Transparent background (dark themes) | | |
+| `<leader>up` | [Motion hints](https://github.com/tris203/precognition.nvim): where `w` `b` `e` `$` `^` go (off by default) | `<leader>uH` | [Training mode](https://github.com/m4xshen/hardtime.nvim): nudges you off `jjjj` |
 
 ### Completion (Insert mode)
 
@@ -217,6 +218,7 @@ Languages: Go ([nvim-dap-go](https://github.com/leoluz/nvim-dap-go)), Python ([n
 | n    | `<leader>th`    | Pick a theme: previews as you move, `Enter` keeps it, `Esc` undoes |
 | n    | `:Theme <name>` | Apply directly, `Tab` completes          |
 | n    | `<leader>ub`    | Switch between the light and dark variant |
+| n    | `<leader>uT`    | Transparent background, so a transparent terminal shows through. On by default, dark themes only |
 
 Themes (28): everforest, gruvbox, [catppuccin](https://github.com/catppuccin/nvim), [nightfox](https://github.com/EdenEast/nightfox.nvim), [tokyonight](https://github.com/folke/tokyonight.nvim), [kanagawa](https://github.com/rebelot/kanagawa.nvim), [rose-pine](https://github.com/rose-pine/neovim), [onedarkpro](https://github.com/olimorris/onedarkpro.nvim) and [github](https://github.com/projekt0n/github-nvim-theme), each with dark and light variants. To add one, see the comments in [`lua/core/theme.lua`](lua/core/theme.lua).
 
