@@ -25,15 +25,15 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 
 | #  | Step                                         | Fase | Commit                                                    | Status |
 |----|----------------------------------------------|------|-----------------------------------------------------------|--------|
-| 1  | Ligar inlay hints                            | 1    | `fix(lsp): enable inlay hints`                            | [ ]    |
-| 2  | Instalar formatadores automaticamente        | 1    | `feat(mason): auto-install formatters`                    | [ ]    |
-| 3  | Remover CursorLine fixo                      | 1    | `fix(ui): let the theme define CursorLine`                | [ ]    |
-| 4  | Adicionar LICENSE                            | 1    | `docs: add MIT license`                                   | [ ]    |
-| 5  | Opções e atalhos essenciais                  | 1    | `feat(options): add sensible defaults`                    | [ ]    |
-| 6  | which-key com grupos nomeados                | 2    | `feat(ui): name which-key groups`                         | [ ]    |
-| 7  | Cheatsheet `<leader>?`                       | 2    | `feat(ui): add generated keymap cheatsheet`               | [ ]    |
-| 8  | Paleta de comandos `<leader><leader>`        | 2    | `feat(ui): add command palette`                           | [ ]    |
-| 9  | Menu de clique direito                       | 2    | `feat(ui): add right-click context menu`                  | [ ]    |
+| 1  | Ligar inlay hints                            | 1    | `fix(lsp): enable inlay hints`                            | [x]    |
+| 2  | Instalar formatadores automaticamente        | 1    | `feat(mason): auto-install formatters`                    | [x]    |
+| 3  | Remover CursorLine fixo                      | 1    | `fix(ui): let the theme define CursorLine`                | [x]    |
+| 4  | Adicionar LICENSE                            | 1    | `docs: add MIT license`                                   | [x]    |
+| 5  | Opções e atalhos essenciais                  | 1    | `feat(options): add sensible defaults`                    | [x]    |
+| 6  | which-key com grupos nomeados                | 2    | `feat(ui): name which-key groups`                         | [x]    |
+| 7  | Cheatsheet `<leader>?`                       | 2    | `feat(ui): add generated keymap cheatsheet`               | [x]    |
+| 8  | Paleta de comandos `<leader><leader>`        | 2    | `feat(ui): add command palette`                           | [x]    |
+| 9  | Menu de clique direito                       | 2    | `feat(ui): add right-click context menu`                  | [x]    |
 | 10 | snacks.nvim (dashboard, notificações, etc.)  | 3    | `feat(ui): add snacks.nvim and replace alpha`             | [ ]    |
 | 11 | noice.nvim                                   | 3    | `feat(ui): add noice for cmdline and messages`            | [ ]    |
 | 12 | Breadcrumbs (dropbar)                        | 3    | `feat(ui): add dropbar breadcrumbs`                       | [ ]    |
