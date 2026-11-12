@@ -15,9 +15,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    env:
-      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema
-      XDG_CONFIG_HOME: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,8 +29,14 @@ jobs:
         with:
           install-lib: false
 
+      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema.
+      # Só nos passos do Neovim: o setup-action do tree-sitter quebra com ela definida.
       - name: Install plugins (versions from lazy-lock.json)
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}
         run: nvim --headless "+Lazy! restore" +qa
 
       - name: Smoke test
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}
         run: nvim --headless -c "luafile nvim/tests/smoke.lua"
