@@ -3,6 +3,7 @@
 [![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?style=flat&logo=neovim&logoColor=white)](https://neovim.io)
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat&logo=lua&logoColor=white)](https://www.lua.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](LICENSE)
+[![CI](https://github.com/elyosemite/elyosemite-nvim/actions/workflows/ci.yml/badge.svg)](https://github.com/elyosemite/elyosemite-nvim/actions/workflows/ci.yml)
 
 A Neovim configuration you can use on day one, even if you only know a few Vim commands. Opinionated defaults, a friendly UI, and every key documented. Each row below links to the official docs, so this page stays short.
 
@@ -226,6 +227,8 @@ Themes (28): everforest, gruvbox, [catppuccin](https://github.com/catppuccin/nvi
 - **Plugins**: one file per plugin in `lua/plugins/`, registered in [`lua/plugins/init.lua`](lua/plugins/init.lua). Format: [lazy.nvim spec](https://lazy.folke.io/spec).
 - **Language servers**: list in [`lua/plugins/lsp/mason-config.lua`](lua/plugins/lsp/mason-config.lua), settings in `lua/plugins/lsp/servers/`. Names: [server configs](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md).
 - **Formatters**: [`lua/plugins/formatter.lua`](lua/plugins/formatter.lua). Names: [conform formatters](https://github.com/stevearc/conform.nvim#formatters).
+
+- **Before committing**: `nvim --headless -c "luafile tests/smoke.lua"` runs the same check as [CI](.github/workflows/ci.yml).
 
 Roadmap: [`docs/plano-de-acao.md`](docs/plano-de-acao.md).
 

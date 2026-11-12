@@ -1,0 +1,39 @@
+# Abre a config num Neovim sem interface, no Linux e no Windows, e falha se algo der erro.
+# O teste em si está em tests/smoke.lua.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  smoke:
+    name: Smoke test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema
+      XDG_CONFIG_HOME: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: nvim
+
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: v0.12.3
+
+      - uses: tree-sitter/setup-action@v1
+        with:
+          install-lib: false
+
+      - name: Install plugins (versions from lazy-lock.json)
+        run: nvim --headless "+Lazy! restore" +qa
+
+      - name: Smoke test
+        run: nvim --headless -c "luafile nvim/tests/smoke.lua"
