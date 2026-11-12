@@ -78,6 +78,9 @@ Inside the tree, press `?` for all keys.
 
 | Mode | Keys              | Action                      | Docs |
 |------|-------------------|-----------------------------|------|
+| n, i, v | `<C-s>`        | Save file                   | [:write](https://neovim.io/doc/user/editing.html#%3Awrite) |
+| n    | `<Esc>`           | Clear search highlight      | [:nohlsearch](https://neovim.io/doc/user/pattern.html#%3Anohlsearch) |
+| n    | `u` / `<C-r>`     | Undo / redo (kept after closing the file) | [undo](https://neovim.io/doc/user/undo.html#undo-commands) |
 | n, v | `<A-j>` / `<A-k>` | Move line(s) down / up      | [:move](https://neovim.io/doc/user/change.html#%3Amove) |
 | n    | `<leader>gf`      | Format file                 | [conform](https://github.com/stevearc/conform.nvim) |
 | n, v | `gcc` / `gc`      | Comment line / selection    | [commenting](https://neovim.io/doc/user/various.html#commenting) |
@@ -101,6 +104,7 @@ Inside the tree, press `?` for all keys.
 | n    | `gi`         | Implementation            | [implementation](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.implementation()) |
 | n    | `gr`         | References                | [references](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.references()) |
 | n    | `K`          | Documentation popup       | [hover](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.hover()) |
+| i    | `<C-k>`      | Function signature        | [signature_help](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.signature_help()) |
 | n    | `<leader>rn` | Rename symbol             | [rename](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.rename()) |
 | n, v | `<leader>ca` | Code actions / quick fix  | [code_action](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.code_action()) |
 | n    | `<C-o>`      | Jump back                 | [jumplist](https://neovim.io/doc/user/motion.html#CTRL-O) |

@@ -1,6 +1,7 @@
 local M = {}
 
-vim.g.mapleader = " "
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<CR><Esc>", { desc = "Save file" })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { desc = "Clear search highlight" })
 
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==",      { noremap = true, desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==",      { noremap = true, desc = "Move line up" })
@@ -29,8 +30,8 @@ M.lsp_on_attach = function(bufnr)
   vim.keymap.set("n", "gD",          vim.lsp.buf.declaration,                              opts("Go to declaration"))
   vim.keymap.set("n", "gd",          vim.lsp.buf.definition,                               opts("Go to definition"))
   vim.keymap.set("n", "K",           vim.lsp.buf.hover,                                    opts("Hover docs"))
+  vim.keymap.set("i", "<C-k>",       vim.lsp.buf.signature_help,                           opts("Signature help"))
   vim.keymap.set("n", "gi",          vim.lsp.buf.implementation,                           opts("Go to implementation"))
-  vim.keymap.set("n", "<C-s>",       vim.lsp.buf.signature_help,                           opts("Signature help"))
   vim.keymap.set("n", "<leader>rn",  vim.lsp.buf.rename,                                   opts("Rename"))
   vim.keymap.set("n", "gr",          vim.lsp.buf.references,                               opts("References"))
   vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,                     opts("Code action"))
