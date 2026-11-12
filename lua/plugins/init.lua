@@ -24,6 +24,7 @@ local learn = require("plugins.learn")
 local flash = require("plugins.flash")
 local safety = require("plugins.safety")
 local search = require("plugins.search")
+local rename = require("plugins.rename")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -68,6 +69,7 @@ Plugins.all_plugins = {
   flash,
   safety,
   search,
+  rename,
   markdown,
 }
 

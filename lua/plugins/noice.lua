@@ -16,6 +16,7 @@ return {
       bottom_search = true,         -- busca (/ e ?) continua embaixo
       command_palette = true,       -- linha de comando e sugestões juntas no topo
       long_message_to_split = true, -- mensagens longas abrem num split
+      inc_rename = true,            -- campo do <leader>rn com preview
       lsp_doc_border = true,
     },
   },

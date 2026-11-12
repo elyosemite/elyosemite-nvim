@@ -140,7 +140,7 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | n    | `gr`         | References                | [references](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.references()) |
 | n    | `K`          | Documentation popup       | [hover](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.hover()) |
 | i    | `<C-k>`      | Function signature        | [signature_help](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.signature_help()) |
-| n    | `<leader>rn` | Rename symbol             | [rename](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.rename()) |
+| n    | `<leader>rn` | Rename symbol, with live preview | [inc-rename](https://github.com/smjonas/inc-rename.nvim) |
 | n, v | `<leader>ca` | Code actions / quick fix  | [code_action](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.code_action()) |
 | n    | `<C-o>`      | Jump back                 | [jumplist](https://neovim.io/doc/user/motion.html#CTRL-O) |
 
