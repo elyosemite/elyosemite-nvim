@@ -25,12 +25,21 @@ jobs:
           neovim: true
           version: v0.12.3
 
-      - uses: tree-sitter/setup-action@v1
-        with:
-          install-lib: false
+      # Binário oficial da release (o tree-sitter/setup-action@v1 falha com a CLI 0.27)
+      - name: Install tree-sitter CLI
+        shell: bash
+        env:
+          TS_VERSION: v0.27.2
+        run: |
+          os=$(tr '[:upper:]' '[:lower:]' <<< "$RUNNER_OS")
+          [[ "$RUNNER_OS" == Windows ]] && exe=tree-sitter.exe || exe=tree-sitter
+          mkdir -p "$RUNNER_TEMP/tree-sitter"
+          curl -fLSs "https://github.com/tree-sitter/tree-sitter/releases/download/$TS_VERSION/tree-sitter-$os-x64.gz"             | gunzip > "$RUNNER_TEMP/tree-sitter/$exe"
+          chmod +x "$RUNNER_TEMP/tree-sitter/$exe"
+          echo "$RUNNER_TEMP/tree-sitter" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/tree-sitter/$exe" --version
 
-      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema.
-      # Só nos passos do Neovim: o setup-action do tree-sitter quebra com ela definida.
+      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema
       - name: Install plugins (versions from lazy-lock.json)
         env:
           XDG_CONFIG_HOME: ${{ github.workspace }}
