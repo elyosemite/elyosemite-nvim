@@ -16,6 +16,7 @@ local neotest = require("plugins.neotest")
 local rust = require("plugins.rust")
 local menu = require("plugins.menu")
 local noice = require("plugins.noice")
+local dropbar = require("plugins.dropbar")
 local markdown = require("plugins.markdown")
 
 Plugins.all_plugins = {
@@ -52,6 +53,7 @@ Plugins.all_plugins = {
   rust,
   menu,
   noice,
+  dropbar,
   markdown,
 }
 

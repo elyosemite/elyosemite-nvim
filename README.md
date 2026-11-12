@@ -94,6 +94,7 @@ The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/doc
 |------|-------------|-------------------------------------|------|
 | n, t | `<C-\>`     | Toggle terminal                     | [terminal](https://github.com/folke/snacks.nvim/blob/main/docs/terminal.md) |
 | n    | `<leader>n` | Notification history                | [notifier](https://github.com/folke/snacks.nvim/blob/main/docs/notifier.md) |
+| n    | `<leader>;` | Jump via the breadcrumbs bar (also clickable) | [dropbar](https://github.com/Bekaboo/dropbar.nvim) |
 | n    | `]]` / `[[` | Next / previous use of the word under cursor | [words](https://github.com/folke/snacks.nvim/blob/main/docs/words.md) |
 
 ### Completion (Insert mode)
