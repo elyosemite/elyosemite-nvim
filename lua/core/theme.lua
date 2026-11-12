@@ -78,14 +78,25 @@ M.dark_of = {
 }
 
 -- Fundo transparente: deixa aparecer o fundo do terminal (útil com terminal transparente).
--- Só vale para temas escuros: num tema claro sobre terminal escuro, o texto ficaria
--- escuro sobre escuro e as janelas flutuantes (menu, popups) claras sobre o arquivo escuro.
+-- Vale para qualquer tema, inclusive janelas flutuantes (menu, popups, Telescope), para tudo
+-- ter o mesmo fundo. Num terminal escuro, um tema claro fica com pouco contraste.
 M.transparent = true
 
--- Grupos que pintam o fundo da área de edição (não inclui janelas flutuantes)
+-- Grupos que pintam fundo. Grupos que são link para outro seguem o alvo e ficam como estão.
 local transparent_groups = {
+  -- área de edição
   "Normal", "NormalNC", "SignColumn", "LineNr", "LineNrAbove", "LineNrBelow",
   "FoldColumn", "EndOfBuffer", "NonText", "WinBar", "WinBarNC", "StatusLine", "StatusLineNC",
+  -- janelas flutuantes e plugins que pintam o próprio fundo
+  "NormalFloat", "FloatBorder", "FloatTitle", "FloatFooter", "Pmenu",
+  "TelescopeNormal", "TelescopeBorder", "TelescopeTitle",
+  "TelescopePromptNormal", "TelescopePromptBorder", "TelescopePromptTitle",
+  "TelescopeResultsNormal", "TelescopeResultsBorder", "TelescopeResultsTitle",
+  "TelescopePreviewNormal", "TelescopePreviewBorder", "TelescopePreviewTitle",
+  "WhichKeyNormal", "WhichKeyBorder", "NoiceCmdlinePopup", "NoiceCmdlinePopupBorder",
+  "LazyNormal", "MasonNormal", "SnacksDashboardNormal",
+  -- menu de contexto (volt): os *Border usam fg = bg para sumir com a borda
+  "ExDarkBg", "ExDarkBorder", "ExBlack2Bg", "ExBlack2Border",
 }
 
 -- O menu de contexto (nvzone/menu, via volt) calcula as cores a partir do fundo do tema
@@ -97,17 +108,36 @@ local function refresh_menu_colors()
   end
 end
 
-local function on_colorscheme()
-  refresh_menu_colors()
-  if not M.transparent or vim.o.background ~= "dark" then
-    return
-  end
+local function clear_backgrounds()
   for _, group in ipairs(transparent_groups) do
     local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
-    hl.bg, hl.ctermbg = nil, nil
-    vim.api.nvim_set_hl(0, group, hl)
+    if not vim.api.nvim_get_hl(0, { name = group }).link and (hl.bg or hl.ctermbg) then
+      hl.bg, hl.ctermbg = nil, nil
+      if group:match("^Ex.*Border$") then
+        hl.fg = nil
+      end
+      vim.api.nvim_set_hl(0, group, hl)
+    end
   end
 end
+
+local function on_colorscheme()
+  refresh_menu_colors()
+  if M.transparent then
+    clear_backgrounds()
+  end
+end
+
+-- Com o fundo já transparente, o volt carrega calculando as cores a partir de "sem fundo"
+-- (vira quase preto). Reaplica o tema logo depois, para ele usar o fundo real do tema.
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LazyLoad",
+  callback = function(ev)
+    if ev.data == "volt" and M.transparent then
+      vim.schedule(function() M.apply(M.current, false) end)
+    end
+  end,
+})
 
 local function read_saved()
   local ok, lines = pcall(vim.fn.readfile, state_file)
@@ -275,7 +305,7 @@ function M.setup()
   vim.keymap.set("n", "<leader>th", M.pick, { desc = "Pick theme" })
   vim.keymap.set("n", "<leader>ub", M.toggle_background, { desc = "Toggle light/dark theme" })
   Snacks.toggle.new({
-    name = "Transparent background (dark themes)",
+    name = "Transparent background",
     get = function() return M.transparent end,
     set = M.set_transparent,
   }):map("<leader>uT")
