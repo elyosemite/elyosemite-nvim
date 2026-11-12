@@ -8,89 +8,248 @@ A production-ready Neovim configuration that works out of the box while remainin
 
 ## Features
 
-- **Zero-config setup** - Just clone and start coding
-- **Modular architecture** - Organized Lua modules for easy customization
-- **Batteries included**:
-  - LSP support with automatic server installation
-  - Advanced autocompletion (nvim-cmp)
-  - File explorer (nvim-tree)
-  - Fuzzy finder (Telescope)
-  - Git integration
-  - Syntax highlighting (Treesitter)
-  - Multiple pre-installed color schemes
-- **Performance optimized** - No bloated plugins
+- **Modular architecture**: one Lua module per plugin, easy to customize
+- **LSP** with automatic server installation (Mason), for Lua, TypeScript/JavaScript, C#, Go, Python, SQL, Clojure and Rust
+- **Autocompletion** with snippets (nvim-cmp + LuaSnip)
+- **Fuzzy finder** (Telescope) and **file explorer** (Neo-tree)
+- **Git**: inline blame and change signs (gitsigns) + LazyGit
+- **Testing** from the editor (neotest: Go, Vitest, Rust, Lua)
+- **Formatting** per language (conform.nvim)
+- **Syntax highlighting** with Treesitter
+- Multiple pre-installed color schemes
+
+## Requirements
+
+- **Neovim 0.12+**
+- `git`, and a C compiler (MSVC, gcc, clang or zig) for Treesitter parsers
+- [`tree-sitter` CLI](https://github.com/tree-sitter/tree-sitter) **0.25+** on your `PATH`. On Windows, use the real `tree-sitter.exe` (`cargo install tree-sitter-cli`) rather than the npm shim, which Neovim cannot run
+- A [Nerd Font](https://www.nerdfonts.com/) in your terminal, for icons
+- Optional: [`lazygit`](https://github.com/jesseduffield/lazygit), `ripgrep` (needed by live grep), `make` (Telescope fzf)
 
 ## Installation
 
 ```bash
-# Backup existing config (if any)
-mv ~/.config/nvim{,.bak}
-
-# Clone the repository
-git clone https://github.com/elyosemite/el-yosemite-nvim.git ~/.config/nvim
+# Linux / macOS
+mv ~/.config/nvim{,.bak}            # backup existing config, if any
+git clone https://github.com/elyosemite/elyosemite-nvim.git ~/.config/nvim
 ```
 
-Launch Neovim and wait for plugins to install automatically.
+```powershell
+# Windows
+git clone https://github.com/elyosemite/elyosemite-nvim.git $env:LOCALAPPDATA\nvim
+```
 
-```bash
+Launch `nvim` and wait: plugins, LSP servers and Treesitter parsers install automatically. Plugin versions are pinned in `lazy-lock.json`.
+
+## How to read the key mappings
+
+Key mappings below use Neovim notation:
+
+| Notation      | What to press                                                       |
+|---------------|---------------------------------------------------------------------|
+| `<leader>`    | **Space**                                                           |
+| `<C-n>`       | **Ctrl + n** (held together)                                        |
+| `<S-h>`       | **Shift + h** (the same as typing a capital `H`)                    |
+| `<A-j>`       | **Alt + j**                                                         |
+| `<CR>`        | **Enter**                                                           |
+| `<Tab>`       | **Tab**                                                             |
+| `<leader>ff`  | **Space**, then **f**, then **f**: *one after another*, not together |
+| `gd`          | **g**, then **d**, one after another                                |
+| `[d` / `]d`   | **[** then **d** / **]** then **d**                                  |
+
+Mode column: **n** = Normal (default mode, press `Esc` to return), **i** = Insert (typing text), **v** = Visual (selection, enter with `v` or `V`).
+
+> **Tip:** press **Space** and wait a moment. [which-key](https://github.com/folke/which-key.nvim) shows a popup with every available `<leader>` mapping.
+
+## Key mappings
+
+### Files and search (Telescope)
+
+| Mode | Keys         | Action                       |
+|------|--------------|------------------------------|
+| n    | `<C-p>`      | Find files                   |
+| n    | `<leader>ff` | Find files                   |
+| n    | `<leader>fg` | Search text in project (grep) |
+| n    | `<leader>fb` | List open buffers            |
+| n    | `<leader>fh` | Search help                  |
+
+Inside Telescope: type to filter, `<C-n>` / `<C-p>` or arrows to move, `<CR>` to open, `<C-x>` / `<C-v>` to open in a horizontal / vertical split, `Esc` to close.
+
+### File explorer (Neo-tree)
+
+| Mode | Keys    | Action                  |
+|------|---------|-------------------------|
+| n    | `<C-n>` | Toggle the file explorer |
+
+Inside Neo-tree: `<CR>` open, `a` new file (end the name with `/` for a folder), `d` delete, `r` rename, `c` copy, `m` move, `H` toggle hidden files, `?` show all keys.
+
+### Buffers (open files) and windows
+
+| Mode | Keys                       | Action                        |
+|------|----------------------------|-------------------------------|
+| n    | `<S-h>` / `<S-l>`          | Previous / next buffer        |
+| n    | `<leader>1` … `<leader>9`  | Go to buffer by its number    |
+| n    | `<leader>x`                | Close current buffer          |
+| n    | `<C-h>` `<C-j>` `<C-k>` `<C-l>` | Move to the split left / down / up / right |
+
+### Editing
+
+| Mode | Keys              | Action                       |
+|------|-------------------|------------------------------|
+| n    | `<A-j>` / `<A-k>` | Move current line down / up  |
+| v    | `<A-j>` / `<A-k>` | Move selected lines down / up |
+| n    | `<leader>gf`      | Format file (falls back to LSP) |
+
+Brackets and quotes close automatically (nvim-autopairs).
+
+### Autocompletion (Insert mode)
+
+| Keys                      | Action                                  |
+|---------------------------|-----------------------------------------|
+| `<C-Space>`               | Open the completion menu                |
+| `<C-j>` / `<C-k>`         | Next / previous suggestion              |
+| `<Tab>` / `<S-Tab>`       | Next / previous suggestion, or jump between snippet fields |
+| `<CR>`                    | Confirm the selected suggestion         |
+| `<C-e>`                   | Close the menu                          |
+| `<C-d>` / `<C-u>`         | Scroll the documentation window         |
+
+### Code navigation (LSP)
+
+Active in any file with a language server attached.
+
+| Mode | Keys         | Action                         |
+|------|--------------|--------------------------------|
+| n    | `gd`         | Go to definition               |
+| n    | `gD`         | Go to declaration              |
+| n    | `gi`         | Go to implementation           |
+| n    | `gr`         | List references                |
+| n    | `K`          | Hover documentation            |
+| n    | `<C-s>`      | Signature help                 |
+| n    | `<leader>rn` | Rename symbol                  |
+| n, v | `<leader>ca` | Code actions (quick fixes)     |
+| n    | `<C-o>`      | Jump back (after `gd`, etc.)   |
+
+### Diagnostics (errors and warnings)
+
+| Mode | Keys        | Action                              |
+|------|-------------|-------------------------------------|
+| n    | `[d` / `]d` | Previous / next diagnostic          |
+| n    | `<leader>e` | Show the diagnostic under the cursor |
+| n    | `<leader>q` | List all diagnostics of the file    |
+
+### Git
+
+| Mode | Keys         | Action        |
+|------|--------------|---------------|
+| n    | `<leader>gg` | Open LazyGit  |
+
+The author and date of the last change appear at the end of the current line (git blame), and changed lines are marked in the left column.
+
+### Tests (neotest)
+
+| Mode | Keys         | Action                  |
+|------|--------------|-------------------------|
+| n    | `<leader>tt` | Run nearest test        |
+| n    | `<leader>tf` | Run all tests in file   |
+| n    | `<leader>ts` | Toggle test summary     |
+| n    | `<leader>to` | Toggle test output      |
+| n    | `<leader>tS` | Stop running tests      |
+
+## Changing the theme
+
+Available themes: **everforest** (default), **catppuccin**, **gruvbox** and **nightfox**.
+
+1. Open `lua/plugins/themes/init.lua`.
+2. Change the line to the theme you want:
+
+   ```lua
+   M.active = require("plugins.themes.catppuccin")  -- everforest | catppuccin | gruvbox | nightfox
+   ```
+
+3. Restart Neovim. The new theme installs on startup.
+
+Variants are set in each theme's file. For example, `flavour` in `catppuccin.lua` (`latte`, `frappe`, `macchiato`, `mocha`) or the colorscheme in `nightfox.lua` (`nightfox`, `nordfox`, `carbonfox`…).
+
+To try a theme for the current session only: `:colorscheme <name>` (press `Tab` after typing part of the name to see the options of loaded themes).
+
+## Useful commands
+
+Type them in Normal mode, starting with `:`, then press `Enter`.
+
+| Command                | What it does                                       |
+|------------------------|----------------------------------------------------|
+| `:Lazy`                | Plugin manager (`U` update, `S` sync, `X` clean)   |
+| `:Mason`               | Install / update LSP servers, formatters, linters  |
+| `:TSUpdate`            | Update Treesitter parsers                          |
+| `:TSInstall <lang>`    | Install a parser for a new language                |
+| `:LspInfo`             | Show language servers attached to the buffer       |
+| `:checkhealth`         | Diagnose problems in the setup                     |
+| `:RustLsp runnables`   | Pick and run a Rust target (rustaceanvim)          |
+| `:Neotree reveal`      | Show the current file in the explorer              |
+
+## Project structure
+
+```
 nvim/
-├── init.lua          # Main entry point
+├── init.lua                 # Entry point
+├── lazy-lock.json           # Pinned plugin versions
 └── lua/
-    ├── core/         # Core settings and keymaps
-    ├── plugins/      # Plugin configurations
-    │   ├── init.lua  # Plugin declarations
-    │   └── *.lua     # Individual plugin configs
-    ├── themes/       # Colorscheme setup
-    └── utils/        # Helper functions
+    ├── config/lazy.lua      # lazy.nvim bootstrap
+    ├── core/                # Options, keymaps, diagnostics, autocmds
+    └── plugins/
+        ├── init.lua         # List of all plugins
+        ├── lsp/
+        │   ├── mason-config.lua   # LSP setup (vim.lsp.config + Mason)
+        │   └── servers/           # Per-language LSP settings
+        ├── themes/          # Color schemes (active one in init.lua)
+        └── *.lua            # One file per plugin
 ```
 
 ## Customizing
-To add new plugins:
 
-1. Edit `lua/plugins/init.lua`:
+### Add a plugin
 
-```lua
-use {
-  'author/plugin',
-  config = function()
-    require('plugins.plugin-name')
-  end
-}
-```
+1. Create `lua/plugins/my-plugin.lua` returning a [lazy.nvim spec](https://lazy.folke.io/spec):
 
-2. Create a new config file in lua/plugins/ if needed
+   ```lua
+   return {
+     "author/plugin",
+     opts = {},
+   }
+   ```
 
-## Key Mappings
+2. Register it in `lua/plugins/init.lua`:
 
-| Mode | Key       | Action                 |
-|------|-----------|------------------------|
-| `n`  | `<space>`   | `Leader key            ` |
-| `n`  | `<leader>f` | `Find files (Telescope)` |
-| `n`  | `<leader>g` | `Live grep (Telescope) ` |
-| `n`  | `<C-n>`     | `Toggle file tree      ` |
+   ```lua
+   local my_plugin = require("plugins.my-plugin")
+   -- ...
+   Plugins.all_plugins = {
+     -- ...
+     my_plugin,
+   }
+   ```
 
-## Included Plugins
+### Add a language server
 
-Core
+1. Add the server name (as listed by nvim-lspconfig) to `servers` in `lua/plugins/lsp/mason-config.lua`.
+2. Optional: for custom settings, create `lua/plugins/lsp/servers/<lang>.lua`:
 
-Lazy.nvim (package manager)
+   ```lua
+   return {
+     name = "server_name",
+     config = { settings = { --[[ ... ]] } },
+   }
+   ```
 
-### UI
+   and add it to `custom_servers` in the same file.
 
-- Telescope.nvim
-- Nvim-tree.lua
-- Lualine.nvim
-- Bufferline.nvim
+### Add a formatter
 
-### LSP
-- nvim-lspconfig
-- mason.nvim
-- nvim-cmp
-
-### Editing
-- Treesitter
-- Comment.nvim
-- LuaSnip
+Add the filetype in `lua/plugins/formatter.lua` and install the tool with `:Mason`.
 
 ## Troubleshooting
-Run :checkhealth in Neovim to diagnose potential issues.
+
+- Run `:checkhealth` to diagnose issues.
+- **Treesitter parsers fail to compile:** check that `tree-sitter --version` works and reports 0.25+, and that a C compiler is available.
+- **LSP not starting:** open `:Mason` to confirm the server is installed, then `:LspInfo`.
+- **Icons show as squares:** set a Nerd Font in your terminal.
