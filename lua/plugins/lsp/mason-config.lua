@@ -41,6 +41,8 @@ return {
     -- mason-lspconfig v2: instala e chama vim.lsp.enable() para cada servidor instalado
     require("mason-lspconfig").setup({
       ensure_installed = servers,
+      -- Instalados no mason mas substituídos por basedpyright / csharp_ls
+      automatic_enable = { exclude = { "pyright", "omnisharp" } },
     })
   end,
 }

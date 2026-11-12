@@ -16,7 +16,15 @@ local neotest = require("plugins.neotest")
 local rust = require("plugins.rust")
 
 Plugins.all_plugins = {
-  "folke/neodev.nvim",
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
   "folke/which-key.nvim",
   { "folke/neoconf.nvim", cmd = "Neoconf" },
   themes.active,
