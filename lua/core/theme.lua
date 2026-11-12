@@ -41,7 +41,7 @@ end
 function M.apply(name, persist)
   local ok, err = pcall(vim.cmd.colorscheme, name)
   if not ok then
-    vim.notify(("Tema '%s' não encontrado: %s"):format(name, err), vim.log.levels.ERROR)
+    vim.notify(("Theme '%s' not found: %s"):format(name, err), vim.log.levels.ERROR)
     return false
   end
   if persist then
@@ -53,13 +53,13 @@ end
 function M.pick()
   local current = vim.g.colors_name
   vim.ui.select(M.themes, {
-    prompt = "Tema",
+    prompt = "Theme",
     format_item = function(name)
-      return name == current and (name .. "  (atual)") or name
+      return name == current and (name .. "  (current)") or name
     end,
   }, function(choice)
     if choice and M.apply(choice, true) then
-      vim.notify("Tema: " .. choice)
+      vim.notify("Theme: " .. choice)
     end
   end)
 end
@@ -73,11 +73,11 @@ function M.setup()
     if opts.args == "" then
       M.pick()
     elseif M.apply(opts.args, true) then
-      vim.notify("Tema: " .. opts.args)
+      vim.notify("Theme: " .. opts.args)
     end
   end, {
     nargs = "?",
-    desc = "Trocar de tema",
+    desc = "Switch theme",
     complete = function(lead)
       return vim.tbl_filter(function(name)
         return name:find(lead, 1, true) == 1
