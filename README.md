@@ -107,7 +107,7 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | `<leader>ul` | Line numbers     | `<leader>uh` | Inlay hints       |
 | `<leader>ur` | Relative numbers | `<leader>ui` | Indent guides     |
 | `<leader>us` | Spell check      | `<leader>ub` | Light / dark theme |
-| `<leader>up` | [Motion hints](https://github.com/tris203/precognition.nvim): where `w` `b` `e` `$` `^` go | | |
+| `<leader>up` | [Motion hints](https://github.com/tris203/precognition.nvim): where `w` `b` `e` `$` `^` go | `<leader>uH` | [Training mode](https://github.com/m4xshen/hardtime.nvim): nudges you off `jjjj` |
 
 ### Completion (Insert mode)
 
