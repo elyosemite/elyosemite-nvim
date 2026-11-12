@@ -50,18 +50,66 @@ function M.apply(name, persist)
   return true
 end
 
+--- Seletor com preview ao vivo: o tema muda enquanto você navega.
+--- Enter confirma e salva; Esc volta ao tema anterior.
 function M.pick()
-  local current = vim.g.colors_name
-  vim.ui.select(M.themes, {
-    prompt = "Theme",
-    format_item = function(name)
-      return name == current and (name .. "  (current)") or name
-    end,
-  }, function(choice)
-    if choice and M.apply(choice, true) then
-      vim.notify("Theme: " .. choice)
+  local original = vim.g.colors_name
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+
+  local function preview()
+    local entry = action_state.get_selected_entry()
+    if entry then
+      M.apply(entry.value, false)
     end
-  end)
+  end
+
+  local function move(step)
+    return function(bufnr)
+      step(bufnr)
+      preview()
+    end
+  end
+
+  local function cancel(bufnr)
+    actions.close(bufnr)
+    M.apply(original, false)
+  end
+
+  require("telescope.pickers").new(require("telescope.themes").get_dropdown({ previewer = false }), {
+    prompt_title = "Theme (Enter to keep, Esc to undo)",
+    finder = require("telescope.finders").new_table({
+      results = M.themes,
+      entry_maker = function(name)
+        return {
+          value = name,
+          ordinal = name,
+          display = name == original and (name .. "  (current)") or name,
+        }
+      end,
+    }),
+    sorter = require("telescope.config").values.generic_sorter({}),
+    attach_mappings = function(_, map)
+      actions.select_default:replace(function(bufnr)
+        local entry = action_state.get_selected_entry()
+        actions.close(bufnr)
+        if entry and M.apply(entry.value, true) then
+          vim.notify("Theme: " .. entry.value)
+        end
+      end)
+      for _, key in ipairs({ "<C-n>", "<Down>", "<Tab>" }) do
+        map({ "i", "n" }, key, move(actions.move_selection_next))
+      end
+      for _, key in ipairs({ "<C-p>", "<Up>", "<S-Tab>" }) do
+        map({ "i", "n" }, key, move(actions.move_selection_previous))
+      end
+      map("n", "j", move(actions.move_selection_next))
+      map("n", "k", move(actions.move_selection_previous))
+      map({ "i", "n" }, "<Esc>", cancel)
+      map({ "i", "n" }, "<C-c>", cancel)
+      return true
+    end,
+  }):find()
 end
 
 function M.setup()

@@ -150,7 +150,7 @@ The start screen ([dashboard](https://github.com/folke/snacks.nvim/blob/main/doc
 
 | Mode | Keys / command  | Action                                   |
 |------|-----------------|------------------------------------------|
-| n    | `<leader>th`    | Pick a theme (saved for next start)      |
+| n    | `<leader>th`    | Pick a theme: previews as you move, `Enter` keeps it, `Esc` undoes |
 | n    | `:Theme <name>` | Apply directly, `Tab` completes          |
 
 Themes: everforest, catppuccin (latte · frappe · macchiato · mocha), gruvbox, nightfox (nightfox · nordfox · carbonfox · duskfox · dawnfox · terafox). To add one, see the comments in [`lua/core/theme.lua`](lua/core/theme.lua).
