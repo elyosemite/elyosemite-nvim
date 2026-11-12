@@ -54,6 +54,7 @@ Mode: **n** Normal, **i** Insert, **v** Visual. The cursor line changes color wi
 | n    | `<leader>fg` | Search text in project | [live_grep](https://github.com/nvim-telescope/telescope.nvim#file-pickers) |
 | n    | `<leader>fb` | Open buffers           | [buffers](https://github.com/nvim-telescope/telescope.nvim#vim-pickers) |
 | n    | `<leader>fh` | Search help            | [help_tags](https://github.com/nvim-telescope/telescope.nvim#vim-pickers) |
+| n, v | `<leader>sr` | Search and replace in project | [grug-far](https://github.com/MagicDuck/grug-far.nvim#-usage) |
 
 Inside the picker: [default mappings](https://github.com/nvim-telescope/telescope.nvim#default-mappings).
 
