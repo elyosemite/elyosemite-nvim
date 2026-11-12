@@ -39,11 +39,15 @@ jobs:
           echo "$RUNNER_TEMP/tree-sitter" >> "$GITHUB_PATH"
           "$RUNNER_TEMP/tree-sitter/$exe" --version
 
-      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema
-      - name: Install plugins (versions from lazy-lock.json)
+      # O Neovim procura a config em $XDG_CONFIG_HOME/nvim em qualquer sistema.
+      # A config começa a compilar os parsers no startup; aqui esperamos terminar antes do +qa.
+      # Sem isso, o nvim sai e os "tree-sitter build" órfãos continuam rodando no step
+      # seguinte, sobrescrevendo parser.so enquanto o smoke test compila os mesmos parsers
+      # ("Error opening dynamic library ... dlopen failed").
+      - name: Install plugins (versions from lazy-lock.json) and parsers
         env:
           XDG_CONFIG_HOME: ${{ github.workspace }}
-        run: nvim --headless "+Lazy! restore" +qa
+        run: nvim --headless "+Lazy! restore" "+lua require('nvim-treesitter').install(require('core.parsers')):wait(900000)" +qa
 
       - name: Smoke test
         env:

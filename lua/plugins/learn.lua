@@ -1,12 +1,12 @@
 -- Ajuda a aprender Vim enquanto usa.
 return {
-  -- Mostra na linha onde w, b, e, $, ^ levariam o cursor.
+  -- Mostra na linha onde w, b, e, $, ^ levariam o cursor. Desligado por padrão.
   -- Docs: https://github.com/tris203/precognition.nvim
   {
     "tris203/precognition.nvim",
     event = "VeryLazy",
     opts = {
-      startVisible = true,
+      startVisible = false, -- custa a cada movimento do cursor; liga com <leader>up
       showBlankVirtLine = false,
     },
     config = function(_, opts)

@@ -34,3 +34,5 @@ The first release focused on people who only know a few Vim commands.
 - LSP server settings and keymaps silently ignored under mason-lspconfig v2.
 - Inlay hints never enabled; csharpier never installed or matched (`cs` filetype).
 - Hardcoded cursor line color that broke light themes.
+- Forced transparent background: light themes showed a dark editor under light popups, and the sign and number columns stayed opaque after opening a file. Now `<leader>uT`, dark themes only.
+- Slow cursor movement and theme picker: motion hints and indent guides start off, and the picker previews only when you stop on a theme.

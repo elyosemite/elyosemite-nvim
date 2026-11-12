@@ -77,15 +77,37 @@ M.dark_of = {
   github_light = "github_dark",
 }
 
+-- Fundo transparente: deixa aparecer o fundo do terminal (útil com terminal transparente).
+-- Só vale para temas escuros: num tema claro sobre terminal escuro, o texto ficaria
+-- escuro sobre escuro e as janelas flutuantes (menu, popups) claras sobre o arquivo escuro.
+M.transparent = true
+
+-- Grupos que pintam o fundo da área de edição (não inclui janelas flutuantes)
+local transparent_groups = {
+  "Normal", "NormalNC", "SignColumn", "LineNr", "LineNrAbove", "LineNrBelow",
+  "FoldColumn", "EndOfBuffer", "NonText", "WinBar", "WinBarNC", "StatusLine", "StatusLineNC",
+}
+
+local function clear_backgrounds()
+  if not M.transparent or vim.o.background ~= "dark" then
+    return
+  end
+  for _, group in ipairs(transparent_groups) do
+    local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+    hl.bg, hl.ctermbg = nil, nil
+    vim.api.nvim_set_hl(0, group, hl)
+  end
+end
+
 local function read_saved()
   local ok, lines = pcall(vim.fn.readfile, state_file)
   if ok and lines[1] and lines[1] ~= "" then
-    return lines[1], lines[2]
+    return lines[1], lines[2], lines[3]
   end
 end
 
 local function save(name)
-  pcall(vim.fn.writefile, { name, vim.o.background }, state_file)
+  pcall(vim.fn.writefile, { name, vim.o.background, tostring(M.transparent) }, state_file)
 end
 
 --- Aplica um colorscheme. Com persist = true, ele vira o padrão das próximas sessões.
@@ -116,11 +138,17 @@ function M.pick()
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
 
+  -- Aplica o tema só quando você para num item: trocar de tema custa ~100 ms
+  -- (e mais na primeira vez de cada pacote), então rolar a lista fica fluido.
+  local timer = assert(vim.uv.new_timer())
   local function preview()
-    local entry = action_state.get_selected_entry()
-    if entry then
-      M.apply(entry.value, false)
-    end
+    timer:stop()
+    timer:start(120, 0, vim.schedule_wrap(function()
+      local entry = action_state.get_selected_entry()
+      if entry and entry.value ~= M.current then
+        M.apply(entry.value, false)
+      end
+    end))
   end
 
   local function move(step)
@@ -131,6 +159,7 @@ function M.pick()
   end
 
   local function cancel(bufnr)
+    timer:stop()
     actions.close(bufnr)
     M.apply(original, false)
   end
@@ -152,6 +181,7 @@ function M.pick()
     sorter = require("telescope.config").values.generic_sorter({}),
     attach_mappings = function(_, map)
       actions.select_default:replace(function(bufnr)
+        timer:stop()
         local entry = action_state.get_selected_entry()
         actions.close(bufnr)
         if entry and M.apply(entry.value, true) then
@@ -193,11 +223,25 @@ function M.toggle_background()
   end
 end
 
+--- Liga/desliga o fundo transparente e salva a escolha.
+function M.set_transparent(on)
+  M.transparent = on
+  save(M.current)
+  M.apply(M.current, false) -- reaplica o tema para restaurar ou limpar os fundos
+end
+
 function M.setup()
-  local saved, background = read_saved()
+  local saved, background, transparent = read_saved()
   if background == "light" or background == "dark" then
     vim.o.background = background
   end
+  M.transparent = transparent ~= "false"
+
+  -- Reaplica a transparência sempre que um tema é carregado (também pelo :colorscheme)
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("nvyosemite_transparent", { clear = true }),
+    callback = clear_backgrounds,
+  })
   if not M.apply(saved or M.default, false) then
     M.apply(M.default, false)
   end
@@ -220,6 +264,11 @@ function M.setup()
 
   vim.keymap.set("n", "<leader>th", M.pick, { desc = "Pick theme" })
   vim.keymap.set("n", "<leader>ub", M.toggle_background, { desc = "Toggle light/dark theme" })
+  Snacks.toggle.new({
+    name = "Transparent background (dark themes)",
+    get = function() return M.transparent end,
+    set = M.set_transparent,
+  }):map("<leader>uT")
 end
 
 return M

@@ -38,7 +38,7 @@ return {
       },
     },
     notifier = { enabled = true },   -- vim.notify em popups
-    indent = { enabled = true },     -- guias de indentação
+    indent = { enabled = false },    -- guias de indentação (liga com <leader>ui)
     words = { enabled = true },      -- destaca a palavra sob o cursor no arquivo
     input = { enabled = true },      -- vim.ui.input bonito (ex.: renomear)
     bigfile = { enabled = true },    -- desliga recursos pesados em arquivos grandes
