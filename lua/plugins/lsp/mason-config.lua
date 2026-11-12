@@ -52,7 +52,7 @@ return {
     require("mason-tool-installer").setup({
       ensure_installed = {
         "stylua", "prettier", "black", "isort", "csharpier", "clang-format", -- formatadores
-        "delve", "debugpy", -- debuggers (plugins/dap.lua)
+        "delve", "debugpy", "netcoredbg", "codelldb", -- debuggers (plugins/dap.lua)
       },
     })
   end,

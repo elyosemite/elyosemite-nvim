@@ -197,7 +197,7 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | n    | `<leader>du`      | Toggle debug panels (opens by itself) | [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) |
 | n, v | `<leader>de`      | Evaluate expression             | [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) |
 
-Languages: Go ([nvim-dap-go](https://github.com/leoluz/nvim-dap-go)), Python ([nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python)). Debuggers install through Mason.
+Languages: Go ([nvim-dap-go](https://github.com/leoluz/nvim-dap-go)), Python ([nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python)), C# ([netcoredbg](https://github.com/Samsung/netcoredbg), builds the project first) and Rust (`:RustLsp debuggables`, [rustaceanvim](https://github.com/mrcjkb/rustaceanvim#books-usage--features)). Debuggers install through Mason.
 
 ## Themes
 

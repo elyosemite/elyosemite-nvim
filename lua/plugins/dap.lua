@@ -1,6 +1,27 @@
 -- Debugger. Marque um breakpoint com <leader>db e aperte <F5>.
 -- A interface abre sozinha ao iniciar e fecha ao terminar.
 -- Docs: https://github.com/mfussenegger/nvim-dap · https://github.com/rcarriga/nvim-dap-ui
+
+--- C#: compila o projeto da pasta atual e devolve a DLL gerada (pergunta só se não achar).
+local function dotnet_program()
+  vim.notify("dotnet build…")
+  local result = vim.system({ "dotnet", "build", "-c", "Debug" }, { cwd = vim.fn.getcwd() }):wait()
+  if result.code ~= 0 then
+    vim.notify("dotnet build failed:\n" .. (result.stdout or ""), vim.log.levels.ERROR)
+    return require("dap").ABORT
+  end
+  local csproj = vim.fs.find(function(name) return name:match("%.csproj$") end, { limit = 1, type = "file" })[1]
+  local project = csproj and vim.fn.fnamemodify(csproj, ":t:r")
+  local dlls = vim.fs.find(function(name, path)
+    return name == (project or "") .. ".dll" and path:find("bin[/\\]Debug") ~= nil
+  end, { limit = 10, type = "file" })
+  if #dlls > 0 then
+    table.sort(dlls, function(a, b) return vim.fn.getftime(a) > vim.fn.getftime(b) end)
+    return dlls[1]
+  end
+  return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
+end
+
 local function dap(fn, ...)
   local args = { ... }
   return function() require("dap")[fn](unpack(args)) end
@@ -14,6 +35,7 @@ return {
     -- Adapters por linguagem; os debuggers são instalados pelo Mason (plugins/lsp/mason-config.lua)
     "leoluz/nvim-dap-go",            -- Go (delve)
     "mfussenegger/nvim-dap-python",  -- Python (debugpy)
+    -- C# usa o netcoredbg (configurado abaixo); Rust usa o codelldb via rustaceanvim
   },
   keys = {
     { "<F5>", dap("continue"), desc = "Debug: start / continue" },
@@ -40,6 +62,15 @@ return {
     local mason = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/"
     local python = mason .. (vim.fn.has("win32") == 1 and "Scripts/python.exe" or "bin/python")
     require("dap-python").setup(vim.fn.executable(python) == 1 and python or "python")
+
+    -- No Windows, o .exe direto: o wrapper .cmd do Mason quebra o argumento --interpreter=vscode
+    local netcoredbg = vim.fn.has("win32") == 1
+        and vim.fn.stdpath("data") .. "/mason/packages/netcoredbg/netcoredbg/netcoredbg.exe"
+      or vim.fn.stdpath("data") .. "/mason/bin/netcoredbg"
+    dap.adapters.coreclr = { type = "executable", command = netcoredbg, args = { "--interpreter=vscode" } }
+    dap.configurations.cs = {
+      { type = "coreclr", name = "Build and debug", request = "launch", program = dotnet_program },
+    }
 
     dap.listeners.after.event_initialized.dapui = function() dapui.open() end
     dap.listeners.before.event_terminated.dapui = function() dapui.close() end
