@@ -15,6 +15,8 @@ return {
       "gopls",
       "clojure_lsp",
       "basedpyright",
+      "ruff",   -- lint de Python, com quick fixes
+      "eslint", -- lint de JS/TS; só sobe em projetos com config do ESLint
     }
 
     -- Configs customizadas por linguagem (carregadas de servers/)

@@ -53,7 +53,7 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 26 | trouble.nvim + todo-comments                 | 6    | `feat(ui): add trouble and todo-comments`                 | [ ]    |
 | 27 | Treesitter textobjects                       | 6    | `feat(treesitter): add textobjects`                       | [ ]    |
 | 28 | Formatar ao salvar                           | 6    | `feat(format): format on save with toggle`                | [ ]    |
-| 29 | Lint com nvim-lint                           | 6    | `feat(lint): add nvim-lint`                               | [ ]    |
+| 29 | Lint via LSP (ruff, ESLint)                  | 6    | `feat(lint): lint Python and JS via LSP`                  | [ ]    |
 | 30 | `:checkhealth nvyosemite`                    | 7    | `feat(health): add nvyosemite health check`               | [ ]    |
 | 31 | Debugger: núcleo                             | 7    | `feat(dap): add nvim-dap core and UI`                     | [ ]    |
 | 32 | Debugger: Go e Python                        | 7    | `feat(dap): add Go and Python adapters`                   | [ ]    |
@@ -179,7 +179,8 @@ Feito antes deste plano: switch de tema `:Theme` / `<leader>th` (`6d7b1a8`).
 - **O que fazer:** `format_on_save` do conform, com toggle em `<leader>uf`.
 
 ### Step 29: Lint
-- **O que fazer:** [nvim-lint](https://github.com/mfussenegger/nvim-lint) com eslint_d e ruff.
+- **O que fazer:** lint como servidores LSP: `ruff` (Python) e `eslint` (JS/TS, só em projetos com config do ESLint). Eles trazem quick fixes.
+- **Mudança em relação ao plano original:** o nvim-lint com eslint_d foi descartado, porque o daemon do eslint_d não sobe no Windows ("Timed out waiting for config") e rodar o ruff também pelo nvim-lint duplicaria os avisos do ruff LSP.
 
 ## Fase 7: Diagnóstico e debugger
 

@@ -146,6 +146,7 @@ Press `<leader>u` and wait: [which-key](https://github.com/folke/which-key.nvim)
 | i    | `<C-k>`      | Function signature        | [signature_help](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.signature_help()) |
 | n    | `<leader>rn` | Rename symbol, with live preview | [inc-rename](https://github.com/smjonas/inc-rename.nvim) |
 | n, v | `<leader>ca` | Code actions / quick fix  | [code_action](https://neovim.io/doc/user/lsp.html#vim.lsp.buf.code_action()) |
+| -    | (automatic)  | Lint: [ruff](https://docs.astral.sh/ruff/editors/) for Python, [ESLint](https://github.com/microsoft/vscode-eslint) for JS/TS (projects with an ESLint config) | [lsp](https://neovim.io/doc/user/lsp.html) |
 | n    | `<C-o>`      | Jump back                 | [jumplist](https://neovim.io/doc/user/motion.html#CTRL-O) |
 
 ### Diagnostics
