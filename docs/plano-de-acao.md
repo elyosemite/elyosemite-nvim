@@ -41,11 +41,11 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 14 | Seletor de tema com preview ao vivo          | 4    | `feat(theme): live preview in theme picker`               | [x]    |
 | 15 | Mais temas, incluindo claros                 | 4    | `feat(theme): add tokyonight, kanagawa, rose-pine, ...`   | [x]    |
 | 16 | Alternar claro/escuro                        | 4    | `feat(theme): toggle light and dark variant`              | [x]    |
-| 17 | Grupo de toggles `<leader>u`                 | 5    | `feat(ui): add toggles group`                             | [ ]    |
-| 18 | Mostrar o modo atual (modes.nvim)            | 5    | `feat(ui): color cursorline by mode`                      | [ ]    |
-| 19 | Dicas de movimento (precognition)            | 5    | `feat(learn): add precognition hints`                     | [ ]    |
-| 20 | Modo treino (hardtime, desligado)            | 5    | `feat(learn): add opt-in hardtime`                        | [ ]    |
-| 21 | Pular para qualquer lugar (flash)            | 5    | `feat(motion): add flash.nvim`                            | [ ]    |
+| 17 | Grupo de toggles `<leader>u`                 | 5    | `feat(ui): add toggles group`                             | [x]    |
+| 18 | Mostrar o modo atual (modes.nvim)            | 5    | `feat(ui): color cursorline by mode`                      | [x]    |
+| 19 | Dicas de movimento (precognition)            | 5    | `feat(learn): add precognition hints`                     | [x]    |
+| 20 | Modo treino (hardtime, desligado)            | 5    | `feat(learn): add opt-in hardtime`                        | [x]    |
+| 21 | Pular para qualquer lugar (flash)            | 5    | `feat(motion): add flash.nvim`                            | [x]    |
 | 22 | Undotree + restaurar sessão                  | 6    | `feat(safety): add undotree and session restore`          | [ ]    |
 | 23 | Buscar e substituir no projeto (grug-far)    | 6    | `feat(search): add grug-far`                              | [ ]    |
 | 24 | Git: atalhos de hunk + diffview              | 6    | `feat(git): add hunk keymaps and diffview`                | [ ]    |
