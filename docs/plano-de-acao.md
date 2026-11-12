@@ -38,9 +38,9 @@ nvim --headless init.lua -c "sleep 3" -c "lua if vim.v.errmsg ~= '' then print(v
 | 11 | noice.nvim                                   | 3    | `feat(ui): add noice for cmdline and messages`            | [x]    |
 | 12 | Breadcrumbs (dropbar)                        | 3    | `feat(ui): add dropbar breadcrumbs`                       | [x]    |
 | 13 | Diagnósticos legíveis                        | 3    | `feat(ui): add tiny-inline-diagnostic`                    | [x]    |
-| 14 | Seletor de tema com preview ao vivo          | 4    | `feat(theme): live preview in theme picker`               | [ ]    |
-| 15 | Mais temas, incluindo claros                 | 4    | `feat(theme): add tokyonight, kanagawa, rose-pine, ...`   | [ ]    |
-| 16 | Alternar claro/escuro                        | 4    | `feat(theme): toggle light and dark variant`              | [ ]    |
+| 14 | Seletor de tema com preview ao vivo          | 4    | `feat(theme): live preview in theme picker`               | [x]    |
+| 15 | Mais temas, incluindo claros                 | 4    | `feat(theme): add tokyonight, kanagawa, rose-pine, ...`   | [x]    |
+| 16 | Alternar claro/escuro                        | 4    | `feat(theme): toggle light and dark variant`              | [x]    |
 | 17 | Grupo de toggles `<leader>u`                 | 5    | `feat(ui): add toggles group`                             | [ ]    |
 | 18 | Mostrar o modo atual (modes.nvim)            | 5    | `feat(ui): color cursorline by mode`                      | [ ]    |
 | 19 | Dicas de movimento (precognition)            | 5    | `feat(learn): add precognition hints`                     | [ ]    |
