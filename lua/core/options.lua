@@ -13,6 +13,13 @@ vim.opt.signcolumn = "yes"
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 
+-- Linhas longas: quebra só na tela (o arquivo continua com uma linha), entre palavras,
+-- mantendo o recuo e marcando a continuação com ↪
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.showbreak = "↪ "
+
 -- Comportamentos que quem vem de outro editor espera
 vim.opt.clipboard = "unnamedplus" -- copiar/colar com o sistema
 vim.opt.ignorecase = true         -- busca ignora maiúsculas...

@@ -9,6 +9,18 @@ vim.keymap.set("n", "<leader>uu", function()
   require("undotree").open()
 end, { desc = "Undo tree" })
 
+-- Linhas longas quebradas na tela (wrap): j/k e as setas andam pela linha VISUAL, como em
+-- qualquer editor. Com contagem (ex.: 5j, usando os números relativos) andam por linha real.
+for _, keys in ipairs({ { "j", "gj" }, { "k", "gk" }, { "<Down>", "gj" }, { "<Up>", "gk" } }) do
+  local key, visual = keys[1], keys[2]
+  local real = key:gsub("<Down>", "j"):gsub("<Up>", "k")
+  vim.keymap.set({ "n", "x" }, key, function()
+    return vim.v.count == 0 and visual or real
+  end, { expr = true, silent = true, desc = "Move by visual line" })
+end
+vim.keymap.set("i", "<Down>", "<C-o>gj", { silent = true, desc = "Move by visual line" })
+vim.keymap.set("i", "<Up>", "<C-o>gk", { silent = true, desc = "Move by visual line" })
+
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==",      { noremap = true, desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==",      { noremap = true, desc = "Move line up" })
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selection down" })
