@@ -95,6 +95,8 @@ local transparent_groups = {
   "TelescopePreviewNormal", "TelescopePreviewBorder", "TelescopePreviewTitle",
   "WhichKeyNormal", "WhichKeyBorder", "NoiceCmdlinePopup", "NoiceCmdlinePopupBorder",
   "LazyNormal", "MasonNormal", "SnacksDashboardNormal",
+  -- barra lateral (Ctrl+N): sem isso ela mantém o fundo do tema e destoa do editor
+  "NeoTreeNormal", "NeoTreeNormalNC", "NeoTreeEndOfBuffer", "NeoTreeFloatNormal",
   -- menu de contexto (volt): os *Border usam fg = bg para sumir com a borda
   "ExDarkBg", "ExDarkBorder", "ExBlack2Bg", "ExBlack2Border",
 }
@@ -121,23 +123,93 @@ local function clear_backgrounds()
   end
 end
 
-local function on_colorscheme()
-  refresh_menu_colors()
-  if M.transparent then
-    clear_backgrounds()
+-- O Windows Terminal só aplica a opacidade às células com o fundo PADRÃO do terminal; uma cor
+-- de fundo enviada pelo Neovim é sempre opaca. Por isso, com transparência ligada, o fundo do
+-- tema vira o fundo padrão do terminal (OSC 11) e o Normal fica sem fundo: o terminal pinta a
+-- cor do tema, translúcida. Ao sair, o fundo original do terminal é restaurado (OSC 111).
+M.sync_terminal_bg = true
+
+local function term_send(seq)
+  if #vim.api.nvim_list_uis() == 0 then
+    return
+  end
+  if vim.api.nvim_ui_send then
+    vim.api.nvim_ui_send(seq)
+  else
+    io.stdout:write(seq)
   end
 end
 
--- Com o fundo já transparente, o volt carrega calculando as cores a partir de "sem fundo"
--- (vira quase preto). Reaplica o tema logo depois, para ele usar o fundo real do tema.
+local terminal_bg -- cor que o terminal está usando por nossa causa (nil = original dele)
+
+local function set_terminal_bg(color)
+  terminal_bg = color
+  term_send(color and ("\027]11;#%06x\027\\"):format(color) or "\027]111\027\\")
+end
+
+local function on_colorscheme()
+  refresh_menu_colors()
+  local bg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg
+  if M.transparent then
+    clear_backgrounds()
+  end
+  if M.sync_terminal_bg then
+    set_terminal_bg(M.transparent and bg or nil)
+  end
+end
+
+vim.api.nvim_create_autocmd({ "VimLeavePre", "VimSuspend" }, {
+  callback = function()
+    if terminal_bg then
+      term_send("\027]111\027\\")
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("VimResume", {
+  callback = function()
+    if terminal_bg then
+      set_terminal_bg(terminal_bg)
+    end
+  end,
+})
+
+-- Plugins que derivam cores do fundo do tema (volt: menu de contexto; modes.nvim: linha do
+-- cursor por modo) precisam ler o fundo ANTES de ele ser apagado. Autocmds de ColorScheme
+-- rodam na ordem em que foram criados, então o nosso é recriado sempre que um plugin
+-- carrega, para ficar por último.
+local function register_colorscheme_autocmd()
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("nvyosemite_transparent", { clear = true }),
+    callback = on_colorscheme,
+  })
+end
+
+-- Esses plugins também calculam as cores uma vez ao carregar, quando o fundo já foi apagado.
+-- Reaplica o tema logo depois, para eles usarem o fundo real do tema.
+local reapply_on_load = { volt = true, ["modes.nvim"] = true }
+
 vim.api.nvim_create_autocmd("User", {
   pattern = "LazyLoad",
   callback = function(ev)
-    if ev.data == "volt" and M.transparent then
+    register_colorscheme_autocmd()
+    if reapply_on_load[ev.data] and M.transparent then
       vim.schedule(function() M.apply(M.current, false) end)
     end
   end,
 })
+
+-- O Neovim 0.12 pergunta ao terminal a cor de fundo e ajusta 'background' sozinho a cada
+-- resposta. Ele só desliga isso se 'background' for definido fora de Lua, e aqui é em Lua.
+-- Como esta config muda o fundo do terminal (OSC 11), a detecção poderia trocar o tema
+-- escuro para claro (ou o contrário). Quem decide claro/escuro é o tema escolhido.
+local function disable_auto_background()
+  local ok, cmds = pcall(vim.api.nvim_get_autocmds, { group = "nvim.tty", event = "TermResponse" })
+  for _, cmd in ipairs(ok and cmds or {}) do
+    if (cmd.desc or ""):find("'background'", 1, true) then
+      pcall(vim.api.nvim_del_autocmd, cmd.id)
+    end
+  end
+end
 
 local function read_saved()
   local ok, lines = pcall(vim.fn.readfile, state_file)
@@ -277,11 +349,9 @@ function M.setup()
   end
   M.transparent = transparent ~= "false"
 
+  disable_auto_background()
   -- Reaplica a transparência sempre que um tema é carregado (também pelo :colorscheme)
-  vim.api.nvim_create_autocmd("ColorScheme", {
-    group = vim.api.nvim_create_augroup("nvyosemite_transparent", { clear = true }),
-    callback = on_colorscheme,
-  })
+  register_colorscheme_autocmd()
   if not M.apply(saved or M.default, false) then
     M.apply(M.default, false)
   end
